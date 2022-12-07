@@ -1,18 +1,20 @@
 enum RoundResult { WIN, LOSS, DRAW }
 enum Shape { ROCK, PAPER, SCISSORS }
 
-const opponentShapeFrom = (str: string) => {
+const opponentShapeFrom = (str: string): Shape => {
     switch (str) {
         case "A": return Shape.ROCK
         case "B": return Shape.PAPER
         case "C": return Shape.SCISSORS
+        default: throw Error("Cannot map shape from " + str)
     }
 }
-const myShapeFrom = (str: string) => {
+const myShapeFrom = (str: string): Shape => {
     switch (str) {
         case "X": return Shape.ROCK
         case "Y": return Shape.PAPER
         case "Z": return Shape.SCISSORS
+        default: throw Error("Cannot map shape from " + str)
     }
 }
 
@@ -22,9 +24,9 @@ export const totalScoreWith = (strategyGuide: string) => {
         .filter((roundRow) => roundRow !== "")
         .map((roundRow: string) => {
             const [opponentShape, myShape] = roundRow.split(' ')
-            return [opponentShapeFrom(opponentShape), myShapeFrom(myShape)]
+            return [opponentShapeFrom(opponentShape), myShapeFrom(myShape)] as [Shape, Shape]
         })
-        .map(([opponentShape, myShape]) => {
+        .map(([opponentShape, myShape]: [Shape, Shape]) => {
             const roundResult = (() => {
                 switch ([opponentShape, myShape]) {
                     case [Shape.ROCK, Shape.PAPER]: return RoundResult.WIN
@@ -41,7 +43,7 @@ export const totalScoreWith = (strategyGuide: string) => {
             })()
             return [myShape, roundResult] as [Shape, RoundResult]
         })
-        .map(([myShape, roundResult]) => {
+        .map(([myShape, roundResult]: [Shape, RoundResult]) => {
             const myShapePoints = (() => {
                 switch (myShape) {
                     case Shape.ROCK: return 1
@@ -58,5 +60,5 @@ export const totalScoreWith = (strategyGuide: string) => {
             })()
             return myShapePoints + roundPoints
         })
-        .reduce((points, point) => points += point)
+        .reduce((acc, points) => acc += points)
 }
