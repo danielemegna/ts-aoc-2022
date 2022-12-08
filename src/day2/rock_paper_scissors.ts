@@ -27,27 +27,7 @@ export const totalScoreWith = (strategyGuide: string) => {
             return [opponentShapeFrom(opponentShape), myShapeFrom(myShape)] as [Shape, Shape]
         })
         .map(([opponentShape, myShape]: [Shape, Shape]) => {
-            const roundResult = (() => {
-                if (opponentShape == Shape.ROCK) {
-                    if (myShape == Shape.PAPER)
-                        return RoundResult.WIN
-                    if (myShape == Shape.SCISSORS)
-                        return RoundResult.LOSS
-                }
-                if (opponentShape == Shape.PAPER) {
-                    if (myShape == Shape.SCISSORS)
-                        return RoundResult.WIN
-                    if (myShape == Shape.ROCK)
-                        return RoundResult.LOSS
-                }
-                if (opponentShape == Shape.SCISSORS) {
-                    if (myShape == Shape.ROCK)
-                        return RoundResult.WIN
-                    if (myShape == Shape.PAPER)
-                        return RoundResult.LOSS
-                }
-                return RoundResult.DRAW
-            })()
+            const roundResult = roundResultOf(myShape, opponentShape)
             return [myShape, roundResult] as [Shape, RoundResult]
         })
         .map(([myShape, roundResult]: [Shape, RoundResult]) => {
@@ -68,4 +48,30 @@ export const totalScoreWith = (strategyGuide: string) => {
             return myShapePoints + roundPoints
         })
         .reduce((acc, points) => acc += points)
+}
+
+const roundResultOf = (myShape: Shape, opponentShape: Shape): RoundResult => {
+    if (myShape == opponentShape)
+        return RoundResult.DRAW
+    
+    if (opponentShape == Shape.ROCK) {
+        switch (myShape) {
+            case Shape.PAPER: return RoundResult.WIN
+            case Shape.SCISSORS: return RoundResult.LOSS
+        }
+    }
+    if (opponentShape == Shape.PAPER) {
+        switch (myShape) {
+            case Shape.SCISSORS: return RoundResult.WIN
+            case Shape.ROCK: return RoundResult.LOSS
+        }
+    }
+    if (opponentShape == Shape.SCISSORS) {
+        switch (myShape) {
+            case Shape.ROCK: return RoundResult.WIN
+            case Shape.PAPER: return RoundResult.LOSS
+        }
+    }
+
+    throw Error("How could this be possible!?")
 }
