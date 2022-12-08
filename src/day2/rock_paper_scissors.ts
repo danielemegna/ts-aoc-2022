@@ -28,18 +28,25 @@ export const totalScoreWith = (strategyGuide: string) => {
         })
         .map(([opponentShape, myShape]: [Shape, Shape]) => {
             const roundResult = (() => {
-                switch ([opponentShape, myShape]) {
-                    case [Shape.ROCK, Shape.PAPER]: return RoundResult.WIN
-                    case [Shape.ROCK, Shape.SCISSORS]: return RoundResult.LOSS
-
-                    case [Shape.PAPER, Shape.SCISSORS]: return RoundResult.WIN
-                    case [Shape.PAPER, Shape.ROCK]: return RoundResult.LOSS
-
-                    case [Shape.SCISSORS, Shape.ROCK]: return RoundResult.WIN
-                    case [Shape.SCISSORS, Shape.PAPER]: return RoundResult.LOSS
-
-                    default: return RoundResult.DRAW
+                if (opponentShape == Shape.ROCK) {
+                    if (myShape == Shape.PAPER)
+                        return RoundResult.WIN
+                    if (myShape == Shape.SCISSORS)
+                        return RoundResult.LOSS
                 }
+                if (opponentShape == Shape.PAPER) {
+                    if (myShape == Shape.SCISSORS)
+                        return RoundResult.WIN
+                    if (myShape == Shape.ROCK)
+                        return RoundResult.LOSS
+                }
+                if (opponentShape == Shape.SCISSORS) {
+                    if (myShape == Shape.ROCK)
+                        return RoundResult.WIN
+                    if (myShape == Shape.PAPER)
+                        return RoundResult.LOSS
+                }
+                return RoundResult.DRAW
             })()
             return [myShape, roundResult] as [Shape, RoundResult]
         })
