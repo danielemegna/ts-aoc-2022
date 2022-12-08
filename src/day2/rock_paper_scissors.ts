@@ -51,27 +51,26 @@ export const totalScoreWith = (strategyGuide: string) => {
 }
 
 const roundResultOf = (myShape: Shape, opponentShape: Shape): RoundResult => {
-    if (myShape == opponentShape)
-        return RoundResult.DRAW
-    
-    if (opponentShape == Shape.ROCK) {
-        switch (myShape) {
-            case Shape.PAPER: return RoundResult.WIN
-            case Shape.SCISSORS: return RoundResult.LOSS
-        }
-    }
-    if (opponentShape == Shape.PAPER) {
-        switch (myShape) {
-            case Shape.SCISSORS: return RoundResult.WIN
-            case Shape.ROCK: return RoundResult.LOSS
-        }
-    }
-    if (opponentShape == Shape.SCISSORS) {
-        switch (myShape) {
-            case Shape.ROCK: return RoundResult.WIN
-            case Shape.PAPER: return RoundResult.LOSS
-        }
+    switch (opponentShape) {
+        case Shape.ROCK:
+            switch (myShape) {
+                case Shape.PAPER: return RoundResult.WIN
+                case Shape.SCISSORS: return RoundResult.LOSS
+            }
+            break
+        case Shape.PAPER:
+            switch (myShape) {
+                case Shape.SCISSORS: return RoundResult.WIN
+                case Shape.ROCK: return RoundResult.LOSS
+            }
+            break
+        case Shape.SCISSORS:
+            switch (myShape) {
+                case Shape.ROCK: return RoundResult.WIN
+                case Shape.PAPER: return RoundResult.LOSS
+            }
+            break
     }
 
-    throw Error("How could this be possible!?")
+    return RoundResult.DRAW
 }
