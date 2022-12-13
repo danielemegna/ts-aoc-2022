@@ -1,23 +1,6 @@
 enum RoundResult { WIN, LOSS, DRAW }
 enum Shape { ROCK, PAPER, SCISSORS }
 
-const opponentShapeFrom = (str: string): Shape => {
-    switch (str) {
-        case "A": return Shape.ROCK
-        case "B": return Shape.PAPER
-        case "C": return Shape.SCISSORS
-        default: throw Error("Cannot map shape from " + str)
-    }
-}
-const chosenShapeFrom = (str: string): Shape => {
-    switch (str) {
-        case "X": return Shape.ROCK
-        case "Y": return Shape.PAPER
-        case "Z": return Shape.SCISSORS
-        default: throw Error("Cannot map shape from " + str)
-    }
-}
-
 export const totalScoreWith = (strategyGuide: string) => {
     return strategyGuide
         .split("\n")
@@ -36,22 +19,22 @@ export const totalScoreWith = (strategyGuide: string) => {
         .reduce((acc, points) => acc += points)
 }
 
-const roundPointsFor = (chosenShape: Shape, roundResult: RoundResult): number => {
-    const chosenShapePoints = (() => {
-        switch (chosenShape) {
-            case Shape.ROCK: return 1
-            case Shape.PAPER: return 2
-            case Shape.SCISSORS: return 3
-        }
-    })()
-    const roundPoints = (() => {
-        switch (roundResult) {
-            case RoundResult.WIN: return 6
-            case RoundResult.DRAW: return 3
-            case RoundResult.LOSS: return 0
-        }
-    })()
-    return chosenShapePoints + roundPoints
+const opponentShapeFrom = (str: string): Shape => {
+    switch (str) {
+        case "A": return Shape.ROCK
+        case "B": return Shape.PAPER
+        case "C": return Shape.SCISSORS
+        default: throw Error("Cannot map shape from " + str)
+    }
+}
+
+const chosenShapeFrom = (str: string): Shape => {
+    switch (str) {
+        case "X": return Shape.ROCK
+        case "Y": return Shape.PAPER
+        case "Z": return Shape.SCISSORS
+        default: throw Error("Cannot map shape from " + str)
+    }
 }
 
 const roundResultOf = (chosenShape: Shape, opponentShape: Shape): RoundResult => {
@@ -77,4 +60,22 @@ const roundResultOf = (chosenShape: Shape, opponentShape: Shape): RoundResult =>
     }
 
     return RoundResult.DRAW
+}
+
+const roundPointsFor = (chosenShape: Shape, roundResult: RoundResult): number => {
+    const chosenShapePoints = (() => {
+        switch (chosenShape) {
+            case Shape.ROCK: return 1
+            case Shape.PAPER: return 2
+            case Shape.SCISSORS: return 3
+        }
+    })()
+    const roundPoints = (() => {
+        switch (roundResult) {
+            case RoundResult.WIN: return 6
+            case RoundResult.DRAW: return 3
+            case RoundResult.LOSS: return 0
+        }
+    })()
+    return chosenShapePoints + roundPoints
 }
