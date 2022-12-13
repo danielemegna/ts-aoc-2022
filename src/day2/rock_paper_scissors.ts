@@ -1,22 +1,23 @@
 enum RoundResult { WIN, LOSS, DRAW }
 enum Shape { ROCK, PAPER, SCISSORS }
 
-export const totalScoreWith = (strategyGuide: string) => {
+type StrategyInterpreter = (roundRow: string) => [Shape, RoundResult]
+
+export const totalScoreWith = (strategyGuide: string, strategyInterpreter: StrategyInterpreter) => {
     return strategyGuide
         .split("\n")
         .filter((roundRow) => roundRow !== "")
-        .map((roundRow: string) => {
-            const [opponentShape, chosenShape] = roundRow.split(' ')
-            return [opponentShapeFrom(opponentShape), chosenShapeFrom(chosenShape)] as [Shape, Shape]
-        })
-        .map(([opponentShape, chosenShape]: [Shape, Shape]) => {
-            const roundResult = roundResultOf(chosenShape, opponentShape)
-            return [chosenShape, roundResult] as [Shape, RoundResult]
-        })
-        .map(([chosenShape, roundResult]: [Shape, RoundResult]) => {
-            return roundPointsFor(chosenShape, roundResult)
-        })
+        .map(strategyInterpreter)
+        .map(([chosenShape, roundResult]: [Shape, RoundResult]) => roundPointsFor(chosenShape, roundResult))
         .reduce((acc, points) => acc += points)
+}
+
+export const wrongStrategyInterpreter: StrategyInterpreter = (roundRow: string): [Shape, RoundResult] => {
+    const [opponentShapeRaw, chosenShapeRaw] = roundRow.split(' ')
+    const opponentShape = opponentShapeFrom(opponentShapeRaw)
+    const chosenShape = chosenShapeFrom(chosenShapeRaw)
+    const roundResult = roundResultOf(chosenShape, opponentShape)
+    return [chosenShape, roundResult] as [Shape, RoundResult]
 }
 
 const opponentShapeFrom = (str: string): Shape => {
