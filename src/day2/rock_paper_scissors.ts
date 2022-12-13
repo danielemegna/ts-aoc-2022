@@ -20,6 +20,14 @@ export const wrongStrategyInterpreter: StrategyInterpreter = (roundRow: string):
     return [chosenShape, roundResult] as [Shape, RoundResult]
 }
 
+export const rightStrategyInterpreter: StrategyInterpreter = (roundRow: string): [Shape, RoundResult] => {
+    const [opponentShapeRaw, chosenShapeRaw] = roundRow.split(' ')
+    const opponentShape = opponentShapeFrom(opponentShapeRaw)
+    const desiredRoundResult = roundResultFrom(chosenShapeRaw)
+    const chosenShape = chooseShapeFor(opponentShape, desiredRoundResult)
+    return [chosenShape, desiredRoundResult] as [Shape, RoundResult]
+}
+
 const opponentShapeFrom = (str: string): Shape => {
     switch (str) {
         case "A": return Shape.ROCK
@@ -35,6 +43,15 @@ const chosenShapeFrom = (str: string): Shape => {
         case "Y": return Shape.PAPER
         case "Z": return Shape.SCISSORS
         default: throw Error("Cannot map shape from " + str)
+    }
+}
+
+const roundResultFrom = (str: string): RoundResult => {
+    switch (str) {
+        case "X": return RoundResult.LOSS
+        case "Y": return RoundResult.DRAW
+        case "Z": return RoundResult.WIN
+        default: throw Error("Cannot map round result from " + str)
     }
 }
 
@@ -61,6 +78,31 @@ const roundResultOf = (chosenShape: Shape, opponentShape: Shape): RoundResult =>
     }
 
     return RoundResult.DRAW
+}
+
+const chooseShapeFor = (opponentShape: Shape, desiredRoundResult: RoundResult): Shape => {
+    switch (opponentShape) {
+        case Shape.ROCK:
+            switch (desiredRoundResult) {
+                case RoundResult.WIN: return Shape.PAPER
+                case RoundResult.LOSS: return Shape.SCISSORS
+            }
+            break
+        case Shape.PAPER:
+            switch (desiredRoundResult) {
+                case RoundResult.WIN: return Shape.SCISSORS
+                case RoundResult.LOSS: return Shape.ROCK
+            }
+            break
+        case Shape.SCISSORS:
+            switch (desiredRoundResult) {
+                case RoundResult.WIN: return Shape.ROCK
+                case RoundResult.LOSS: return Shape.PAPER
+            }
+            break
+    }
+
+    return opponentShape
 }
 
 const roundPointsFor = (chosenShape: Shape, roundResult: RoundResult): number => {
