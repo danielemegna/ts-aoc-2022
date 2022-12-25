@@ -1,21 +1,23 @@
 export const prioritiesSumOfThreeElfGroupBadges = (rucksacksInventory: string): number => {
-    const rows = rucksacksInventory
+    return rucksacksInventory
         .split("\n")
         .filter((row) => row !== "")
+        .reduce((elfGroups, row) => {
+            const currentElfGroup = elfGroups[elfGroups.length - 1]
+            const shouldStartNewElfGroup = elfGroups.length == 0 || currentElfGroup.length == 3
+            if (shouldStartNewElfGroup) {
+                elfGroups.push([row])
+                return elfGroups
+            }
 
-    const chunkSize = 3;
-    const chunks: [string, string, string][] = []
-    for (let i = 0; i < rows.length; i += chunkSize) {
-        const chunk = rows.slice(i, i + chunkSize) as [string, string, string]
-        chunks.push(chunk)
-    }
-
-    const badges = chunks.map(([firstElfRucksack, secondElfRucksack, thirdElfRucksack]) => {
-        const firstElfItems = Array.from(new Set(firstElfRucksack)) as string[]
-        return firstElfItems.find(c => secondElfRucksack.includes(c) && thirdElfRucksack.includes(c))!
-    })
-
-    return badges
+            currentElfGroup.push(row)
+            elfGroups[elfGroups.length - 1] = currentElfGroup
+            return elfGroups
+        }, [] as string[][])
+        .map(([firstElfRucksack, secondElfRucksack, thirdElfRucksack]) => {
+            const firstElfItems = Array.from(new Set(firstElfRucksack)) as string[]
+            return firstElfItems.find(c => secondElfRucksack.includes(c) && thirdElfRucksack.includes(c))!
+        })
         .map((item) => getItemPriority(item))
         .reduce((acc, v) => acc += v)
 }
