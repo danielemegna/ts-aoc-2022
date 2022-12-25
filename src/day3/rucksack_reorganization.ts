@@ -10,18 +10,20 @@ export const prioritiesSumOfSharedItems = (rucksacksInventory: string): number =
         })
         .map(([firstCompartmentContent, secondCompartmentContent]) => {
             const firstCompartmentItems = Array.from(new Set(firstCompartmentContent)) as string[]
-            return firstCompartmentItems.filter(
-                c => secondCompartmentContent.includes(c)
-            )[0]
+            return firstCompartmentItems.find(c => secondCompartmentContent.includes(c))!
         })
         .map((item) => getItemPriority(item))
         .reduce((acc, v) => acc += v)
 }
 
+const UPPERCASE_A_CHARCODE = 65
+const LOWERCASE_A_CHARCODE = 97
+
 export const getItemPriority = (item: string): number => {
+    const itemCharCode = item.charCodeAt(0)
     if (isLowerCase(item))
-        return item.charCodeAt(0) - 96
-    return item.charCodeAt(0) - 38
+        return itemCharCode - LOWERCASE_A_CHARCODE + 1
+    return itemCharCode - UPPERCASE_A_CHARCODE + 1 + 26
 }
 
 const isLowerCase = (str: string) => str === str.toLocaleLowerCase()
