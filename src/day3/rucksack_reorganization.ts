@@ -1,3 +1,25 @@
+export const prioritiesSumOfThreeElfGroupBadges = (rucksacksInventory: string): number => {
+    const rows = rucksacksInventory
+        .split("\n")
+        .filter((row) => row !== "")
+
+    const chunkSize = 3;
+    const chunks: [string, string, string][] = []
+    for (let i = 0; i < rows.length; i += chunkSize) {
+        const chunk = rows.slice(i, i + chunkSize) as [string, string, string]
+        chunks.push(chunk)
+    }
+
+    const badges = chunks.map(([firstElfRucksack, secondElfRucksack, thirdElfRucksack]) => {
+        const firstElfItems = Array.from(new Set(firstElfRucksack)) as string[]
+        return firstElfItems.find(c => secondElfRucksack.includes(c) && thirdElfRucksack.includes(c))!
+    })
+
+    return badges
+        .map((item) => getItemPriority(item))
+        .reduce((acc, v) => acc += v)
+}
+
 export const prioritiesSumOfSharedItems = (rucksacksInventory: string): number => {
     return rucksacksInventory
         .split("\n")

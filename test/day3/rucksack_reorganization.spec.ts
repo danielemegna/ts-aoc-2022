@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { getItemPriority, prioritiesSumOfSharedItems } from '../../src/day3/rucksack_reorganization';
+import { getItemPriority, prioritiesSumOfSharedItems, prioritiesSumOfThreeElfGroupBadges } from '../../src/day3/rucksack_reorganization';
 
 describe('first part resolution', () => {
 
@@ -30,10 +30,34 @@ describe('first part resolution', () => {
         expect(actual).toBe(16 + 38 + 42 + 22 + 20 + 19)
     })
 
-    test('solve first part from file', () => {
+    test('solve from file', () => {
         const rucksacksInventory  = readFileSync('./test/day3/input.txt', 'utf-8')
         const actual = prioritiesSumOfSharedItems(rucksacksInventory)
         expect(actual).toBe(7908)
+    })
+
+})
+
+describe('second part resolution', () => {
+
+    test('solve provided example of rucksack inventory', () => {
+        const rucksacksInventory =
+            "vJrwpWtwJgWr" + "hcsFMMfFFhFp\n" + 
+            "jqHRNqRjqzjGDLGL" + "rsFMfFZSrLrFZsSL\n" +
+            "PmmdzqPrV" + "vPwwTWBwg\n" + // r = 18
+            "wMqvLMZHhHMvwLH" + "jbvcjnnSBnvTQFn\n" +
+            "ttgJtRGJ" + "QctTZtZT\n" +
+            "CrZsJsPPZsGz" + "wwsLwLmpwMDw\n" // Z = 70
+
+        const actual = prioritiesSumOfThreeElfGroupBadges(rucksacksInventory)
+
+        expect(actual).toBe(18 + 52)
+    })
+
+    test('solve from file', () => {
+        const rucksacksInventory  = readFileSync('./test/day3/input.txt', 'utf-8')
+        const actual = prioritiesSumOfThreeElfGroupBadges(rucksacksInventory)
+        expect(actual).toBe(2838)
     })
 
 })
