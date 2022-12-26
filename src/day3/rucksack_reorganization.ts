@@ -1,31 +1,27 @@
 export const prioritiesSumOfThreeElfGroupBadges = (rucksacksInventory: string): number => {
-    return rucksacksInventory
+    const inventoryRows = rucksacksInventory
         .split("\n")
         .filter((row) => row !== "")
-        .reduce((elfGroups, row) => {
-            const currentElfGroup = elfGroups[elfGroups.length - 1]
-            const shouldStartNewElfGroup = elfGroups.length == 0 || currentElfGroup.length == 3
-            if (shouldStartNewElfGroup) {
-                elfGroups.push([row])
-                return elfGroups
-            }
 
-            currentElfGroup.push(row)
-            elfGroups[elfGroups.length - 1] = currentElfGroup
-            return elfGroups
-        }, [] as string[][])
+    const threeElfGroups = chunkArray(inventoryRows, 3)
+
+    const elfGroupsBadges = threeElfGroups
         .map(([firstElfRucksack, secondElfRucksack, thirdElfRucksack]) => {
             const firstElfItems = Array.from(new Set(firstElfRucksack)) as string[]
             return firstElfItems.find(c => secondElfRucksack.includes(c) && thirdElfRucksack.includes(c))!
         })
+
+    return elfGroupsBadges
         .map((item) => getItemPriority(item))
         .reduce((acc, v) => acc += v)
 }
 
 export const prioritiesSumOfSharedItems = (rucksacksInventory: string): number => {
-    return rucksacksInventory
+    const inventoryRows = rucksacksInventory
         .split("\n")
         .filter((row) => row !== "")
+
+    const sharedItemsInCompartments = inventoryRows
         .map((row) => {
             const halfLenght = row.length / 2
             const firstCompartmentContent = row.slice(0, halfLenght)
@@ -36,6 +32,8 @@ export const prioritiesSumOfSharedItems = (rucksacksInventory: string): number =
             const firstCompartmentItems = Array.from(new Set(firstCompartmentContent)) as string[]
             return firstCompartmentItems.find(c => secondCompartmentContent.includes(c))!
         })
+
+    return sharedItemsInCompartments
         .map((item) => getItemPriority(item))
         .reduce((acc, v) => acc += v)
 }
@@ -51,3 +49,12 @@ export const getItemPriority = (item: string): number => {
 }
 
 const isLowerCase = (str: string) => str === str.toLocaleLowerCase()
+
+const chunkArray = <T>(array: T[], chunkSize: number): T[][] => {
+    const chunks: T[][] = []
+    for (let i = 0; i < array.length; i += chunkSize) {
+        const chunk = array.slice(i, i + chunkSize)
+        chunks.push(chunk)
+    }
+    return chunks
+}
