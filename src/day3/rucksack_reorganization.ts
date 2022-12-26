@@ -1,8 +1,28 @@
-export const prioritiesSumOfThreeElfGroupBadges = (rucksacksInventory: string): number => {
-    const inventoryRows = rucksacksInventory
+type RucksacksInventory = String
+
+export const prioritiesSumOfSharedItems = (rucksacksInventory: RucksacksInventory): number => {
+    return computeWith(rucksacksInventory, compartmentSharedItemExtractor)
+}
+
+export const prioritiesSumOfThreeElfGroupBadges = (rucksacksInventory: RucksacksInventory): number => {
+    return computeWith(rucksacksInventory, threeElfGroupsBadgeExtractor)
+}
+
+type ItemsExtractor = (rucksacksInventoryRows: string[]) => string[]
+
+const computeWith = (rucksacksInventory: RucksacksInventory, itemsExtractor: ItemsExtractor): number => {
+    const rucksacksInventoryRows = rucksacksInventory
         .split("\n")
         .filter((row) => row !== "")
 
+    const items = itemsExtractor(rucksacksInventoryRows)
+
+    return items
+        .map((item) => getItemPriority(item))
+        .reduce((acc, v) => acc += v)
+}
+
+const threeElfGroupsBadgeExtractor: ItemsExtractor = (inventoryRows: string[]) => {
     const threeElfGroups = chunkArray(inventoryRows, 3)
 
     const elfGroupsBadges = threeElfGroups
@@ -12,16 +32,10 @@ export const prioritiesSumOfThreeElfGroupBadges = (rucksacksInventory: string): 
         })
 
     return elfGroupsBadges
-        .map((item) => getItemPriority(item))
-        .reduce((acc, v) => acc += v)
 }
 
-export const prioritiesSumOfSharedItems = (rucksacksInventory: string): number => {
-    const inventoryRows = rucksacksInventory
-        .split("\n")
-        .filter((row) => row !== "")
-
-    const sharedItemsInCompartments = inventoryRows
+const compartmentSharedItemExtractor: ItemsExtractor = (inventoryRows: string[]) => {
+    return inventoryRows
         .map((row) => {
             const halfLenght = row.length / 2
             const firstCompartmentContent = row.slice(0, halfLenght)
@@ -32,10 +46,6 @@ export const prioritiesSumOfSharedItems = (rucksacksInventory: string): number =
             const firstCompartmentItems = Array.from(new Set(firstCompartmentContent)) as string[]
             return firstCompartmentItems.find(c => secondCompartmentContent.includes(c))!
         })
-
-    return sharedItemsInCompartments
-        .map((item) => getItemPriority(item))
-        .reduce((acc, v) => acc += v)
 }
 
 const UPPERCASE_A_CHARCODE = 65
