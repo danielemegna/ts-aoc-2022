@@ -1,4 +1,4 @@
-export const countOverlappingPairs = (input: string): number => {
+export const countOverlappingPairs = (input: string, includePartialOverlaps: boolean = false): number => {
     const rows = input
         .split("\n")
         .filter((row) => row !== "")
@@ -13,7 +13,8 @@ export const countOverlappingPairs = (input: string): number => {
             ] as RangePair
         })
 
-    const overlappingPairs = parsedPairs.filter(areFullyOverlapping)
+    const overlapRule = includePartialOverlaps ? areOverlapping : areFullyOverlapping
+    const overlappingPairs = parsedPairs.filter(overlapRule)
     return overlappingPairs.length
 }
 
@@ -21,6 +22,13 @@ type Range = [number, number]
 type RangePair = [Range, Range]
 
 type OverlapRule = (ranges: RangePair) => boolean
+
+const areOverlapping: OverlapRule = ([[firstStart, firstEnd], [secondStart, secondEnd]]) => {
+    return (firstStart >= secondStart && firstStart <= secondEnd) ||
+        (firstEnd >= secondStart && firstEnd <= secondEnd) ||
+        (secondStart >= firstStart && secondStart <= firstEnd) ||
+        (secondEnd >= firstStart && secondEnd <= firstEnd)
+}
 
 const areFullyOverlapping: OverlapRule = ([[firstStart, firstEnd], [secondStart, secondEnd]]) => {
     return (firstStart >= secondStart && firstEnd <= secondEnd) ||
