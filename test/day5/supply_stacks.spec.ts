@@ -101,10 +101,10 @@ describe('first part resolution', () => {
         expect(actual).toBe("CMZ")
     })
 
-    test.skip('solve with input from file', () => {
+    test('solve with input from file', () => {
         const input = readFileSync('./test/day5/input.txt', 'utf-8')
         const actual = finalTopCratesMessage(input)
-        expect(actual).toBe("pippo")
+        expect(actual).toBe("TQRFCBSJJ")
     })
 
 })
