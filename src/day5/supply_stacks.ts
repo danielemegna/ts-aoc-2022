@@ -8,6 +8,19 @@ export const finalTopCratesMessage = (input: string): string => {
     return "TILT" // TODO
 }
 
+export const compute = (instruction: RearrangementInstruction, stacks: StacksOfCrates) => {
+    const fromStackIndex = instruction.from - 1
+    const toStackIndex = instruction.to - 1
+    const fromStack = stacks[fromStackIndex]
+    const toStack = stacks[toStackIndex]
+
+    const [toBeMoved, rest] = [fromStack.slice(0, 1), fromStack.slice(1)] // TODO take n elements reversed
+    const newStacksOfCrates = stacks
+    newStacksOfCrates[toStackIndex] = toBeMoved.concat(toStack)
+    newStacksOfCrates[fromStackIndex] = rest
+    return newStacksOfCrates
+}
+
 export const parseInput = (input: string): [StacksOfCrates, RearrangementProcedure] => {
     const rows = input.split("\n")
     const emptyRowIndex = rows.indexOf("")

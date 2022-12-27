@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { finalTopCratesMessage, parseInput, RearrangementProcedure, StacksOfCrates } from '../../src/day5/supply_stacks';
+import { compute, finalTopCratesMessage, parseInput, RearrangementInstruction, RearrangementProcedure, StacksOfCrates } from '../../src/day5/supply_stacks';
 
 describe('first part resolution', () => {
     const providedInputExample =
@@ -37,6 +37,24 @@ describe('first part resolution', () => {
         expect(rearrangementProcedure).toStrictEqual(expected)
     })
 
+    test('compute single rearrangement instruction with single crate move', () => {
+        const stacks = [
+            ["N", "Z"],
+            ["D", "C", "M"],
+            ["P"]
+        ] as StacksOfCrates
+        const instruction: RearrangementInstruction = { move: 1, from: 2, to: 1 }
+
+        const newStacks = compute(instruction, stacks)
+
+        const expectedNewStacks = [
+            ["D", "N", "Z"],
+            ["C", "M"],
+            ["P"]
+        ] as StacksOfCrates
+        expect(newStacks).toStrictEqual(expectedNewStacks)
+    })
+
     test.skip('solve with provided example', () => {
         const actual = finalTopCratesMessage(providedInputExample)
         expect(actual).toBe("CMZ")
@@ -49,3 +67,4 @@ describe('first part resolution', () => {
     })
 
 })
+
