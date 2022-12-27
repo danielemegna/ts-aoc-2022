@@ -55,6 +55,24 @@ describe('first part resolution', () => {
         expect(newStacks).toStrictEqual(expectedNewStacks)
     })
 
+    test('instruction computation do not change original stacks', () => {
+        const stacks = [
+            ["N", "Z"],
+            ["D", "C", "M"],
+            ["P"]
+        ] as StacksOfCrates
+        const instruction: RearrangementInstruction = { move: 1, from: 2, to: 1 }
+
+        compute(instruction, stacks)
+
+        const expectedUntouchedStacks = [
+            ["N", "Z"],
+            ["D", "C", "M"],
+            ["P"]
+        ] as StacksOfCrates
+        expect(stacks).toStrictEqual(expectedUntouchedStacks)
+    })
+
     test.skip('solve with provided example', () => {
         const actual = finalTopCratesMessage(providedInputExample)
         expect(actual).toBe("CMZ")

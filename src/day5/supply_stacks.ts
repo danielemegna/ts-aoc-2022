@@ -15,7 +15,7 @@ export const compute = (instruction: RearrangementInstruction, stacks: StacksOfC
     const toStack = stacks[toStackIndex]
 
     const [toBeMoved, rest] = [fromStack.slice(0, 1), fromStack.slice(1)] // TODO take n elements reversed
-    const newStacksOfCrates = stacks
+    const newStacksOfCrates = clone(stacks)
     newStacksOfCrates[toStackIndex] = toBeMoved.concat(toStack)
     newStacksOfCrates[fromStackIndex] = rest
     return newStacksOfCrates
@@ -61,3 +61,7 @@ const parseRearrangementProcedure = (rearrangementProcedureRows: string[]): Rear
 
 const newStacksOfCrates = (size: number): StacksOfCrates =>
     [...new Array(size)].map(() => []) as StacksOfCrates
+
+const clone = (obj: any): any => {
+    return JSON.parse(JSON.stringify(obj))
+}
