@@ -1,18 +1,19 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { compute, finalTopCratesMessage, parseInput, RearrangementInstruction, RearrangementProcedure, StacksOfCrates } from '../../src/day5/supply_stacks';
+import { compute, finalTopCratesMessage, MoverModel, parseInput, RearrangementInstruction, RearrangementProcedure, StacksOfCrates } from '../../src/day5/supply_stacks';
+
+const providedInputExample =
+    "    [D]    \n" +
+    "[N] [C]    \n" +
+    "[Z] [M] [P]\n" +
+    " 1   2   3 \n" +
+    "\n" +
+    "move 1 from 2 to 1\n" +
+    "move 3 from 1 to 3\n" +
+    "move 2 from 2 to 1\n" +
+    "move 1 from 1 to 2\n"
 
 describe('first part resolution', () => {
-    const providedInputExample =
-        "    [D]    \n" +
-        "[N] [C]    \n" +
-        "[Z] [M] [P]\n" +
-        " 1   2   3 \n" +
-        "\n" +
-        "move 1 from 2 to 1\n" +
-        "move 3 from 1 to 3\n" +
-        "move 2 from 2 to 1\n" +
-        "move 1 from 1 to 2\n"
 
     describe('input parsing', () => {
         test('parse input starting stacks of crates', () => {
@@ -109,3 +110,17 @@ describe('first part resolution', () => {
 
 })
 
+describe('second part resolution', () => {
+
+    test('solve with provided example', () => {
+        const actual = finalTopCratesMessage(providedInputExample, MoverModel.CrateMover9001)
+        expect(actual).toBe("MCD")
+    })
+
+    test('solve with input from file', () => {
+        const input = readFileSync('./test/day5/input.txt', 'utf-8')
+        const actual = finalTopCratesMessage(input, MoverModel.CrateMover9001)
+        expect(actual).toBe("RMHFJNVFP")
+    })
+
+})

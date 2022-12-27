@@ -2,25 +2,32 @@ export type CratesStack = string[]
 export type StacksOfCrates = CratesStack[]
 export type RearrangementProcedure = RearrangementInstruction[]
 export type RearrangementInstruction = { move: number, from: number, to: number }
+export enum MoverModel { CrateMover9000, CrateMover9001 }
 
-export const finalTopCratesMessage = (input: string): string => {
+export const finalTopCratesMessage = (input: string, moverModel: MoverModel = MoverModel.CrateMover9000): string => {
     const [startingStacksOfCrates, rearrangementProcedure] = parseInput(input)
 
     const finalStacks = rearrangementProcedure.reduce((stacks, instruction) => {
-        return compute(instruction, stacks)
+        return compute(instruction, stacks, moverModel)
     }, startingStacksOfCrates)
 
     return finalStacks.map((stack) => stack[0]).join("")
 }
 
-export const compute = (instruction: RearrangementInstruction, stacks: StacksOfCrates) => {
+export const compute = (
+    instruction: RearrangementInstruction,
+    stacks: StacksOfCrates,
+    moverModel: MoverModel = MoverModel.CrateMover9000
+) => {
     const fromStackIndex = instruction.from - 1
     const toStackIndex = instruction.to - 1
     const fromStack = stacks[fromStackIndex]
     const toStack = stacks[toStackIndex]
 
-    const toBeMoved = fromStack.slice(0, instruction.move).reverse()
+    const toBeMoved = fromStack.slice(0, instruction.move)
     const fromStackRest = fromStack.slice(instruction.move)
+    if (moverModel == MoverModel.CrateMover9000)
+        toBeMoved.reverse()
 
     const newStacksOfCrates = clone(stacks)
     newStacksOfCrates[toStackIndex] = toBeMoved.concat(toStack)
