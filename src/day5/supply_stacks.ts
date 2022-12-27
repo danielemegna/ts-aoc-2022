@@ -3,6 +3,11 @@ export type StacksOfCrates = CratesStack[]
 export type RearrangementProcedure = RearrangementInstruction[]
 export type RearrangementInstruction = { move: number, from: number, to: number }
 
+export const finalTopCratesMessage = (input: string): string => {
+    const [startingStacksOfCrates, rearrangementProcedure] = parseInput(input)
+    return "TILT" // TODO
+}
+
 export const parseInput = (input: string): [StacksOfCrates, RearrangementProcedure] => {
     const rows = input.split("\n")
     const emptyRowIndex = rows.indexOf("")
@@ -43,7 +48,3 @@ const parseRearrangementProcedure = (rearrangementProcedureRows: string[]): Rear
 
 const newStacksOfCrates = (size: number): StacksOfCrates =>
     [...new Array(size)].map(() => []) as StacksOfCrates
-
-export const finalTopCratesMessage = (input: string): string => {
-    return "TILT" // TODO
-}
