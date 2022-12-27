@@ -1,15 +1,19 @@
 export type CratesStack = string[]
 export type StacksOfCrates = CratesStack[]
-export type RearrangementProcedure = any // TODO define this type
+export type RearrangementProcedure = RearrangementInstruction[]
+export type RearrangementInstruction = { move: number, from: number, to: number }
 
 export const parseInput = (input: string): [StacksOfCrates, RearrangementProcedure] => {
     const rows = input.split("\n")
     const emptyRowIndex = rows.indexOf("")
 
     const stacksOfCratesRows = rows.slice(0, emptyRowIndex - 1)
-    const rearrangementProcedureRows = rows.slice(emptyRowIndex + 1)
+    const rearrangementProcedureRows = rows.slice(emptyRowIndex + 1, rows.length - 1)
 
-    return [parseStacksOfCrates(stacksOfCratesRows), null]
+    return [
+        parseStacksOfCrates(stacksOfCratesRows),
+        parseRearrangementProcedure(rearrangementProcedureRows)
+    ]
 }
 
 const parseStacksOfCrates = (stacksOfCratesRows: string[]): StacksOfCrates => {
@@ -28,6 +32,13 @@ const parseStacksOfCrates = (stacksOfCratesRows: string[]): StacksOfCrates => {
     })
 
     return stacksOfCrates
+}
+
+const parseRearrangementProcedure = (rearrangementProcedureRows: string[]): RearrangementProcedure => {
+    return rearrangementProcedureRows.map((row) => {
+        const matches = row.match(/^move (\d+) from (\d+) to (\d+)$/)!.slice(1).map((n) => parseInt(n))
+        return { move: matches[0], from: matches[1], to: matches[2] }
+    })
 }
 
 const newStacksOfCrates = (size: number): StacksOfCrates =>

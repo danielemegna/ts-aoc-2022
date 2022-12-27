@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { CratesStack, finalTopCratesMessage, parseInput, StacksOfCrates } from '../../src/day5/supply_stacks';
+import { finalTopCratesMessage, parseInput, RearrangementProcedure, StacksOfCrates } from '../../src/day5/supply_stacks';
 
 describe('first part resolution', () => {
     const providedInputExample =
@@ -18,12 +18,23 @@ describe('first part resolution', () => {
         const [startingStacksOfCrates, _rearrangementProcedure] = parseInput(providedInputExample)
 
         const expected = [
-            ["N", "Z"] as CratesStack,
-            ["D", "C", "M"] as CratesStack,
-            ["P"] as CratesStack
+            ["N", "Z"],
+            ["D", "C", "M"],
+            ["P"]
         ] as StacksOfCrates
-
         expect(startingStacksOfCrates).toStrictEqual(expected)
+    })
+
+    test('parse input rearrangement procedure', () => {
+        const [_startingStacksOfCrates, rearrangementProcedure] = parseInput(providedInputExample)
+
+        const expected = [
+            { move: 1, from: 2, to: 1 },
+            { move: 3, from: 1, to: 3 },
+            { move: 2, from: 2, to: 1 },
+            { move: 1, from: 1, to: 2 }
+        ] as RearrangementProcedure
+        expect(rearrangementProcedure).toStrictEqual(expected)
     })
 
     test.skip('solve with provided example', () => {
