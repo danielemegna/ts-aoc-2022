@@ -58,6 +58,24 @@ describe('first part resolution', () => {
             expect(newStacks).toStrictEqual(expectedNewStacks)
         })
 
+        test('compute single rearrangement instruction with multiple crate move', () => {
+            const stacks = [
+                ["D", "N", "Z"],
+                ["C", "M"],
+                ["P"]
+            ] as StacksOfCrates
+            const instruction: RearrangementInstruction = { move: 3, from: 1, to: 3 }
+
+            const newStacks = compute(instruction, stacks)
+
+            const expectedNewStacks = [
+                [],
+                ["C", "M"],
+                ["Z", "N", "D", "P"]
+            ] as StacksOfCrates
+            expect(newStacks).toStrictEqual(expectedNewStacks)
+        })
+
         test('instruction computation do not change original stacks', () => {
             const stacks = [
                 ["N", "Z"],

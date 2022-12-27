@@ -14,10 +14,12 @@ export const compute = (instruction: RearrangementInstruction, stacks: StacksOfC
     const fromStack = stacks[fromStackIndex]
     const toStack = stacks[toStackIndex]
 
-    const [toBeMoved, rest] = [fromStack.slice(0, 1), fromStack.slice(1)] // TODO take n elements reversed
+    const toBeMoved = fromStack.slice(0, instruction.move).reverse()
+    const fromStackRest = fromStack.slice(instruction.move)
+
     const newStacksOfCrates = clone(stacks)
     newStacksOfCrates[toStackIndex] = toBeMoved.concat(toStack)
-    newStacksOfCrates[fromStackIndex] = rest
+    newStacksOfCrates[fromStackIndex] = fromStackRest
     return newStacksOfCrates
 }
 
