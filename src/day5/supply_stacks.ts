@@ -5,7 +5,12 @@ export type RearrangementInstruction = { move: number, from: number, to: number 
 
 export const finalTopCratesMessage = (input: string): string => {
     const [startingStacksOfCrates, rearrangementProcedure] = parseInput(input)
-    return "TILT" // TODO
+
+    const finalStacks = rearrangementProcedure.reduce((stacks, instruction) => {
+        return compute(instruction, stacks)
+    }, startingStacksOfCrates)
+
+    return finalStacks.map((stack) => stack[0]).join("")
 }
 
 export const compute = (instruction: RearrangementInstruction, stacks: StacksOfCrates) => {

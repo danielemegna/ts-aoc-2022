@@ -96,7 +96,7 @@ describe('first part resolution', () => {
 
     })
 
-    test.skip('solve with provided example', () => {
+    test('solve with provided example', () => {
         const actual = finalTopCratesMessage(providedInputExample)
         expect(actual).toBe("CMZ")
     })
