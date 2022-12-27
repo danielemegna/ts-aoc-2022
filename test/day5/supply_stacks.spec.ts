@@ -14,63 +14,68 @@ describe('first part resolution', () => {
         "move 2 from 2 to 1\n" +
         "move 1 from 1 to 2\n"
 
-    test('parse input starting stacks of crates', () => {
-        const [startingStacksOfCrates, _rearrangementProcedure] = parseInput(providedInputExample)
+    describe('input parsing', () => {
+        test('parse input starting stacks of crates', () => {
+            const [startingStacksOfCrates, _rearrangementProcedure] = parseInput(providedInputExample)
 
-        const expected = [
-            ["N", "Z"],
-            ["D", "C", "M"],
-            ["P"]
-        ] as StacksOfCrates
-        expect(startingStacksOfCrates).toStrictEqual(expected)
+            const expected = [
+                ["N", "Z"],
+                ["D", "C", "M"],
+                ["P"]
+            ] as StacksOfCrates
+            expect(startingStacksOfCrates).toStrictEqual(expected)
+        })
+
+        test('parse input rearrangement procedure', () => {
+            const [_startingStacksOfCrates, rearrangementProcedure] = parseInput(providedInputExample)
+
+            const expected = [
+                { move: 1, from: 2, to: 1 },
+                { move: 3, from: 1, to: 3 },
+                { move: 2, from: 2, to: 1 },
+                { move: 1, from: 1, to: 2 }
+            ] as RearrangementProcedure
+            expect(rearrangementProcedure).toStrictEqual(expected)
+        })
     })
 
-    test('parse input rearrangement procedure', () => {
-        const [_startingStacksOfCrates, rearrangementProcedure] = parseInput(providedInputExample)
+    describe('rearrangement instruction computation', () => {
+        test('compute single rearrangement instruction with single crate move', () => {
+            const stacks = [
+                ["N", "Z"],
+                ["D", "C", "M"],
+                ["P"]
+            ] as StacksOfCrates
+            const instruction: RearrangementInstruction = { move: 1, from: 2, to: 1 }
 
-        const expected = [
-            { move: 1, from: 2, to: 1 },
-            { move: 3, from: 1, to: 3 },
-            { move: 2, from: 2, to: 1 },
-            { move: 1, from: 1, to: 2 }
-        ] as RearrangementProcedure
-        expect(rearrangementProcedure).toStrictEqual(expected)
-    })
+            const newStacks = compute(instruction, stacks)
 
-    test('compute single rearrangement instruction with single crate move', () => {
-        const stacks = [
-            ["N", "Z"],
-            ["D", "C", "M"],
-            ["P"]
-        ] as StacksOfCrates
-        const instruction: RearrangementInstruction = { move: 1, from: 2, to: 1 }
+            const expectedNewStacks = [
+                ["D", "N", "Z"],
+                ["C", "M"],
+                ["P"]
+            ] as StacksOfCrates
+            expect(newStacks).toStrictEqual(expectedNewStacks)
+        })
 
-        const newStacks = compute(instruction, stacks)
+        test('instruction computation do not change original stacks', () => {
+            const stacks = [
+                ["N", "Z"],
+                ["D", "C", "M"],
+                ["P"]
+            ] as StacksOfCrates
+            const instruction: RearrangementInstruction = { move: 1, from: 2, to: 1 }
 
-        const expectedNewStacks = [
-            ["D", "N", "Z"],
-            ["C", "M"],
-            ["P"]
-        ] as StacksOfCrates
-        expect(newStacks).toStrictEqual(expectedNewStacks)
-    })
+            compute(instruction, stacks)
 
-    test('instruction computation do not change original stacks', () => {
-        const stacks = [
-            ["N", "Z"],
-            ["D", "C", "M"],
-            ["P"]
-        ] as StacksOfCrates
-        const instruction: RearrangementInstruction = { move: 1, from: 2, to: 1 }
+            const expectedUntouchedStacks = [
+                ["N", "Z"],
+                ["D", "C", "M"],
+                ["P"]
+            ] as StacksOfCrates
+            expect(stacks).toStrictEqual(expectedUntouchedStacks)
+        })
 
-        compute(instruction, stacks)
-
-        const expectedUntouchedStacks = [
-            ["N", "Z"],
-            ["D", "C", "M"],
-            ["P"]
-        ] as StacksOfCrates
-        expect(stacks).toStrictEqual(expectedUntouchedStacks)
     })
 
     test.skip('solve with provided example', () => {
