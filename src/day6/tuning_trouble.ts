@@ -1,22 +1,17 @@
-
 export const charsToFirstStartOfPacketMarker = (input: string): number => {
-
-    for (var i = 4; i < input.length; i++) {
-        const current = input.slice(i - 4, i)
-        if (new Set(current).size == 4)
-            return i
-    }
-
-    throw Error("Cannot find any start-of-packet marker")
+    return charsToFirstNonRepeatedSequence(input, 4)
 }
 
 export const charsToFirstStartOfMessageMarker = (input: string): number => {
+    return charsToFirstNonRepeatedSequence(input, 14)
+}
 
-    for (var i = 14; i < input.length; i++) {
-        const current = input.slice(i - 14, i)
-        if (new Set(current).size == 14)
+const charsToFirstNonRepeatedSequence = (input: string, sequenceSize: number): number => {
+    for (var i = sequenceSize; i < input.length; i++) {
+        const current = input.slice(i - sequenceSize, i)
+        if (new Set(current).size == sequenceSize)
             return i
     }
 
-    throw Error("Cannot find any start-of-message marker")
+    throw Error("Cannot find any " + sequenceSize + "-size sequence of non repeated characters")
 }
