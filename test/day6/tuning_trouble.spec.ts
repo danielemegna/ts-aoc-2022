@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { charsToFirstStartOfPacketMarker } from '../../src/day6/tuning_trouble';
+import { charsToFirstStartOfMessageMarker, charsToFirstStartOfPacketMarker } from '../../src/day6/tuning_trouble';
 
 
 describe('first part resolution', () => {
@@ -22,6 +22,29 @@ describe('first part resolution', () => {
         const input = readFileSync('./test/day6/input.txt', 'utf-8')
         const actual = charsToFirstStartOfPacketMarker(input)
         expect(actual).toBe(1623)
+    })
+
+})
+
+describe('second part resolution', () => {
+
+    test('solve with first provided example', () => {
+        const providedInputExample = "mjqjpqmgbljsphdztnvjfqwrcgsmlb\n"
+        const actual = charsToFirstStartOfMessageMarker(providedInputExample)
+        expect(actual).toBe(19)
+    })
+
+    test('other provided examples', () => {
+        expect(charsToFirstStartOfMessageMarker("bvwbjplbgvbhsrlpgdmjqwftvncz")).toBe(23)
+        expect(charsToFirstStartOfMessageMarker("nppdvjthqldpwncqszvftbrmjlhg")).toBe(23)
+        expect(charsToFirstStartOfMessageMarker("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg")).toBe(29)
+        expect(charsToFirstStartOfMessageMarker("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw")).toBe(26)
+    })
+
+    test('solve with input from file', () => {
+        const input = readFileSync('./test/day6/input.txt', 'utf-8')
+        const actual = charsToFirstStartOfMessageMarker(input)
+        expect(actual).toBe(3774)
     })
 
 })
