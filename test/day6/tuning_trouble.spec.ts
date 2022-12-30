@@ -2,7 +2,6 @@ import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
 import { charsToFirstStartOfMessageMarker, charsToFirstStartOfPacketMarker } from '../../src/day6/tuning_trouble';
 
-
 describe('first part resolution', () => {
 
     test('solve with first provided example', () => {
