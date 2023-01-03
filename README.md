@@ -10,7 +10,7 @@ Install proper nodejs version via asdf:
 $ asdf install
 ```
 
-or simply check needed nodejs version in [.tool-version](.tool-version) file.
+or simply check needed nodejs version in [.tool-versions](.tool-versions) file.
 
 > if you want to enable yarn you should do it via [corepack](https://fek.io/blog/what-is-corepack-in-node-js): `corepack enable yarn`
 
