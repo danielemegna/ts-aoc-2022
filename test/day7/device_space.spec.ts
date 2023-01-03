@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { totalSizeOfSmallFolders } from '../../src/day7/device_space';
+import { buildFileSystemTreeFrom, FSNode, FSRoot, FSNodeType, totalSizeOfSmallFolders } from '../../src/day7/device_space';
 
 const providedInputExample = `$ cd /
 $ ls
@@ -28,6 +28,25 @@ $ ls
 `
 
 describe('first part resolution', () => {
+
+    test('root folder with only files', () => {
+        const terminalFeed = [
+            "$ cd /",
+            "$ ls",
+            "14848514 b.txt",
+            "8504156 c.dat",
+            "8033020 d.log"
+        ].join("\n") + "\n"
+
+        const actual = buildFileSystemTreeFrom(terminalFeed)
+
+        const expected = {
+            "b.txt": { size: 14848514, type: FSNodeType.FILE } as FSNode,
+            "c.dat": { size: 8504156, type: FSNodeType.FILE } as FSNode,
+            "d.log": { size: 8033020, type: FSNodeType.FILE } as FSNode,
+        } as FSRoot
+        expect(actual).toStrictEqual(expected)
+    })
 
     test.skip('solve with first provided example', () => {
         const actual = totalSizeOfSmallFolders(providedInputExample)
