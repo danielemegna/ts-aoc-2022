@@ -14,13 +14,15 @@ or simply check needed nodejs version in [.tool-versions](.tool-versions) file.
 
 > if you want to enable yarn you should do it via [corepack](https://fek.io/blog/what-is-corepack-in-node-js): `corepack enable yarn`
 
+-----
+
 Install project dependencies:
 
 ```
 $ yarn install
 ```
 
-Run tests via jest:
+and run tests via jest:
 
 ```
 $ yarn jest
