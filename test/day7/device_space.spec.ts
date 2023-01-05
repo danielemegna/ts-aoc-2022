@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { buildFileSystemTreeFrom, Directory, File, FSNode, FSNodeType, FSRoot, totalSizeOfSmallFolders } from '../../src/day7/device_space';
+import { buildFileSystemTreeFrom, Directory, File, FSNodeType, FSRoot, totalSizeOfSmallFolders } from '../../src/day7/device_space';
 
 const providedInputExample = `$ cd /
 $ ls
@@ -43,9 +43,9 @@ describe('first part resolution', () => {
             const actual = buildFileSystemTreeFrom(terminalFeed)
 
             const expected = {
-                "b.txt": { size: 14848514, type: FSNodeType.FILE } as FSNode,
-                "c.dat": { size: 8504156, type: FSNodeType.FILE } as FSNode,
-                "d.log": { size: 8033020, type: FSNodeType.FILE } as FSNode,
+                "b.txt": { size: 14848514, type: FSNodeType.FILE } as File,
+                "c.dat": { size: 8504156, type: FSNodeType.FILE } as File,
+                "d.log": { size: 8033020, type: FSNodeType.FILE } as File,
             } as FSRoot
             expect(actual).toStrictEqual(expected)
         })

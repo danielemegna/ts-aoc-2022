@@ -1,7 +1,6 @@
 export type FSRoot = {
-    [key: string]: FSNode
+    [key: string]: File | Directory
 }
-export type FSNode = File | Directory
 export type File = {
     size: number,
     type: FSNodeType.FILE
@@ -22,20 +21,20 @@ export const buildFileSystemTreeFrom = (terminalFeed: string): FSRoot => {
         .filter((row) => row !== "")
 
     const systemTree: FSRoot = {}
-    terminalFeedRows.forEach((row) => {
+    for (var row of terminalFeedRows) {
         if (isACommand(row)) {
-            return
+            continue
         }
 
         if (isADirectory(row)) {
             const dirname = parseDirectoryTerminalFeedRow(row)
             systemTree[dirname] = { type: FSNodeType.DIRECTORY } as Directory
-            return
+            continue
         }
 
         const [name, node] = parseFileTerminalFeedRow(row)
         systemTree[name] = node
-    })
+    }
 
     return systemTree
 }
