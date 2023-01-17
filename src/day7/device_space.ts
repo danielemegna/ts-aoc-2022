@@ -1,42 +1,50 @@
-export type FSRoot = {
-    [key: string]: File | Directory
-}
 export type File = {
-    size: number,
-    type: FSNodeType.FILE
+    size: number
 }
 export type Directory = {
-    type: FSNodeType.DIRECTORY
+    [key: string]: File | Directory,
 }
-export enum FSNodeType { FILE, DIRECTORY }
 
 
 export const totalSizeOfSmallFolders = (terminalFeed: string): number => {
     return -1
 }
 
-export const buildFileSystemTreeFrom = (terminalFeed: string): FSRoot => {
+export const buildFileSystemTreeFrom = (terminalFeed: string): Directory => {
     const terminalFeedRows = terminalFeed
         .split("\n")
-        .filter((row) => row !== "")
+        .filter((row) => row !== "" && row !== "$ cd /")
 
-    const systemTree: FSRoot = {}
+    return directoryFrom(terminalFeedRows)
+}
+
+const directoryFrom = (terminalFeedRows: string[]): Directory => {
+    const directory: Directory = {}
+
     for (var row of terminalFeedRows) {
         if (isACommand(row)) {
+
+            if (isAChangeDirCommand(row)) {
+                directory["a"] = directoryFrom(
+                    terminalFeedRows.slice(terminalFeedRows.indexOf(row) + 1)
+                )
+                break
+            }
+
             continue
         }
 
         if (isADirectory(row)) {
             const dirname = parseDirectoryTerminalFeedRow(row)
-            systemTree[dirname] = { type: FSNodeType.DIRECTORY } as Directory
-            continue
+            directory[dirname] = {} as Directory
+        } else {
+            const [filename, file] = parseFileTerminalFeedRow(row)
+            directory[filename] = file
         }
 
-        const [name, node] = parseFileTerminalFeedRow(row)
-        systemTree[name] = node
     }
 
-    return systemTree
+    return directory
 }
 
 const parseDirectoryTerminalFeedRow = (terminalFeedRow: string): string => {
@@ -45,8 +53,9 @@ const parseDirectoryTerminalFeedRow = (terminalFeedRow: string): string => {
 
 const parseFileTerminalFeedRow = (terminalFeedRow: string): [string, File] => {
     const [size, name] = terminalFeedRow.split(" ")
-    return [name, { size: parseInt(size), type: FSNodeType.FILE } as File]
+    return [name, { size: parseInt(size) } as File]
 }
 
 const isACommand = (row: string) => row.charAt(0) == "$"
+const isAChangeDirCommand = (row: string) => row.startsWith("$ cd")
 const isADirectory = (row: string) => row.startsWith("dir")

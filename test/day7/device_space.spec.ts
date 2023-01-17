@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { buildFileSystemTreeFrom, Directory, File, FSNodeType, FSRoot, totalSizeOfSmallFolders } from '../../src/day7/device_space';
+import { buildFileSystemTreeFrom, Directory, File, totalSizeOfSmallFolders } from '../../src/day7/device_space';
 
 const providedInputExample = `$ cd /
 $ ls
@@ -43,10 +43,10 @@ describe('first part resolution', () => {
             const actual = buildFileSystemTreeFrom(terminalFeed)
 
             const expected = {
-                "b.txt": { size: 14848514, type: FSNodeType.FILE } as File,
-                "c.dat": { size: 8504156, type: FSNodeType.FILE } as File,
-                "d.log": { size: 8033020, type: FSNodeType.FILE } as File,
-            } as FSRoot
+                "b.txt": { size: 14848514 } as File,
+                "c.dat": { size: 8504156 } as File,
+                "d.log": { size: 8033020 } as File,
+            } as Directory
             expect(actual).toStrictEqual(expected)
         })
 
@@ -65,12 +65,44 @@ describe('first part resolution', () => {
             const actual = buildFileSystemTreeFrom(terminalFeed)
 
             const expected = {
-                "b.txt": { size: 14848514, type: FSNodeType.FILE } as File,
-                "a": { type: FSNodeType.DIRECTORY } as Directory,
-                "c.dat": { size: 8504156, type: FSNodeType.FILE } as File,
-                "d.log": { size: 8033020, type: FSNodeType.FILE } as File,
-                "d": { type: FSNodeType.DIRECTORY } as Directory,
-            } as FSRoot
+                "b.txt": { size: 14848514 } as File,
+                "a": {} as Directory,
+                "c.dat": { size: 8504156 } as File,
+                "d.log": { size: 8033020 } as File,
+                "d": {} as Directory,
+            } as Directory
+            expect(actual).toStrictEqual(expected)
+        })
+
+        test('handle change-dir commands and subfolder content', () => {
+            const terminalFeed = [
+                "$ cd /",
+                "$ ls",
+                "dir a",
+                "14848514 b.txt",
+                "8504156 c.dat",
+                "dir d",
+                "$ cd a",
+                "$ ls",
+                "dir e",
+                "29116 f",
+                "2557 g",
+                "62596 h.lst"
+            ].join("\n") + "\n"
+
+            const actual = buildFileSystemTreeFrom(terminalFeed)
+
+            const expected = {
+                "a": {
+                    "e": {},
+                    "f": { size: 29116 },
+                    "g": { size: 2557 },
+                    "h.lst": { size: 62596 }
+                } as Directory,
+                "b.txt": { size: 14848514 } as File,
+                "c.dat": { size: 8504156 } as File,
+                "d": {} as Directory,
+            } as Directory
             expect(actual).toStrictEqual(expected)
         })
 
