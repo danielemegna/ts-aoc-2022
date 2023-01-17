@@ -15,20 +15,29 @@ export const buildFileSystemTreeFrom = (terminalFeed: string): Directory => {
         .split("\n")
         .filter((row) => row !== "" && row !== "$ cd /")
 
-    return directoryFrom(terminalFeedRows)
+    const [_, fileSystemTree] = directoryFrom(terminalFeedRows)
+    return fileSystemTree
 }
 
-const directoryFrom = (terminalFeedRows: string[]): Directory => {
+const directoryFrom = (terminalFeedRows: string[]): [number | undefined, Directory] => {
     const directory: Directory = {}
 
-    for (var row of terminalFeedRows) {
+    for (let i = 0; i < terminalFeedRows.length; i++) {
+        const row = terminalFeedRows[i]
         if (isACommand(row)) {
 
             if (isAChangeDirCommand(row)) {
-                directory["a"] = directoryFrom(
-                    terminalFeedRows.slice(terminalFeedRows.indexOf(row) + 1)
-                )
-                break
+                if (isAGoToUpperDirCommand(row)) {
+                    return [i, directory]
+                }
+
+                const dirname = row.split(" ")[2]
+                const restOfRows = terminalFeedRows.slice(i + 1)
+                const [processedRows, dir] = directoryFrom(restOfRows)
+                directory[dirname] = dir
+                if(!processedRows)
+                    break
+                i += processedRows
             }
 
             continue
@@ -44,7 +53,7 @@ const directoryFrom = (terminalFeedRows: string[]): Directory => {
 
     }
 
-    return directory
+    return [undefined, directory]
 }
 
 const parseDirectoryTerminalFeedRow = (terminalFeedRow: string): string => {
@@ -58,4 +67,5 @@ const parseFileTerminalFeedRow = (terminalFeedRow: string): [string, File] => {
 
 const isACommand = (row: string) => row.charAt(0) == "$"
 const isAChangeDirCommand = (row: string) => row.startsWith("$ cd")
+const isAGoToUpperDirCommand = (row: string) => row === "$ cd .."
 const isADirectory = (row: string) => row.startsWith("dir")

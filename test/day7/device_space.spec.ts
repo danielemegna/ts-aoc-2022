@@ -106,6 +106,30 @@ describe('first part resolution', () => {
             expect(actual).toStrictEqual(expected)
         })
 
+        test.skip('build filesystem tree from provided example', () => {
+            const actual = buildFileSystemTreeFrom(providedInputExample)
+
+            const expected = {
+                "a": {
+                    "e": {
+                        "i": { size: 584 }
+                    },
+                    "f": { size: 29116 },
+                    "g": { size: 2557 },
+                    "h.lst": { size: 62596 }
+                } as Directory,
+                "b.txt": { size: 14848514 } as File,
+                "c.dat": { size: 8504156 } as File,
+                "d": {
+                    "j": { size: 4060174 },
+                    "d.log": { size: 8033020 },
+                    "d.ext": { size: 5626152 },
+                    "k": { size: 7214296 }
+                } as Directory,
+            } as Directory
+            expect(actual).toStrictEqual(expected)
+        })
+
     })
 
     test.skip('solve with first provided example', () => {
