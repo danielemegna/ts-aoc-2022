@@ -23,6 +23,30 @@ describe('first part resolution', () => {
             expect(treeMap.getHeight([4, 3])).toBe(9)
             expect(treeMap.getHeight([4, 4])).toBe(0)
         })
+
+        test('trees on the edge are visible', () => {
+            const treeMap = treeMapFrom(providedInputExample)
+
+            expect(treeMap.isVisible([0, 0])).toBe(true)
+            expect(treeMap.isVisible([0, 1])).toBe(true)
+            expect(treeMap.isVisible([2, 0])).toBe(true)
+            expect(treeMap.isVisible([4, 3])).toBe(true)
+            expect(treeMap.isVisible([2, 4])).toBe(true)
+            expect(treeMap.isVisible([4, 4])).toBe(true)
+        })
+
+        test('not visible tree in the interior', () => {
+            const treeMap = treeMapFrom(providedInputExample)
+
+            expect(treeMap.isVisible([3, 1])).toBe(false)
+            expect(treeMap.isVisible([2, 3])).toBe(false)
+        })
+
+        test('visible interior tree from the right', () => {
+            const treeMap = treeMapFrom(providedInputExample)
+
+            expect(treeMap.isVisible([3, 2])).toBe(true)
+        })
     })
 
     test('small map with 4 visible trees', () => {

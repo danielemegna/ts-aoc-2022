@@ -10,6 +10,18 @@ class TreeMap {
     getHeight([x, y]: Coordinate): number {
         return this.treeHeights[y][x]
     }
+
+    isVisible([x, y]: Coordinate): boolean {
+        const mapSize: number = 4
+        if(x === 0 || y === 0 || x === mapSize || y === mapSize)
+            return true
+
+        const treesOnTheRight = this.treeHeights[y].slice(x)
+        if(Math.max(...treesOnTheRight) === treesOnTheRight[0])
+            return true
+
+        return false
+    }
 }
 
 export function treeMapFrom(treeMapInput: string): TreeMap {
