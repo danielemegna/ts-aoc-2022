@@ -7,7 +7,7 @@ export class TreeMap {
         this.treeHeights = treeHeights
     }
 
-    getHeight([x, y]: Coordinate): number {
+    getTreeHeight([x, y]: Coordinate): number {
         return this.treeHeights[y][x]
     }
 

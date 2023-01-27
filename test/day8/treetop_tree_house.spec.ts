@@ -17,13 +17,13 @@ describe('first part resolution', () => {
             test('parse and ask for tree heights via coordinates', () => {
                 const treeMap = treeMapFrom(providedInputExample)
 
-                expect(treeMap.getHeight([0, 0])).toBe(3)
-                expect(treeMap.getHeight([0, 1])).toBe(2)
-                expect(treeMap.getHeight([1, 0])).toBe(0)
-                expect(treeMap.getHeight([1, 1])).toBe(5)
-                expect(treeMap.getHeight([2, 2])).toBe(3)
-                expect(treeMap.getHeight([4, 3])).toBe(9)
-                expect(treeMap.getHeight([4, 4])).toBe(0)
+                expect(treeMap.getTreeHeight([0, 0])).toBe(3)
+                expect(treeMap.getTreeHeight([0, 1])).toBe(2)
+                expect(treeMap.getTreeHeight([1, 0])).toBe(0)
+                expect(treeMap.getTreeHeight([1, 1])).toBe(5)
+                expect(treeMap.getTreeHeight([2, 2])).toBe(3)
+                expect(treeMap.getTreeHeight([4, 3])).toBe(9)
+                expect(treeMap.getTreeHeight([4, 4])).toBe(0)
             })
         })
 
