@@ -30,6 +30,10 @@ class TreeMap {
         if(currentTree > Math.max(...treesOnTheTop))
             return true
 
+        const treesOnTheBottom = this.treeHeights.slice(y+1).map((row) => row[x])
+        if(currentTree > Math.max(...treesOnTheBottom))
+            return true
+
         return false
     }
 }

@@ -7,7 +7,7 @@ const providedInputExample =
     "65512\n" +
     "65332\n" +
     "33549\n" +
-    "35390\n"
+    "32390\n"
 
 describe('first part resolution', () => {
 
@@ -63,6 +63,12 @@ describe('first part resolution', () => {
             const treeMap = treeMapFrom(providedInputExample)
 
             expect(treeMap.isVisible([1, 1])).toBe(true)
+        })
+
+        test('visible interior tree from the bottom', () => {
+            const treeMap = treeMapFrom(providedInputExample)
+
+            expect(treeMap.isVisible([1, 3])).toBe(true)
         })
     })
 
