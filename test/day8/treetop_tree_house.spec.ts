@@ -73,7 +73,7 @@ describe('first part resolution', () => {
         const input =
             "73\n" +
             "25\n"
-        const actual = visibleTreesCount(providedInputExample)
+        const actual = visibleTreesCount(input)
 
         const expectedVisibleOnTheEdge = 4
         const expectedVisibleInTheInterior = 0
