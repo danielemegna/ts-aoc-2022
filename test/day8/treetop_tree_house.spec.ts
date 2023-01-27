@@ -27,15 +27,15 @@ describe('first part resolution', () => {
             })
         })
 
-        describe('check visible tree from coordinate', () => {
-            const aTreeMap = new TreeMap([
-                [3, 0, 3, 7, 3],
-                [6, 5, 5, 1, 2],
-                [6, 5, 3, 3, 2],
-                [3, 3, 5, 4, 9],
-                [3, 2, 3, 9, 0]
+        const aTreeMap = new TreeMap([
+            [3, 0, 3, 7, 3],
+            [6, 5, 5, 1, 2],
+            [6, 5, 3, 3, 2],
+            [3, 3, 5, 4, 9],
+            [3, 2, 3, 9, 0]
+        ])
 
-            ])
+        describe('check visible tree from coordinate', () => {
             test('trees on the edge are always visible', () => {
                 expect(aTreeMap.isVisible([0, 0])).toBe(true)
                 expect(aTreeMap.isVisible([0, 1])).toBe(true)
@@ -67,6 +67,15 @@ describe('first part resolution', () => {
                 expect(aTreeMap.isVisible([1, 3])).toBe(true)
             })
         })
+
+        describe('count visible trees', () => {
+            test('for a 5 x 5 tree map', () => {
+                const expectedVisibleOnTheEdge = 16
+                const expectedVisibleInTheInterior = 6
+                expect(aTreeMap.getVisibleTreesCount()).toEqual(expectedVisibleOnTheEdge + expectedVisibleInTheInterior)
+            })
+        })
+
     })
 
     test('small map with 4 visible trees', () => {
@@ -80,7 +89,7 @@ describe('first part resolution', () => {
         expect(actual).toBe(expectedVisibleOnTheEdge + expectedVisibleInTheInterior)
     })
 
-    test.skip('solve with first provided example', () => {
+    test('solve with first provided example', () => {
         const actual = visibleTreesCount(providedInputExample)
 
         const expectedVisibleOnTheEdge = 16
@@ -88,10 +97,10 @@ describe('first part resolution', () => {
         expect(actual).toBe(expectedVisibleOnTheEdge + expectedVisibleInTheInterior)
     })
 
-    test.skip('solve with input from file', () => {
+    test('solve with input from file', () => {
         const input = readFileSync('./test/day8/input.txt', 'utf-8')
         const actual = visibleTreesCount(input)
-        expect(actual).toBe(999)
+        expect(actual).toBe(1533)
     })
 
 })

@@ -36,6 +36,18 @@ export class TreeMap {
 
         return false
     }
+
+    getVisibleTreesCount(): number {
+        let result = 0
+        const mapSize = this.treeHeights.length
+        for (let y = 0; y < mapSize; y++) {
+            for (let x = 0; x < mapSize; x++) {
+                if (this.isVisible([x, y]))
+                    result += 1
+            }
+        }
+        return result
+    }
 }
 
 export function treeMapFrom(treeMapInput: string): TreeMap {
@@ -51,5 +63,6 @@ export function treeMapFrom(treeMapInput: string): TreeMap {
 }
 
 export function visibleTreesCount(input: string): number {
-    return 4
+    const treeMap = treeMapFrom(input)
+    return treeMap.getVisibleTreesCount()
 }
