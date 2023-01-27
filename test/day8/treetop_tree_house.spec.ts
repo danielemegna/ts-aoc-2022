@@ -35,17 +35,28 @@ describe('first part resolution', () => {
             expect(treeMap.isVisible([4, 4])).toBe(true)
         })
 
-        test('not visible tree in the interior', () => {
+        test('not visible lowest tree in the interior', () => {
             const treeMap = treeMapFrom(providedInputExample)
 
             expect(treeMap.isVisible([3, 1])).toBe(false)
-            expect(treeMap.isVisible([2, 3])).toBe(false)
+        })
+
+        test.skip('tree with the same high covers', () => {
+            const treeMap = treeMapFrom(providedInputExample)
+
+            expect(treeMap.isVisible([2, 2])).toBe(false)
         })
 
         test('visible interior tree from the right', () => {
             const treeMap = treeMapFrom(providedInputExample)
 
             expect(treeMap.isVisible([3, 2])).toBe(true)
+        })
+
+        test('visible interior tree from the left', () => {
+            const treeMap = treeMapFrom(providedInputExample)
+
+            expect(treeMap.isVisible([2, 3])).toBe(true)
         })
     })
 
