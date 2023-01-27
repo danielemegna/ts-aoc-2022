@@ -41,7 +41,7 @@ describe('first part resolution', () => {
             expect(treeMap.isVisible([3, 1])).toBe(false)
         })
 
-        test.skip('tree with the same high covers', () => {
+        test('tree with the same high covers', () => {
             const treeMap = treeMapFrom(providedInputExample)
 
             expect(treeMap.isVisible([2, 2])).toBe(false)

@@ -18,12 +18,12 @@ class TreeMap {
 
         const currentTree = this.treeHeights[y][x]
 
-        const treesOnTheRight = this.treeHeights[y].slice(x)
-        if(Math.max(...treesOnTheRight) === currentTree)
+        const treesOnTheRight = this.treeHeights[y].slice(x+1)
+        if(currentTree > Math.max(...treesOnTheRight))
             return true
 
-        const treesOnTheLeft = this.treeHeights[y].slice(0, x+1)
-        if(Math.max(...treesOnTheLeft) === currentTree)
+        const treesOnTheLeft = this.treeHeights[y].slice(0, x)
+        if(currentTree > Math.max(...treesOnTheLeft))
             return true
 
         return false
