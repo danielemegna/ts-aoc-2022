@@ -58,6 +58,12 @@ describe('first part resolution', () => {
 
             expect(treeMap.isVisible([2, 3])).toBe(true)
         })
+
+        test('visible interior tree from the top', () => {
+            const treeMap = treeMapFrom(providedInputExample)
+
+            expect(treeMap.isVisible([1, 1])).toBe(true)
+        })
     })
 
     test('small map with 4 visible trees', () => {
