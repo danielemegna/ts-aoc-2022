@@ -1,13 +1,13 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { treeMapFrom, visibleTreesCount } from '../../src/day8/treetop_tree_house';
+import { TreeMap, treeMapFrom, visibleTreesCount } from '../../src/day8/treetop_tree_house';
 
 const providedInputExample =
     "30373\n" +
-    "65512\n" +
+    "25512\n" +
     "65332\n" +
     "33549\n" +
-    "32390\n"
+    "35390\n"
 
 describe('first part resolution', () => {
 
@@ -18,7 +18,7 @@ describe('first part resolution', () => {
                 const treeMap = treeMapFrom(providedInputExample)
 
                 expect(treeMap.getHeight([0, 0])).toBe(3)
-                expect(treeMap.getHeight([0, 1])).toBe(6)
+                expect(treeMap.getHeight([0, 1])).toBe(2)
                 expect(treeMap.getHeight([1, 0])).toBe(0)
                 expect(treeMap.getHeight([1, 1])).toBe(5)
                 expect(treeMap.getHeight([2, 2])).toBe(3)
@@ -28,43 +28,43 @@ describe('first part resolution', () => {
         })
 
         describe('check visible tree from coordinate', () => {
-            test('trees on the edge are always visible', () => {
-                const treeMap = treeMapFrom(providedInputExample)
+            const aTreeMap = new TreeMap([
+                [3, 0, 3, 7, 3],
+                [6, 5, 5, 1, 2],
+                [6, 5, 3, 3, 2],
+                [3, 3, 5, 4, 9],
+                [3, 2, 3, 9, 0]
 
-                expect(treeMap.isVisible([0, 0])).toBe(true)
-                expect(treeMap.isVisible([0, 1])).toBe(true)
-                expect(treeMap.isVisible([2, 0])).toBe(true)
-                expect(treeMap.isVisible([4, 3])).toBe(true)
-                expect(treeMap.isVisible([2, 4])).toBe(true)
-                expect(treeMap.isVisible([4, 4])).toBe(true)
+            ])
+            test('trees on the edge are always visible', () => {
+                expect(aTreeMap.isVisible([0, 0])).toBe(true)
+                expect(aTreeMap.isVisible([0, 1])).toBe(true)
+                expect(aTreeMap.isVisible([2, 0])).toBe(true)
+                expect(aTreeMap.isVisible([4, 3])).toBe(true)
+                expect(aTreeMap.isVisible([2, 4])).toBe(true)
+                expect(aTreeMap.isVisible([4, 4])).toBe(true)
             })
             test('not visible lowest tree in the interior', () => {
-                const treeMap = treeMapFrom(providedInputExample)
-                expect(treeMap.isVisible([3, 1])).toBe(false)
+                expect(aTreeMap.isVisible([3, 1])).toBe(false)
             })
             test('tree with the same high covers', () => {
-                const treeMap = treeMapFrom(providedInputExample)
-                expect(treeMap.isVisible([2, 2])).toBe(false)
+                expect(aTreeMap.isVisible([2, 2])).toBe(false)
             })
 
             test('visible interior tree from the right', () => {
-                const treeMap = treeMapFrom(providedInputExample)
-                expect(treeMap.isVisible([3, 2])).toBe(true)
+                expect(aTreeMap.isVisible([3, 2])).toBe(true)
             })
 
             test('visible interior tree from the left', () => {
-                const treeMap = treeMapFrom(providedInputExample)
-                expect(treeMap.isVisible([2, 3])).toBe(true)
+                expect(aTreeMap.isVisible([2, 3])).toBe(true)
             })
 
             test('visible interior tree from the top', () => {
-                const treeMap = treeMapFrom(providedInputExample)
-                expect(treeMap.isVisible([1, 1])).toBe(true)
+                expect(aTreeMap.isVisible([1, 1])).toBe(true)
             })
 
             test('visible interior tree from the bottom', () => {
-                const treeMap = treeMapFrom(providedInputExample)
-                expect(treeMap.isVisible([1, 3])).toBe(true)
+                expect(aTreeMap.isVisible([1, 3])).toBe(true)
             })
         })
     })

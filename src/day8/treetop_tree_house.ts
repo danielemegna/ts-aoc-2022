@@ -1,6 +1,6 @@
 type Coordinate = [number, number]
 
-class TreeMap {
+export class TreeMap {
     treeHeights: number[][]
 
     constructor(treeHeights: number[][]) {
