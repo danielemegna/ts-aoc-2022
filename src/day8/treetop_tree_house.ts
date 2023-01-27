@@ -12,7 +12,7 @@ class TreeMap {
     }
 
     isVisible([x, y]: Coordinate): boolean {
-        const mapSize: number = 4
+        const mapSize: number = this.treeHeights.length
         if (x === 0 || y === 0 || x === mapSize || y === mapSize)
             return true
 
