@@ -13,25 +13,25 @@ class TreeMap {
 
     isVisible([x, y]: Coordinate): boolean {
         const mapSize: number = 4
-        if(x === 0 || y === 0 || x === mapSize || y === mapSize)
+        if (x === 0 || y === 0 || x === mapSize || y === mapSize)
             return true
 
         const currentTree = this.treeHeights[y][x]
 
-        const treesOnTheRight = this.treeHeights[y].slice(x+1)
-        if(currentTree > Math.max(...treesOnTheRight))
+        const treesOnTheRight = this.treeHeights[y].slice(x + 1)
+        if (currentTree > Math.max(...treesOnTheRight))
             return true
 
         const treesOnTheLeft = this.treeHeights[y].slice(0, x)
-        if(currentTree > Math.max(...treesOnTheLeft))
+        if (currentTree > Math.max(...treesOnTheLeft))
             return true
 
         const treesOnTheTop = this.treeHeights.slice(0, y).map((row) => row[x])
-        if(currentTree > Math.max(...treesOnTheTop))
+        if (currentTree > Math.max(...treesOnTheTop))
             return true
 
-        const treesOnTheBottom = this.treeHeights.slice(y+1).map((row) => row[x])
-        if(currentTree > Math.max(...treesOnTheBottom))
+        const treesOnTheBottom = this.treeHeights.slice(y + 1).map((row) => row[x])
+        if (currentTree > Math.max(...treesOnTheBottom))
             return true
 
         return false
