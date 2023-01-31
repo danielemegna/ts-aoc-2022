@@ -18,7 +18,7 @@ export class TreeMap {
 
         const currentTree = this.treeHeights[y][x]
 
-        const treesOnTheTop = this.treeHeights.slice(0, y).map((row) => row[x])
+        const treesOnTheTop = this.treeHeights.slice(0, y).map((row) => row[x]).reverse()
         let topScore = 0
         for(const x of treesOnTheTop) {
             topScore++;
@@ -60,11 +60,11 @@ export class TreeMap {
 
         const currentTree = this.treeHeights[y][x]
 
-        const treesOnTheTop = this.treeHeights.slice(0, y).map((row) => row[x])
+        const treesOnTheTop = this.treeHeights.slice(0, y).map((row) => row[x]).reverse()
         if (currentTree > Math.max(...treesOnTheTop))
             return true
 
-        const treesOnTheLeft = this.treeHeights[y].slice(0, x)
+        const treesOnTheLeft = this.treeHeights[y].slice(0, x).reverse()
         if (currentTree > Math.max(...treesOnTheLeft))
             return true
 

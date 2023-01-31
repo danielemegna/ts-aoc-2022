@@ -112,7 +112,9 @@ describe('second part resolution', () => {
         test('of interior trees', () => {
             expect(aTreeMap.getScenicScore([2, 1])).toBe(1 * 1 * 2 * 2)
             expect(aTreeMap.getScenicScore([2, 3])).toBe(2 * 2 * 1 * 2)
+            expect(aTreeMap.getScenicScore([3, 2])).toBe(2 * 1 * 1 * 1)
         })
+
         test('of trees on the edge (always 0)', () => {
             expect(aTreeMap.getScenicScore([0, 1])).toBe(0)
             expect(aTreeMap.getScenicScore([2, 0])).toBe(0)
