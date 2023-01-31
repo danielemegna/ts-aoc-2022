@@ -12,6 +12,10 @@ export class TreeMap {
     }
 
     getScenicScore([x, y]: Coordinate): number {
+        const mapSize: number = this.treeHeights.length
+        if (x === 0 || y === 0 || x === mapSize || y === mapSize)
+            return 0
+
         const currentTree = this.treeHeights[y][x]
 
         const treesOnTheTop = this.treeHeights.slice(0, y).map((row) => row[x])

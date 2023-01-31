@@ -108,10 +108,14 @@ describe('first part resolution', () => {
 
 describe('second part resolution', () => {
 
-    describe('TreeMap', () => {
-        test('calculate scenic score from coordinates', () => {
+    describe('calculate scenic score from coordinates', () => {
+        test('of interior trees', () => {
             expect(aTreeMap.getScenicScore([2, 1])).toBe(1 * 1 * 2 * 2)
             expect(aTreeMap.getScenicScore([2, 3])).toBe(2 * 2 * 1 * 2)
+        })
+        test('of trees on the edge (always 0)', () => {
+            expect(aTreeMap.getScenicScore([0, 1])).toBe(0)
+            expect(aTreeMap.getScenicScore([2, 0])).toBe(0)
         })
     })
 
