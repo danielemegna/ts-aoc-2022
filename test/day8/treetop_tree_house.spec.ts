@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { TreeMap, treeMapFrom, visibleTreesCount } from '../../src/day8/treetop_tree_house';
+import { highestScenicScoreFor, TreeMap, treeMapFrom, visibleTreesCount } from '../../src/day8/treetop_tree_house';
 
 const providedInputExample =
     "30373\n" +
@@ -8,6 +8,15 @@ const providedInputExample =
     "65332\n" +
     "33549\n" +
     "35390\n"
+
+const aTreeMap = new TreeMap([
+    [3, 0, 3, 7, 3],
+    [6, 5, 5, 1, 2],
+    [6, 5, 3, 3, 2],
+    [3, 3, 5, 4, 9],
+    [3, 2, 3, 9, 0]
+])
+
 
 describe('first part resolution', () => {
 
@@ -26,14 +35,6 @@ describe('first part resolution', () => {
                 expect(treeMap.getTreeHeight([4, 4])).toBe(0)
             })
         })
-
-        const aTreeMap = new TreeMap([
-            [3, 0, 3, 7, 3],
-            [6, 5, 5, 1, 2],
-            [6, 5, 3, 3, 2],
-            [3, 3, 5, 4, 9],
-            [3, 2, 3, 9, 0]
-        ])
 
         describe('check visible tree from coordinate', () => {
             test('trees on the edge are always visible', () => {
@@ -89,7 +90,7 @@ describe('first part resolution', () => {
         expect(actual).toBe(expectedVisibleOnTheEdge + expectedVisibleInTheInterior)
     })
 
-    test('solve with first provided example', () => {
+    test('solve with provided example', () => {
         const actual = visibleTreesCount(providedInputExample)
 
         const expectedVisibleOnTheEdge = 16
@@ -101,6 +102,28 @@ describe('first part resolution', () => {
         const input = readFileSync('./test/day8/input.txt', 'utf-8')
         const actual = visibleTreesCount(input)
         expect(actual).toBe(1533)
+    })
+
+})
+
+describe('second part resolution', () => {
+
+    describe('TreeMap', () => {
+        test('calculate scenic score from coordinates', () => {
+            expect(aTreeMap.getScenicScore([2, 1])).toBe(1 * 1 * 2 * 2)
+            expect(aTreeMap.getScenicScore([2, 3])).toBe(2 * 2 * 1 * 2)
+        })
+    })
+
+    test.skip('solve with provided example', () => {
+        const actual = highestScenicScoreFor(providedInputExample)
+        expect(actual).toBe(2 * 2 * 1 * 2)
+    })
+
+    test.skip('solve with input from file', () => {
+        const input = readFileSync('./test/day8/input.txt', 'utf-8')
+        const actual = highestScenicScoreFor(input)
+        expect(actual).toBe(999)
     })
 
 })
