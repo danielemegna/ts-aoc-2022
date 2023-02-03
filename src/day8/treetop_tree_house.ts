@@ -1,9 +1,32 @@
 type Coordinate = [number, number]
+type TreeHeight = number
+
+class TreeLine {
+    treeHeights: TreeHeight[]
+
+    constructor(treeHeights: TreeHeight[]) {
+        this.treeHeights = treeHeights
+    }
+
+    isLowerThan(subjectTree: TreeHeight) {
+        return subjectTree > Math.max(...this.treeHeights)
+    }
+
+    getScenicScoreFor(subjectTree: TreeHeight): number {
+        let result = 0
+        for (const x of this.treeHeights) {
+            result++;
+            if (x >= subjectTree)
+                break
+        }
+        return result
+    }
+}
 
 export class TreeMap {
-    treeHeights: number[][]
+    treeHeights: TreeHeight[][]
 
-    constructor(treeHeights: number[][]) {
+    constructor(treeHeights: TreeHeight[][]) {
         this.treeHeights = treeHeights
     }
 
@@ -26,21 +49,10 @@ export class TreeMap {
 
         const currentTree = this.treeHeights[y][x]
 
-        const treesOnTheTop = this.getTreesOnTheTop([x, y])
-        if (currentTree > Math.max(...treesOnTheTop))
-            return true
-
-        const treesOnTheLeft = this.getTreesOnTheLeft([x, y])
-        if (currentTree > Math.max(...treesOnTheLeft))
-            return true
-
-        const treesOnTheBottom = this.getTreesOnTheBottom([x, y])
-        if (currentTree > Math.max(...treesOnTheBottom))
-            return true
-
-        const treesOnTheRight = this.getTreesOnTheRight([x, y])
-        if (currentTree > Math.max(...treesOnTheRight))
-            return true
+        if (this.getTopTreeLine([x, y]).isLowerThan(currentTree)) return true
+        if (this.getLeftTreeLine([x, y]).isLowerThan(currentTree)) return true
+        if (this.getBottomTreeLine([x, y]).isLowerThan(currentTree)) return true
+        if (this.getRightTreeLine([x, y]).isLowerThan(currentTree)) return true
 
         return false
     }
@@ -65,66 +77,40 @@ export class TreeMap {
 
         const currentTreeHeight = this.getTreeHeight([x, y])
 
-        const treesOnTheTop = this.getTreesOnTheTop([x, y])
-        let topScore = 0
-        for (const x of treesOnTheTop) {
-            topScore++;
-            if (x >= currentTreeHeight)
-                break
-        }
+        const topTreeLine = this.getTopTreeLine([x, y])
+        const leftTreeLine = this.getLeftTreeLine([x, y])
+        const bottomTreeLine = this.getBottomTreeLine([x, y])
+        const rightTreeLine = this.getRightTreeLine([x, y])
 
-        const treesOnTheLeft = this.getTreesOnTheLeft([x, y])
-        let leftScore = 0
-        for (const x of treesOnTheLeft) {
-            leftScore++;
-            if (x >= currentTreeHeight)
-                break
-        }
-
-        const treesOnTheBottom = this.getTreesOnTheBottom([x, y])
-        let bottomScore = 0
-        for (const x of treesOnTheBottom) {
-            bottomScore++;
-            if (x >= currentTreeHeight)
-                break
-        }
-
-        const treesOnTheRight = this.getTreesOnTheRight([x, y])
-        let rightScore = 0
-        for (const x of treesOnTheRight) {
-            rightScore++;
-            if (x >= currentTreeHeight)
-                break
-        }
-
-        return topScore * leftScore * bottomScore * rightScore
+        return topTreeLine.getScenicScoreFor(currentTreeHeight) *
+            leftTreeLine.getScenicScoreFor(currentTreeHeight) *
+            bottomTreeLine.getScenicScoreFor(currentTreeHeight) *
+            rightTreeLine.getScenicScoreFor(currentTreeHeight)
     }
-    
 
-    getTreeHeight([x, y]: Coordinate): number {
+    getTreeHeight([x, y]: Coordinate): TreeHeight {
         return this.treeHeights[y][x]
     }
 
-    private getTreesOnTheTop([x, y]: Coordinate): any {
-        return this.treeHeights.slice(0, y).map((row) => row[x]).reverse()
+    private getTopTreeLine([x, y]: Coordinate): TreeLine {
+        return new TreeLine(this.treeHeights.slice(0, y).map((row) => row[x]).reverse())
     }
 
-    private getTreesOnTheLeft([x, y]: Coordinate): any {
-        return this.treeHeights[y].slice(0, x).reverse()
+    private getLeftTreeLine([x, y]: Coordinate): TreeLine {
+        return new TreeLine(this.treeHeights[y].slice(0, x).reverse())
     }
 
-    private getTreesOnTheBottom([x, y]: Coordinate): any {
-        return this.treeHeights.slice(y + 1).map((row) => row[x])
+    private getBottomTreeLine([x, y]: Coordinate): TreeLine {
+        return new TreeLine(this.treeHeights.slice(y + 1).map((row) => row[x]))
     }
 
-    private getTreesOnTheRight([x, y]: Coordinate): any {
-        return this.treeHeights[y].slice(x + 1)
+    private getRightTreeLine([x, y]: Coordinate): TreeLine {
+        return new TreeLine(this.treeHeights[y].slice(x + 1))
     }
-
 }
 
 export function treeMapFrom(treeMapInput: string): TreeMap {
-    const treeHeights: number[][] = treeMapInput
+    const treeHeights: TreeHeight[][] = treeMapInput
         .split("\n")
         .filter((row) => row !== "")
         .map((row) => row
