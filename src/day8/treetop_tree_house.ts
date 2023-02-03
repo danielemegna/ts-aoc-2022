@@ -90,6 +90,20 @@ export class TreeMap {
         }
         return result
     }
+
+    getHightestScenicScore(): number {
+        let max = 0
+        const mapSize = this.treeHeights.length
+        for (let y = 0; y < mapSize; y++) {
+            for (let x = 0; x < mapSize; x++) {
+                const score = this.getScenicScore([x,y])
+                if (max < score)
+                    max = score
+            }
+        }
+        return max
+
+    }
 }
 
 export function treeMapFrom(treeMapInput: string): TreeMap {
@@ -109,6 +123,7 @@ export function visibleTreesCount(input: string): number {
     return treeMap.getVisibleTreesCount()
 }
 
-export function highestScenicScoreFor(providedInputExample: string) {
-    return -1
+export function highestScenicScoreFor(input: string) {
+    const treeMap = treeMapFrom(input)
+    return treeMap.getHightestScenicScore()
 }

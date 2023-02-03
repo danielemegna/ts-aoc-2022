@@ -121,15 +121,15 @@ describe('second part resolution', () => {
         })
     })
 
-    test.skip('solve with provided example', () => {
+    test('solve with provided example', () => {
         const actual = highestScenicScoreFor(providedInputExample)
         expect(actual).toBe(2 * 2 * 1 * 2)
     })
 
-    test.skip('solve with input from file', () => {
+    test('solve with input from file', () => {
         const input = readFileSync('./test/day8/input.txt', 'utf-8')
         const actual = highestScenicScoreFor(input)
-        expect(actual).toBe(999)
+        expect(actual).toBe(345744)
     })
 
 })
