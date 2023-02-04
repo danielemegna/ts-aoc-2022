@@ -172,15 +172,15 @@ describe('first part resolution', () => {
 
     })
 
-    test.skip('solve with first provided example', () => {
+    test('solve with first provided example', () => {
         const actual = totalSizeOfSmallFolders(providedInputExample)
         expect(actual).toBe(94853 + 584)
     })
 
-    test.skip('solve with input from file', () => {
-        const input = readFileSync('./test/day6/input.txt', 'utf-8')
+    test('solve with input from file', () => {
+        const input = readFileSync('./test/day7/input.txt', 'utf-8')
         const actual = totalSizeOfSmallFolders(input)
-        expect(actual).toBe(1623)
+        expect(actual).toBe(1423358)
     })
 
 })

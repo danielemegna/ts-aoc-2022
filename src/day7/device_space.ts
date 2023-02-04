@@ -7,7 +7,22 @@ const isFile = (node: Directory | File): node is File => node.hasOwnProperty("si
 const isDirectory = (node: Directory | File): node is Directory => !isFile(node)
 
 export const totalSizeOfSmallFolders = (terminalFeed: string): number => {
-    return -1
+    const fileSystemTree = buildFileSystemTreeFrom(terminalFeed)
+    return sumOfSmallFoldersSize(fileSystemTree)
+}
+
+const sumOfSmallFoldersSize = (node: Directory): number => {
+    let result = 0
+    const mySize = totalSizeOf(node)
+    if(mySize <= 100000)
+        result += mySize
+
+    Object.entries(node).forEach(([_nodename, x]) => {
+        if(isDirectory(x))
+            result += sumOfSmallFoldersSize(x)
+    })
+
+    return result
 }
 
 export const totalSizeOf = (node: Directory | File): number => {
