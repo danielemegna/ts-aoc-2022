@@ -106,7 +106,7 @@ describe('first part resolution', () => {
             expect(actual).toStrictEqual(expected)
         })
 
-        test.skip('build filesystem tree from provided example', () => {
+        test('build filesystem tree from provided example', () => {
             const actual = buildFileSystemTreeFrom(providedInputExample)
 
             const expected = {

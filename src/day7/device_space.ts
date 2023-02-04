@@ -15,45 +15,50 @@ export const buildFileSystemTreeFrom = (terminalFeed: string): Directory => {
         .split("\n")
         .filter((row) => row !== "" && row !== "$ cd /")
 
-    const [_, fileSystemTree] = directoryFrom(terminalFeedRows)
-    return fileSystemTree
+    return directoryFrom(terminalFeedRows)
 }
 
-const directoryFrom = (terminalFeedRows: string[]): [number | undefined, Directory] => {
+const directoryFrom = (terminalFeedRows: string[]): Directory => {
     const directory: Directory = {}
+
+    let pointers: Directory[] = [directory]
 
     for (let i = 0; i < terminalFeedRows.length; i++) {
         const row = terminalFeedRows[i]
+        if(pointers.length === 0) throw new Error("Empty pointers!!")
+        const currentDir = pointers.at(-1)!
+
         if (isACommand(row)) {
 
             if (isAChangeDirCommand(row)) {
                 if (isAGoToUpperDirCommand(row)) {
-                    return [i, directory]
+                    if(pointers.length === 1) throw new Error("Cannot go upper root folder")
+                    pointers.pop()
+                    continue
                 }
 
+                // we are changing dir here
                 const dirname = row.split(" ")[2]
-                const restOfRows = terminalFeedRows.slice(i + 1)
-                const [processedRows, dir] = directoryFrom(restOfRows)
-                directory[dirname] = dir
-                if(!processedRows)
-                    break
-                i += processedRows
+                const newDir = {} as Directory
+                currentDir[dirname] = newDir
+                pointers.push(newDir)
             }
 
             continue
         }
 
+        // we are on an ls output here
         if (isADirectory(row)) {
             const dirname = parseDirectoryTerminalFeedRow(row)
-            directory[dirname] = {} as Directory
+            currentDir[dirname] = {} as Directory
         } else {
             const [filename, file] = parseFileTerminalFeedRow(row)
-            directory[filename] = file
+            currentDir[filename] = file
         }
 
     }
 
-    return [undefined, directory]
+    return directory
 }
 
 const parseDirectoryTerminalFeedRow = (terminalFeedRow: string): string => {
