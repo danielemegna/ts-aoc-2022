@@ -130,6 +130,13 @@ describe('first part resolution', () => {
             expect(actual).toStrictEqual(expected)
         })
 
+        test('build filesystem tree from input from file', () => {
+            const input = readFileSync('./test/day7/input.txt', 'utf-8')
+            const actual = buildFileSystemTreeFrom(input)
+            expect(Object.keys(actual).length).toBe(8)
+            expect(Object.keys(actual['pdzrzbtf']).length).toBe(6)
+            expect(actual['pvlvsfjw.qvw']).toStrictEqual({ size: 177917 } as File)
+        })
     })
 
     describe('directory size calculation', () => {
