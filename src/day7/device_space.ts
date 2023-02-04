@@ -15,62 +15,56 @@ export const buildFileSystemTreeFrom = (terminalFeed: string): Directory => {
         .split("\n")
         .filter((row) => row !== "" && row !== "$ cd /")
 
-    return directoryFrom(terminalFeedRows)
-}
+    const subnavigationStack: Directory[] = []
+    const rootDirectory: Directory = {}
+    let currentDir = rootDirectory
 
-const directoryFrom = (terminalFeedRows: string[]): Directory => {
-    const directory: Directory = {}
+    for (let row of terminalFeedRows) {
+        if (isAListCommand(row))
+            continue
 
-    let pointers: Directory[] = [directory]
-
-    for (let i = 0; i < terminalFeedRows.length; i++) {
-        const row = terminalFeedRows[i]
-        if(pointers.length === 0) throw new Error("Empty pointers!!")
-        const currentDir = pointers.at(-1)!
-
-        if (isACommand(row)) {
-
-            if (isAChangeDirCommand(row)) {
-                if (isAGoToUpperDirCommand(row)) {
-                    if(pointers.length === 1) throw new Error("Cannot go upper root folder")
-                    pointers.pop()
-                    continue
-                }
-
-                // we are changing dir here
-                const dirname = row.split(" ")[2]
-                const newDir = {} as Directory
-                currentDir[dirname] = newDir
-                pointers.push(newDir)
-            }
-
+        if (isAGoToUpperDirCommand(row)) {
+            if (subnavigationStack.length === 0) throw new Error("Cannot go upper root folder")
+            currentDir = subnavigationStack.pop()!
             continue
         }
 
-        // we are on an ls output here
+        if (isAChangeDirCommand(row)) {
+            subnavigationStack.push(currentDir)
+            const dirname = row.split(" ")[2]
+            const newDir = {} as Directory
+            currentDir[dirname] = newDir
+            currentDir = newDir
+            continue
+        }
+
+        // we are on `list command` output here
         if (isADirectory(row)) {
-            const dirname = parseDirectoryTerminalFeedRow(row)
-            currentDir[dirname] = {} as Directory
+            const [dirname, directory] = parseDirectoryFromListOutput(row)
+            currentDir[dirname] = directory
         } else {
-            const [filename, file] = parseFileTerminalFeedRow(row)
+            const [filename, file] = parseFileFromListOutput(row)
             currentDir[filename] = file
         }
 
     }
 
-    return directory
+    return rootDirectory
 }
 
-const parseDirectoryTerminalFeedRow = (terminalFeedRow: string): string => {
-    return terminalFeedRow.split(" ")[1]
+const parseDirectoryFromListOutput = (terminalFeedRow: string): [string, Directory] => {
+    const dirname = terminalFeedRow.split(" ")[1]
+    const newDirectory = {} as Directory
+    return [dirname, newDirectory]
 }
 
-const parseFileTerminalFeedRow = (terminalFeedRow: string): [string, File] => {
-    const [size, name] = terminalFeedRow.split(" ")
-    return [name, { size: parseInt(size) } as File]
+const parseFileFromListOutput = (terminalFeedRow: string): [string, File] => {
+    const [size, filename] = terminalFeedRow.split(" ")
+    const file = { size: parseInt(size) } as File
+    return [filename, file]
 }
 
-const isACommand = (row: string) => row.charAt(0) == "$"
+const isAListCommand = (row: string) => row === "$ ls"
 const isAChangeDirCommand = (row: string) => row.startsWith("$ cd")
 const isAGoToUpperDirCommand = (row: string) => row === "$ cd .."
 const isADirectory = (row: string) => row.startsWith("dir")
