@@ -11,26 +11,30 @@ export const totalSizeOfSmallFolders = (terminalFeed: string): number => {
     return sumOfSmallFoldersSize(fileSystemTree)
 }
 
-const sumOfSmallFoldersSize = (node: Directory): number => {
-    let result = 0
-    const mySize = totalSizeOf(node)
-    if(mySize <= 100000)
-        result += mySize
+const sumOfSmallFoldersSize = (directory: Directory): number => {
+    let sum = 0
 
-    Object.entries(node).forEach(([_nodename, x]) => {
-        if(isDirectory(x))
-            result += sumOfSmallFoldersSize(x)
-    })
+    const currentDirectorySize = totalSizeOf(directory)
+    if (!isBigFolderSize(currentDirectorySize))
+        sum += currentDirectorySize
 
-    return result
+    Object.entries(directory)
+        .filter(([_subnodeName, subnode]) => isDirectory(subnode))
+        .forEach(([_subnodeName, subnode]) => {
+            sum += sumOfSmallFoldersSize(subnode as Directory)
+        })
+
+    return sum
 }
+
+const isBigFolderSize = (size: number): boolean => size > 100_000
 
 export const totalSizeOf = (node: Directory | File): number => {
     if (isFile(node))
         return node.size
 
     return Object.entries(node)
-        .map(([_nodename, node]) => totalSizeOf(node))
+        .map(([_subnodeName, subnode]) => totalSizeOf(subnode))
         .reduce((acc, v) => acc += v, 0)
 }
 
