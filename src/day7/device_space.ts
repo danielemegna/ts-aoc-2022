@@ -29,6 +29,34 @@ const sumOfSmallFoldersSize = (directory: Directory): number => {
 
 const isBigFolderSize = (size: number): boolean => size > 100_000
 
+export const smallestDisposableDirectorySize = (terminalFeed: string): number => {
+    const fileSystemTree = buildFileSystemTreeFrom(terminalFeed)
+    const totalFileSystemSize = 70_000_000
+    const neededSpaceForUpdate = 30_000_000
+    const usedSpace = totalSizeOf(fileSystemTree)
+    const freeSpace = totalFileSystemSize - usedSpace
+    const additionalNeededSpaceForUpdate = neededSpaceForUpdate - freeSpace
+
+    const disposableDirectorySizes = findDisposableDirectorySizes(fileSystemTree, additionalNeededSpaceForUpdate)
+    return Math.min(...disposableDirectorySizes)
+}
+
+const findDisposableDirectorySizes = (directory: Directory, neededSpace: number): number[] => {
+    const disposableDirectorySizes: number[] = []
+    Object.entries(directory)
+        .filter(([_subnodeName, subnode]) => isDirectory(subnode))
+        .forEach(([_subnodeName, subnode]) => {
+            const subdirSize = totalSizeOf(subnode)
+            if (subdirSize >= neededSpace)
+                disposableDirectorySizes.push(subdirSize)
+
+            const subnodeCandidates = findDisposableDirectorySizes(subnode as Directory, neededSpace)
+            disposableDirectorySizes.push(...subnodeCandidates)
+        })
+
+    return disposableDirectorySizes
+}
+
 export const totalSizeOf = (node: Directory | File): number => {
     if (isFile(node))
         return node.size

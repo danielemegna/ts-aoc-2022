@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { buildFileSystemTreeFrom, Directory, File, totalSizeOf, totalSizeOfSmallFolders } from '../../src/day7/device_space';
+import { buildFileSystemTreeFrom, Directory, File, smallestDisposableDirectorySize, totalSizeOf, totalSizeOfSmallFolders } from '../../src/day7/device_space';
 
 const providedInputExample = `$ cd /
 $ ls
@@ -181,6 +181,21 @@ describe('first part resolution', () => {
         const input = readFileSync('./test/day7/input.txt', 'utf-8')
         const actual = totalSizeOfSmallFolders(input)
         expect(actual).toBe(1423358)
+    })
+
+})
+
+describe('second part resolution', () => {
+
+    test('solve with first provided example', () => {
+        const actual = smallestDisposableDirectorySize(providedInputExample)
+        expect(actual).toBe(24933642)
+    })
+
+    test('solve with input from file', () => {
+        const input = readFileSync('./test/day7/input.txt', 'utf-8')
+        const actual = smallestDisposableDirectorySize(input)
+        expect(actual).toBe(545729)
     })
 
 })
