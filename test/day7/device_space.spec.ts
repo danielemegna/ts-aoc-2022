@@ -29,7 +29,7 @@ $ ls
 
 describe('first part resolution', () => {
 
-    describe("build filesystem tree from terminal feed", () => {
+    describe('build filesystem tree from terminal feed', () => {
 
         test('root folder with only files', () => {
             const terminalFeed = [
