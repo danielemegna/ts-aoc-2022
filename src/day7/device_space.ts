@@ -1,13 +1,25 @@
-export type File = {
-    size: number
-}
+export type File = { size: number }
 export type Directory = {
-    [key: string]: File | Directory,
+    [key: string]: File | Directory
 }
 
+const isFile = (node: Directory | File): node is File => node.hasOwnProperty("size")
+const isDirectory = (node: Directory | File): node is Directory => !isFile(node)
 
 export const totalSizeOfSmallFolders = (terminalFeed: string): number => {
     return -1
+}
+
+export const totalSizeOf = (directory: Directory): number => {
+    let totalSize = 0
+    for(let [_nodename, node] of Object.entries(directory)) {
+        if(isFile(node)) {
+            totalSize += node.size
+        } else if(isDirectory(node)) {
+            totalSize += totalSizeOf(node)
+        }
+    }
+    return totalSize
 }
 
 export const buildFileSystemTreeFrom = (terminalFeed: string): Directory => {

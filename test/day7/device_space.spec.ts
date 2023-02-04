@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { buildFileSystemTreeFrom, Directory, File, totalSizeOfSmallFolders } from '../../src/day7/device_space';
+import { buildFileSystemTreeFrom, Directory, File, totalSizeOf, totalSizeOfSmallFolders } from '../../src/day7/device_space';
 
 const providedInputExample = `$ cd /
 $ ls
@@ -128,6 +128,39 @@ describe('first part resolution', () => {
                 } as Directory,
             } as Directory
             expect(actual).toStrictEqual(expected)
+        })
+
+    })
+
+    describe('directory size calculation', () => {
+
+        test('is zero for empty dirs', () => {
+            const directory = {} as Directory
+            const actual = totalSizeOf(directory)
+            expect(actual).toBe(0)
+        })
+
+        test('of dir with some files', () => {
+            const directory = {
+                "c.dat": { size: 8504156 } as File,
+                "d.log": { size: 8033020 } as File,
+            } as Directory
+            const actual = totalSizeOf(directory)
+            expect(actual).toBe(8504156 + 8033020)
+        })
+
+        test('of dir files and subfolders', () => {
+            const directory = {
+                "a": {
+                    "f": { size: 29116 },
+                    "g": { size: 2557 },
+                } as Directory,
+                "b.txt": { size: 14848514 } as File,
+                "c.dat": { size: 8504156 } as File,
+                "d": {} as Directory,
+            } as Directory
+            const actual = totalSizeOf(directory)
+            expect(actual).toBe(29116 + 2557 + 14848514 + 8504156)
         })
 
     })
