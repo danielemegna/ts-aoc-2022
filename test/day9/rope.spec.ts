@@ -49,5 +49,53 @@ describe('rope', () => {
         })
 
     })
+
+    describe('tail should follow head on same line when not touching', () => {
+
+        test('right move', () => {
+            const head = { x: 1, y: 0 }
+            const tail = { x: 0, y: 0 }
+            const rope = new Rope(head, tail)
+
+            rope.headMove(Direction.RIGHT)
+
+            expect(rope.head()).toStrictEqual({ x: 2, y: 0 })
+            expect(rope.tail()).toStrictEqual({ x: 1, y: 0 })
+        })
+
+        test('up move', () => {
+            const head = { x: 0, y: 1 }
+            const tail = { x: 0, y: 0 }
+            const rope = new Rope(head, tail)
+
+            rope.headMove(Direction.UP)
+
+            expect(rope.head()).toStrictEqual({ x: 0, y: 2 })
+            expect(rope.tail()).toStrictEqual({ x: 0, y: 1 })
+        })
+
+        test('left move', () => {
+            const head = { x: -1, y: 0 }
+            const tail = { x: 0, y: 0 }
+            const rope = new Rope(head, tail)
+
+            rope.headMove(Direction.LEFT)
+
+            expect(rope.head()).toStrictEqual({ x: -2, y: 0 })
+            expect(rope.tail()).toStrictEqual({ x: -1, y: 0 })
+        })
+
+        test('down move', () => {
+            const head = { x: 0, y: -1 }
+            const tail = { x: 0, y: 0 }
+            const rope = new Rope(head, tail)
+
+            rope.headMove(Direction.DOWN)
+
+            expect(rope.head()).toStrictEqual({ x: 0, y: -2 })
+            expect(rope.tail()).toStrictEqual({ x: 0, y: -1 })
+        })
+
+    })
 })
 

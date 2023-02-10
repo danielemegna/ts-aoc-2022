@@ -3,8 +3,16 @@ import { Direction } from "./rope_bridge"
 type Coordinate = { x: number, y: number }
 
 export class Rope {
-    private headCoordinate: Coordinate = { x: 0, y: 0 }
-    private tailCoordinate: Coordinate = { x: 0, y: 0 }
+    private headCoordinate: Coordinate
+    private tailCoordinate: Coordinate
+
+    constructor(
+        head: Coordinate = { x: 0, y: 0 }, 
+        tail: Coordinate = { x: 0, y: 0 }
+    ) {
+        this.headCoordinate = head
+        this.tailCoordinate = tail
+    }
 
     head(): Coordinate {
         return this.headCoordinate
@@ -29,5 +37,18 @@ export class Rope {
                 this.headCoordinate.y--
                 break
         }
+
+        this.tailMove()
+    }
+
+    private tailMove() {
+        if(this.headCoordinate.x - this.tailCoordinate.x > 1)
+            this.tailCoordinate.x++
+        if(this.headCoordinate.y - this.tailCoordinate.y > 1)
+            this.tailCoordinate.y++
+        if(this.headCoordinate.x - this.tailCoordinate.x < -1)
+            this.tailCoordinate.x--
+        if(this.headCoordinate.y - this.tailCoordinate.y < -1)
+            this.tailCoordinate.y--
     }
 }
