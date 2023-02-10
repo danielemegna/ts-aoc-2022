@@ -97,5 +97,43 @@ describe('rope', () => {
         })
 
     })
+
+    describe('tail should not follow head when touching diagonally', () => {
+
+        test('moving up from right', () => {
+            const head = { x: 1, y: 0 }
+            const tail = { x: 0, y: 0 }
+            const rope = new Rope(head, tail)
+
+            rope.headMove(Direction.UP)
+
+            expect(rope.head()).toStrictEqual({ x: 1, y: 1 })
+            expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+        })
+
+        test('moving down from right', () => {
+            const head = { x: 1, y: 0 }
+            const tail = { x: 0, y: 0 }
+            const rope = new Rope(head, tail)
+
+            rope.headMove(Direction.DOWN)
+
+            expect(rope.head()).toStrictEqual({ x: 1, y: -1 })
+            expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+        })
+
+    })
+
+    test('come back to overlapping from right', () => {
+        const head = { x: 1, y: 0 }
+        const tail = { x: 0, y: 0 }
+        const rope = new Rope(head, tail)
+
+        rope.headMove(Direction.LEFT)
+
+        expect(rope.head()).toStrictEqual({ x: 0, y: 0 })
+        expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+    })
+
 })
 
