@@ -22,6 +22,12 @@ export class Rope {
             case Direction.UP:
                 this.headCoordinate.y++
                 break
+            case Direction.LEFT:
+                this.headCoordinate.x--
+                break
+            case Direction.DOWN:
+                this.headCoordinate.y--
+                break
         }
     }
 }
