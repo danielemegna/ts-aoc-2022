@@ -7,7 +7,7 @@ export class Rope {
     private tailCoordinate: Coordinate
 
     constructor(
-        head: Coordinate = { x: 0, y: 0 }, 
+        head: Coordinate = { x: 0, y: 0 },
         tail: Coordinate = { x: 0, y: 0 }
     ) {
         this.headCoordinate = head
@@ -42,13 +42,22 @@ export class Rope {
     }
 
     private tailMove() {
-        if(this.headCoordinate.x - this.tailCoordinate.x > 1)
+        if (this.headCoordinate.x - this.tailCoordinate.x > 1)
             this.tailCoordinate.x++
-        if(this.headCoordinate.y - this.tailCoordinate.y > 1)
+
+        if (this.headCoordinate.y - this.tailCoordinate.y > 1) {
             this.tailCoordinate.y++
-        if(this.headCoordinate.x - this.tailCoordinate.x < -1)
+            if (this.headCoordinate.x - this.tailCoordinate.x > 0)
+                this.tailCoordinate.x++
+        }
+
+        if (this.headCoordinate.x - this.tailCoordinate.x < -1)
             this.tailCoordinate.x--
-        if(this.headCoordinate.y - this.tailCoordinate.y < -1)
+
+        if (this.headCoordinate.y - this.tailCoordinate.y < -1) {
             this.tailCoordinate.y--
+            if (this.headCoordinate.x - this.tailCoordinate.x > 0)
+                this.tailCoordinate.x++
+        }
     }
 }
