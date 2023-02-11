@@ -14,29 +14,29 @@ export class CathodeRayTubeMachine {
             clockNumber: 1,
             xRegisterValue: 1,
             xRegisterValueSnapshots: [
-                { clockNumber: 1, xRegisterValue: 1 }
+                { clockNumber: 0, xRegisterValue: 1 }
             ] as XRegisterValueSnapshot[]
         }
 
-        const finalMachineState = program.reduce((acc, instruction) => {
+        const finalMachineState = program.reduce((machineState, instruction) => {
             const [instructionType, instructionArgument] = instruction
-            if (instructionType === InstructionType.NOOP) {
-                acc.clockNumber++
-                return acc
-            }
 
             if (instructionType === InstructionType.ADDX) {
-                const xRegisterValueSnapshot = {
-                    clockNumber: acc.clockNumber + 2,
-                    xRegisterValue: acc.xRegisterValue + instructionArgument!
+                const numberToAdd = instructionArgument!
+                const futureClockNumber = machineState.clockNumber + 2
+                const futureXRegisterValue = machineState.xRegisterValue + numberToAdd
+                const snapshot = {
+                    clockNumber: futureClockNumber,
+                    xRegisterValue: futureXRegisterValue
                 } as XRegisterValueSnapshot
-                acc.xRegisterValueSnapshots.push(xRegisterValueSnapshot)
-                acc.xRegisterValue += instructionArgument!
-                acc.clockNumber += 2
-                return acc
+                machineState.xRegisterValueSnapshots.push(snapshot)
+                machineState.xRegisterValue += numberToAdd
+                machineState.clockNumber += 2
+                return machineState
             }
 
-            throw new Error("Unexpected instruction " + instruction)
+            machineState.clockNumber++
+            return machineState
         }, initialState)
 
         this.xRegisterValueSnapshots = finalMachineState.xRegisterValueSnapshots
