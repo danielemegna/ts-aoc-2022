@@ -8,7 +8,7 @@ export const parseInputInstructionFeed = (input: string): Program => {
         .filter((row) => row !== "")
         .map((row) => {
             const [instruction, argument] = row.split(" ")
-            switch(instruction) {
+            switch (instruction) {
                 case 'noop':
                     return [InstructionType.NOOP, null] as Instruction
                 case 'addx':
