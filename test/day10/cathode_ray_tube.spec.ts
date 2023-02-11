@@ -170,15 +170,15 @@ describe('first part resolution', () => {
         expect(actual).toStrictEqual(expected)
     })
 
-    test.skip('solve with provided example', () => {
+    test('solve with provided example', () => {
         const actual = sumOfSixInterestingSignalStrengths(providedInputExample)
         expect(actual).toBe(13140)
     })
 
-    test.skip('solve with input from file', () => {
+    test('solve with input from file', () => {
         const input = readFileSync('./test/day10/input.txt', 'utf-8')
         const actual = sumOfSixInterestingSignalStrengths(input)
-        expect(actual).toBe(9999)
+        expect(actual).toBe(12560)
     })
 
 })

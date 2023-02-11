@@ -1,3 +1,5 @@
+import { CathodeRayTubeMachine } from "./cathode_ray_tube_machine"
+
 export type Instruction = [InstructionType, number | null]
 export enum InstructionType { NOOP, ADDX }
 export type Program = Instruction[]
@@ -21,5 +23,13 @@ export const parseInputInstructionFeed = (input: string): Program => {
 
 export const sumOfSixInterestingSignalStrengths = (input: string): number => {
     const program: Program = parseInputInstructionFeed(input)
-    return -1
+    const cathodeRayTubeMachine = new CathodeRayTubeMachine()
+    cathodeRayTubeMachine.load(program)
+
+    return ([20, 60, 100, 140, 180, 220] as number[])
+        .map((clockNumber: number) => {
+            const xRegisterValue = cathodeRayTubeMachine.getXRegisterValueDuringClock(clockNumber)
+            return xRegisterValue * clockNumber
+        })
+        .reduce((acc, v) => acc += v)
 }
