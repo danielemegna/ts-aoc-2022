@@ -153,21 +153,34 @@ const providedInputExample = [
 
 describe('first part resolution', () => {
 
-    test('parse input instruction feed', () => {
-        const simpleProgramInstructionFeed = [
-            "noop",
-            "addx 3",
-            "addx -5"
-        ].join("\n") + "\n"
+    describe('instruction feed parsing', () => {
 
-        const actual = parseInputInstructionFeed(simpleProgramInstructionFeed)
+        test('parse a simple input instruction feed', () => {
+            const simpleProgramInstructionFeed = [
+                "noop",
+                "addx 3",
+                "addx -5"
+            ].join("\n") + "\n"
 
-        const expected = [
-            [InstructionType.NOOP, null] as Instruction,
-            [InstructionType.ADDX, 3] as Instruction,
-            [InstructionType.ADDX, -5] as Instruction,
-        ] as Program
-        expect(actual).toStrictEqual(expected)
+            const actual = parseInputInstructionFeed(simpleProgramInstructionFeed)
+
+            const expected = [
+                [InstructionType.NOOP, null] as Instruction,
+                [InstructionType.ADDX, 3] as Instruction,
+                [InstructionType.ADDX, -5] as Instruction,
+            ] as Program
+            expect(actual).toStrictEqual(expected)
+        })
+
+        test('parse provided input instruction feed example', () => {
+            const actual = parseInputInstructionFeed(providedInputExample)
+            expect(actual.length).toBe(146)
+            expect(actual[0]).toStrictEqual([InstructionType.ADDX, 15])
+            expect(actual[1]).toStrictEqual([InstructionType.ADDX, -11])
+            expect(actual[19]).toStrictEqual([InstructionType.ADDX, -35])
+            expect(actual[30]).toStrictEqual([InstructionType.NOOP, null])
+            expect(actual[145]).toStrictEqual([InstructionType.NOOP, null])
+        })
     })
 
     test('solve with provided example', () => {
