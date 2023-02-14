@@ -25,22 +25,26 @@ export const renderCRTScreenWith = (input: string): string => {
     const program: Program = parseInputInstructionFeed(input)
     const cathodeRayTubeMachine = new CathodeRayTubeMachine()
     cathodeRayTubeMachine.load(program)
+    return renderCRTScreen(cathodeRayTubeMachine)
+}
 
-    const CRT_ROW_LENGTH = 40
-    const CRT_ROW_NUMBER = 6
+const renderCRTScreen = (cathodeRayTubeMachine: CathodeRayTubeMachine) => {
+    const CRT_SCREEN_WIDTH = 40
+    const CRT_SCREEN_HEIGHT = 6
+    const LIT_PIXEL = "#"
+    const DARK_PIXEL = "."
 
     let result = ""
-    for (let rowNumber = 0; rowNumber < CRT_ROW_NUMBER; rowNumber++) {
-        const clockNumberOffset = CRT_ROW_LENGTH * rowNumber
-        for (let rowPixelIndex = 0; rowPixelIndex < CRT_ROW_LENGTH; rowPixelIndex++) {
-            const clockNumber = clockNumberOffset + rowPixelIndex + 1
+    for (let rowNumber = 0; rowNumber < CRT_SCREEN_HEIGHT; rowNumber++) {
+        const clockNumberRowOffset = CRT_SCREEN_WIDTH * rowNumber
+        for (let rowPixelIndex = 0; rowPixelIndex < CRT_SCREEN_WIDTH; rowPixelIndex++) {
+            const clockNumber = clockNumberRowOffset + rowPixelIndex + 1
             const xRegisterValue = cathodeRayTubeMachine.getXRegisterValueDuringClock(clockNumber)
             const shouldWriteLitPixel = xRegisterValue - 1 <= rowPixelIndex && rowPixelIndex <= xRegisterValue + 1
-            result += shouldWriteLitPixel ? "#" : "."
+            result += shouldWriteLitPixel ? LIT_PIXEL : DARK_PIXEL
         }
         result += "\n"
     }
-
     return result
 }
 
