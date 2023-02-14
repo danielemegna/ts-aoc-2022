@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { Instruction, InstructionType, parseInputInstructionFeed, Program, sumOfSixInterestingSignalStrengths } from '../../src/day10/cathode_ray_tube';
+import { Instruction, InstructionType, parseInputInstructionFeed, Program, renderCRTScreenWith, sumOfSixInterestingSignalStrengths } from '../../src/day10/cathode_ray_tube';
 
 const providedInputExample = [
     "addx 15",
@@ -192,6 +192,36 @@ describe('first part resolution', () => {
         const input = readFileSync('./test/day10/input.txt', 'utf-8')
         const actual = sumOfSixInterestingSignalStrengths(input)
         expect(actual).toBe(12560)
+    })
+
+})
+
+describe('second part resolution', () => {
+
+    test('solve with provided example', () => {
+        const actual = renderCRTScreenWith(providedInputExample)
+
+        const expected =
+            "##..##..##..##..##..##..##..##..##..##..\n" +
+            "###...###...###...###...###...###...###.\n" +
+            "####....####....####....####....####....\n" +
+            "#####.....#####.....#####.....#####.....\n" +
+            "######......######......######......####\n" +
+            "#######.......#######.......#######.....\n"
+        expect(actual).toBe(expected)
+    })
+
+    test('solve with input from file', () => {
+        const input = readFileSync('./test/day10/input.txt', 'utf-8')
+        const actual = renderCRTScreenWith(input)
+        const expected =
+            "###..#....###...##..####.###...##..#....\n" +
+            "#..#.#....#..#.#..#.#....#..#.#..#.#....\n" +
+            "#..#.#....#..#.#..#.###..###..#....#....\n" +
+            "###..#....###..####.#....#..#.#....#....\n" +
+            "#....#....#....#..#.#....#..#.#..#.#....\n" +
+            "#....####.#....#..#.#....###...##..####.\n"
+        expect(actual).toBe(expected)
     })
 
 })

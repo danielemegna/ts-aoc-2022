@@ -21,6 +21,29 @@ export const parseInputInstructionFeed = (input: string): Program => {
         })
 }
 
+export const renderCRTScreenWith = (input: string): string => {
+    const program: Program = parseInputInstructionFeed(input)
+    const cathodeRayTubeMachine = new CathodeRayTubeMachine()
+    cathodeRayTubeMachine.load(program)
+
+    const CRT_ROW_LENGTH = 40
+    const CRT_ROW_NUMBER = 6
+
+    let result = ""
+    for (let rowNumber = 0; rowNumber < CRT_ROW_NUMBER; rowNumber++) {
+        const clockNumberOffset = CRT_ROW_LENGTH * rowNumber
+        for (let rowPixelIndex = 0; rowPixelIndex < CRT_ROW_LENGTH; rowPixelIndex++) {
+            const clockNumber = clockNumberOffset + rowPixelIndex + 1
+            const xRegisterValue = cathodeRayTubeMachine.getXRegisterValueDuringClock(clockNumber)
+            const shouldWriteLitPixel = xRegisterValue - 1 <= rowPixelIndex && rowPixelIndex <= xRegisterValue + 1
+            result += shouldWriteLitPixel ? "#" : "."
+        }
+        result += "\n"
+    }
+
+    return result
+}
+
 export const sumOfSixInterestingSignalStrengths = (input: string): number => {
     const program: Program = parseInputInstructionFeed(input)
     const cathodeRayTubeMachine = new CathodeRayTubeMachine()
