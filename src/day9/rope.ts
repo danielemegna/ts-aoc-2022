@@ -43,32 +43,13 @@ export class Rope {
     }
 
     private tailMove(oldHeadCoordinate: Coordinate) {
-        // RIGHT MOVE
-        if (this.headCoordinate.x - this.tailCoordinate.x > 1) {
-            this.tailCoordinate.x++
-            if (this.headCoordinate.y - this.tailCoordinate.y != 0)
-                this.tailCoordinate = oldHeadCoordinate
-        }
+        const areAbscissasTooFar = Math.abs(this.head().x - this.tail().x) > 1
+        const areOrdinatesTooFar = Math.abs(this.head().y - this.tail().y) > 1
+        const areHeadAndTailTouching = !areAbscissasTooFar && !areOrdinatesTooFar
 
-        // UP MOVE
-        if (this.headCoordinate.y - this.tailCoordinate.y > 1) {
-            this.tailCoordinate.y++
-            if (this.headCoordinate.x - this.tailCoordinate.x != 0)
-                this.tailCoordinate = oldHeadCoordinate
-        }
+        if (areHeadAndTailTouching)
+            return
 
-        // LEFT MOVE
-        if (this.headCoordinate.x - this.tailCoordinate.x < -1) {
-            this.tailCoordinate.x--
-            if (this.headCoordinate.y - this.tailCoordinate.y != 0)
-                this.tailCoordinate = oldHeadCoordinate
-        }
-
-        // DOWN MOVE
-        if (this.headCoordinate.y - this.tailCoordinate.y < -1) {
-            this.tailCoordinate.y--
-            if (this.headCoordinate.x - this.tailCoordinate.x != 0)
-                this.tailCoordinate = oldHeadCoordinate
-        }
+        this.tailCoordinate = oldHeadCoordinate
     }
 }
