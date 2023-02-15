@@ -29,15 +29,15 @@ describe('first part resolution', () => {
         expect(actual).toStrictEqual(expected)
     })
 
-    test.skip('solve with provided example', () => {
+    test('solve with provided example', () => {
         const actual = positionsVisitedByTail(providedInputExample)
         expect(actual).toBe(13)
     })
 
-    test.skip('solve with input from file', () => {
+    test('solve with input from file', () => {
         const input = readFileSync('./test/day9/input.txt', 'utf-8')
         const actual = positionsVisitedByTail(input)
-        expect(actual).toBe(9999)
+        expect(actual).toBe(6037)
     })
 
 })

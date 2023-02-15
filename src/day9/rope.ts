@@ -1,6 +1,6 @@
 import { Direction } from "./rope_bridge"
 
-type Coordinate = { x: number, y: number }
+export type Coordinate = { x: number, y: number }
 
 export class Rope {
     private headCoordinate: Coordinate

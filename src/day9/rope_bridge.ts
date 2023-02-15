@@ -1,8 +1,21 @@
+import { Coordinate, Rope } from "./rope"
+
 export enum Direction { UP, LEFT, RIGHT, DOWN }
 export type Motion = { direction: Direction, steps: number }
 
 export const positionsVisitedByTail = (seriesOfMotionRaw: string): number => {
-    throw new Error('Function not implemented.');
+    const motions = parseSeriesOfMotions(seriesOfMotionRaw)
+    const rope = new Rope()
+    const visitedCoordinates: Coordinate[] = []
+    for (const motion of motions) {
+        for (let i = 0; i < motion.steps; i++) {
+            rope.headMove(motion.direction)
+            const visitedCoordinate = rope.tail()
+            if (!visitedCoordinates.some((c) => c.x == visitedCoordinate.x && c.y == visitedCoordinate.y))
+                visitedCoordinates.push(visitedCoordinate)
+        }
+    }
+    return visitedCoordinates.length
 }
 
 export const parseSeriesOfMotions = (seriesOfMotionRaw: string): Motion[] => {
