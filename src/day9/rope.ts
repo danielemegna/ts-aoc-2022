@@ -23,6 +23,7 @@ export class Rope {
     }
 
     headMove(direction: Direction) {
+        const oldHeadCoordinate = { ...this.headCoordinate }
         switch (direction) {
             case Direction.RIGHT:
                 this.headCoordinate.x++
@@ -38,36 +39,36 @@ export class Rope {
                 break
         }
 
-        this.tailMove()
+        this.tailMove(oldHeadCoordinate)
     }
 
-    private tailMove() {
+    private tailMove(oldHeadCoordinate: Coordinate) {
         // RIGHT MOVE
         if (this.headCoordinate.x - this.tailCoordinate.x > 1) {
             this.tailCoordinate.x++
-            if (this.headCoordinate.y - this.tailCoordinate.y > 0)
-                this.tailCoordinate.y++
+            if (this.headCoordinate.y - this.tailCoordinate.y != 0)
+                this.tailCoordinate = oldHeadCoordinate
         }
 
         // UP MOVE
         if (this.headCoordinate.y - this.tailCoordinate.y > 1) {
             this.tailCoordinate.y++
-            if (this.headCoordinate.x - this.tailCoordinate.x > 0)
-                this.tailCoordinate.x++
+            if (this.headCoordinate.x - this.tailCoordinate.x != 0)
+                this.tailCoordinate = oldHeadCoordinate
         }
 
         // LEFT MOVE
         if (this.headCoordinate.x - this.tailCoordinate.x < -1) {
             this.tailCoordinate.x--
-            if (this.headCoordinate.y - this.tailCoordinate.y > 0)
-                this.tailCoordinate.y++
+            if (this.headCoordinate.y - this.tailCoordinate.y != 0)
+                this.tailCoordinate = oldHeadCoordinate
         }
 
         // DOWN MOVE
         if (this.headCoordinate.y - this.tailCoordinate.y < -1) {
             this.tailCoordinate.y--
-            if (this.headCoordinate.x - this.tailCoordinate.x > 0)
-                this.tailCoordinate.x++
+            if (this.headCoordinate.x - this.tailCoordinate.x != 0)
+                this.tailCoordinate = oldHeadCoordinate
         }
     }
 }

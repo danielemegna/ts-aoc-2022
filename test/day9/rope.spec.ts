@@ -179,6 +179,28 @@ describe('rope', () => {
                 expect(rope.tail()).toStrictEqual({ x: -1, y: 1 })
             })
         })
+
+        describe('from bottom-left', () => {
+            const head = { x: -1, y: -1 }
+            const tail = { x: 0, y: 0 }
+            let rope: Rope
+
+            beforeEach(() => {
+                rope = new Rope(head, tail)
+            })
+
+            test('moving left', () => {
+                rope.headMove(Direction.LEFT)
+                expect(rope.head()).toStrictEqual({ x: -2, y: -1 })
+                expect(rope.tail()).toStrictEqual({ x: -1, y: -1 })
+            })
+
+            test('moving down', () => {
+                rope.headMove(Direction.DOWN)
+                expect(rope.head()).toStrictEqual({ x: -1, y: -2 })
+                expect(rope.tail()).toStrictEqual({ x: -1, y: -1 })
+            })
+        })
     })
 
     test('come back to overlapping from right', () => {
