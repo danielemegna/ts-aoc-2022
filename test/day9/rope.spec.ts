@@ -162,6 +162,12 @@ describe('rope', () => {
                 expect(rope.head()).toStrictEqual({ x: 1, y: -2 })
                 expect(rope.tail()).toStrictEqual({ x: 1, y: -1 })
             })
+
+            test('moving right', () => {
+                rope.headMove(Direction.RIGHT)
+                expect(rope.head()).toStrictEqual({ x: 2, y: -1 })
+                expect(rope.tail()).toStrictEqual({ x: 1, y: -1 })
+            })
         })
 
         describe('from top-left', () => {
@@ -176,6 +182,12 @@ describe('rope', () => {
             test('moving left', () => {
                 rope.headMove(Direction.LEFT)
                 expect(rope.head()).toStrictEqual({ x: -2, y: 1 })
+                expect(rope.tail()).toStrictEqual({ x: -1, y: 1 })
+            })
+
+            test('moving up', () => {
+                rope.headMove(Direction.UP)
+                expect(rope.head()).toStrictEqual({ x: -1, y: 2 })
                 expect(rope.tail()).toStrictEqual({ x: -1, y: 1 })
             })
         })
