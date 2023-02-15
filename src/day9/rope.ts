@@ -42,18 +42,28 @@ export class Rope {
     }
 
     private tailMove() {
-        if (this.headCoordinate.x - this.tailCoordinate.x > 1)
+        // RIGHT MOVE
+        if (this.headCoordinate.x - this.tailCoordinate.x > 1) {
             this.tailCoordinate.x++
+            if (this.headCoordinate.y - this.tailCoordinate.y > 0)
+                this.tailCoordinate.y++
+        }
 
+        // UP MOVE
         if (this.headCoordinate.y - this.tailCoordinate.y > 1) {
             this.tailCoordinate.y++
             if (this.headCoordinate.x - this.tailCoordinate.x > 0)
                 this.tailCoordinate.x++
         }
 
-        if (this.headCoordinate.x - this.tailCoordinate.x < -1)
+        // LEFT MOVE
+        if (this.headCoordinate.x - this.tailCoordinate.x < -1) {
             this.tailCoordinate.x--
+            if (this.headCoordinate.y - this.tailCoordinate.y > 0)
+                this.tailCoordinate.y++
+        }
 
+        // DOWN MOVE
         if (this.headCoordinate.y - this.tailCoordinate.y < -1) {
             this.tailCoordinate.y--
             if (this.headCoordinate.x - this.tailCoordinate.x > 0)
