@@ -15,15 +15,15 @@ export class Rope {
     }
 
     head(): Coordinate {
-        return this.headCoordinate
+        return { ...this.headCoordinate }
     }
 
     tail(): Coordinate {
-        return this.tailCoordinate
+        return { ...this.tailCoordinate }
     }
 
     headMove(direction: Direction) {
-        const oldHeadCoordinate = { ...this.headCoordinate }
+        const oldHeadCoordinate = this.head()
         switch (direction) {
             case Direction.RIGHT:
                 this.headCoordinate.x++
