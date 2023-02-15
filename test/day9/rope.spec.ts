@@ -125,6 +125,7 @@ describe('rope', () => {
     })
 
     describe('tail should follow head diagonally when not touching and are not in the same lines', () => {
+
         describe('from top-right', () => {
             const head = { x: 1, y: 1 }
             const tail = { x: 0, y: 0 }
@@ -132,7 +133,7 @@ describe('rope', () => {
 
             beforeEach(() => {
                 rope = new Rope(head, tail)
-            });
+            })
 
             test('moving up', () => {
                 rope.headMove(Direction.UP)
@@ -147,26 +148,36 @@ describe('rope', () => {
             })
         })
 
-        test('moving down from bottom-right', () => {
+        describe('from bottom-right', () => {
             const head = { x: 1, y: -1 }
             const tail = { x: 0, y: 0 }
-            const rope = new Rope(head, tail)
+            let rope: Rope
 
-            rope.headMove(Direction.DOWN)
+            beforeEach(() => {
+                rope = new Rope(head, tail)
+            })
 
-            expect(rope.head()).toStrictEqual({ x: 1, y: -2 })
-            expect(rope.tail()).toStrictEqual({ x: 1, y: -1 })
+            test('moving down', () => {
+                rope.headMove(Direction.DOWN)
+                expect(rope.head()).toStrictEqual({ x: 1, y: -2 })
+                expect(rope.tail()).toStrictEqual({ x: 1, y: -1 })
+            })
         })
 
-        test('moving left from top-left', () => {
+        describe('from top-left', () => {
             const head = { x: -1, y: 1 }
             const tail = { x: 0, y: 0 }
-            const rope = new Rope(head, tail)
+            let rope: Rope
 
-            rope.headMove(Direction.LEFT)
+            beforeEach(() => {
+                rope = new Rope(head, tail)
+            })
 
-            expect(rope.head()).toStrictEqual({ x: -2, y: 1 })
-            expect(rope.tail()).toStrictEqual({ x: -1, y: 1 })
+            test('moving left', () => {
+                rope.headMove(Direction.LEFT)
+                expect(rope.head()).toStrictEqual({ x: -2, y: 1 })
+                expect(rope.tail()).toStrictEqual({ x: -1, y: 1 })
+            })
         })
     })
 
