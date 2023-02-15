@@ -125,15 +125,26 @@ describe('rope', () => {
     })
 
     describe('tail should follow head diagonally when not touching and are not in the same lines', () => {
-        test('moving up from top-right', () => {
+        describe('from top-right', () => {
             const head = { x: 1, y: 1 }
             const tail = { x: 0, y: 0 }
-            const rope = new Rope(head, tail)
+            let rope: Rope
 
-            rope.headMove(Direction.UP)
+            beforeEach(() => {
+                rope = new Rope(head, tail)
+            });
 
-            expect(rope.head()).toStrictEqual({ x: 1, y: 2 })
-            expect(rope.tail()).toStrictEqual({ x: 1, y: 1 })
+            test('moving up', () => {
+                rope.headMove(Direction.UP)
+                expect(rope.head()).toStrictEqual({ x: 1, y: 2 })
+                expect(rope.tail()).toStrictEqual({ x: 1, y: 1 })
+            })
+
+            test('moving right', () => {
+                rope.headMove(Direction.RIGHT)
+                expect(rope.head()).toStrictEqual({ x: 2, y: 1 })
+                expect(rope.tail()).toStrictEqual({ x: 1, y: 1 })
+            })
         })
 
         test('moving down from bottom-right', () => {
@@ -145,17 +156,6 @@ describe('rope', () => {
 
             expect(rope.head()).toStrictEqual({ x: 1, y: -2 })
             expect(rope.tail()).toStrictEqual({ x: 1, y: -1 })
-        })
-
-        test('moving right from top-right', () => {
-            const head = { x: 1, y: 1 }
-            const tail = { x: 0, y: 0 }
-            const rope = new Rope(head, tail)
-
-            rope.headMove(Direction.RIGHT)
-
-            expect(rope.head()).toStrictEqual({ x: 2, y: 1 })
-            expect(rope.tail()).toStrictEqual({ x: 1, y: 1 })
         })
 
         test('moving left from top-left', () => {
