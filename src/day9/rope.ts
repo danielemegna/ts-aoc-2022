@@ -10,8 +10,8 @@ export class Rope {
         head: Coordinate = { x: 0, y: 0 },
         tail: Coordinate = { x: 0, y: 0 }
     ) {
-        this.headCoordinate = head
-        this.tailCoordinate = tail
+        this.headCoordinate = { ...head }
+        this.tailCoordinate = { ...tail }
     }
 
     head(): Coordinate {
