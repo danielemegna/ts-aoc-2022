@@ -23,7 +23,6 @@ export class Rope {
     }
 
     headMove(direction: Direction) {
-        const oldHeadCoordinate = this.head()
         switch (direction) {
             case Direction.RIGHT:
                 this.headCoordinate.x++
@@ -37,12 +36,28 @@ export class Rope {
             case Direction.DOWN:
                 this.headCoordinate.y--
                 break
+            case Direction.RIGHT_UP:
+                this.headCoordinate.x++
+                this.headCoordinate.y++
+                break
+            case Direction.RIGHT_DOWN:
+                this.headCoordinate.x++
+                this.headCoordinate.y--
+                break
+            case Direction.LEFT_UP:
+                this.headCoordinate.x--
+                this.headCoordinate.y++
+                break
+            case Direction.LEFT_DOWN:
+                this.headCoordinate.x--
+                this.headCoordinate.y--
+                break
         }
 
-        this.tailMove(oldHeadCoordinate)
+        this.tailMove()
     }
 
-    private tailMove(oldHeadCoordinate: Coordinate) {
+    private tailMove() {
         const areAbscissasTooFar = Math.abs(this.head().x - this.tail().x) > 1
         const areOrdinatesTooFar = Math.abs(this.head().y - this.tail().y) > 1
         const areHeadAndTailTouching = !areAbscissasTooFar && !areOrdinatesTooFar
@@ -50,6 +65,13 @@ export class Rope {
         if (areHeadAndTailTouching)
             return
 
-        this.tailCoordinate = oldHeadCoordinate
+        if(this.headCoordinate.x > this.tailCoordinate.x)
+            this.tailCoordinate.x++
+        if(this.headCoordinate.x < this.tailCoordinate.x)
+            this.tailCoordinate.x--
+        if(this.headCoordinate.y > this.tailCoordinate.y)
+            this.tailCoordinate.y++
+        if(this.headCoordinate.y < this.tailCoordinate.y)
+            this.tailCoordinate.y--
     }
 }

@@ -1,6 +1,10 @@
 import { Coordinate, Rope } from "./rope"
 
-export enum Direction { UP, LEFT, RIGHT, DOWN }
+export enum Direction {
+    UP, LEFT, RIGHT, DOWN,
+    RIGHT_UP, RIGHT_DOWN,
+    LEFT_UP, LEFT_DOWN
+}
 export type Motion = { direction: Direction, steps: number }
 
 export const positionsVisitedByTail = (seriesOfMotionRaw: string): number => {
