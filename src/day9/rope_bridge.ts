@@ -10,7 +10,7 @@ export type Motion = { direction: Direction, steps: number }
 
 export const positionsVisitedByTail = (seriesOfMotionRaw: string, knotsNumber: number = 2): number => {
     const motions = parseSeriesOfMotions(seriesOfMotionRaw)
-    const rope = new Rope()
+    const rope = new Rope(knotsNumber)
     const visitedCoordinates: Coordinate[] = []
     for (const motion of motions) {
         for (let i = 0; i < motion.steps; i++) {

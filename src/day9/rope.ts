@@ -4,11 +4,11 @@ import { Direction } from "./rope_bridge"
 export class Rope {
     private knots: Knot[]
 
-    constructor() {
-        this.knots = [
-            new Knot({ x: 0, y: 0 }),
-            new Knot({ x: 0, y: 0 })
-        ]
+    constructor(knotsNumber: number) {
+        this.knots = []
+        for (let i = 0; i < knotsNumber; i++) {
+            this.knots.push(new Knot({ x: 0, y: 0 }))
+        }
     }
 
     tailCoordinate(): Coordinate {
@@ -17,7 +17,9 @@ export class Rope {
 
     headMove(direction: Direction): void {
         this.head().move(direction)
-        this.lastKnot().follow(this.head().getCoordinate())
+        for (let i = 1; i < this.knots.length; i++) {
+            this.knots.at(i)!.follow(this.knots.at(i - 1)!.getCoordinate())
+        }
     }
 
     private head(): Knot {

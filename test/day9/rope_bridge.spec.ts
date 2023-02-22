@@ -68,19 +68,19 @@ describe('second part resolution', () => {
         expect(actual).toStrictEqual(expected)
     })
 
-    test.skip('solve with provided example', () => {
+    test('solve with provided example', () => {
         const actual = positionsVisitedByTail(providedInputExample, 10)
         expect(actual).toBe(1)
     })
 
-    test.skip('solve with larger provided example', () => {
+    test('solve with larger provided example', () => {
         const actual = positionsVisitedByTail(providedLargerInputExample, 10)
         expect(actual).toBe(36)
     })
 
-    test.skip('solve with input from file', () => {
+    test('solve with input from file', () => {
         const input = readFileSync('./test/day9/input.txt', 'utf-8')
         const actual = positionsVisitedByTail(input, 10)
-        expect(actual).toBe(9999999)
+        expect(actual).toBe(2485)
     })
 })
