@@ -7,7 +7,7 @@ export enum Direction {
 }
 export type Motion = { direction: Direction, steps: number }
 
-export const positionsVisitedByTail = (seriesOfMotionRaw: string): number => {
+export const positionsVisitedByTail = (seriesOfMotionRaw: string, knotsNumber: number = 2): number => {
     const motions = parseSeriesOfMotions(seriesOfMotionRaw)
     const rope = new Rope()
     const visitedCoordinates: Coordinate[] = []
