@@ -3,75 +3,84 @@ import { Direction } from "./rope_bridge"
 export type Coordinate = { x: number, y: number }
 
 export class Rope {
-    private head: Coordinate
-    private tail: Coordinate
+    private knots: Coordinate[]
 
     constructor(
         headCoordinate: Coordinate = { x: 0, y: 0 },
         tailCoordinate: Coordinate = { x: 0, y: 0 }
     ) {
-        this.head = { ...headCoordinate }
-        this.tail = { ...tailCoordinate }
+        this.knots = [
+            {...headCoordinate},
+            {...tailCoordinate}
+        ]
     }
 
     headCoordinate(): Coordinate {
-        return { ...this.head }
+        return {...this.head()}
     }
 
     tailCoordinate(): Coordinate {
-        return { ...this.tail }
+        return {...this.knots.at(-1)!}
+    }
+
+    private head(): Coordinate {
+        return this.knots.at(0)!
     }
 
     headMove(direction: Direction) {
         switch (direction) {
             case Direction.RIGHT:
-                this.head.x++
+                this.head().x++
                 break
             case Direction.UP:
-                this.head.y++
+                this.head().y++
                 break
             case Direction.LEFT:
-                this.head.x--
+                this.head().x--
                 break
             case Direction.DOWN:
-                this.head.y--
+                this.head().y--
                 break
             case Direction.RIGHT_UP:
-                this.head.x++
-                this.head.y++
+                this.head().x++
+                this.head().y++
                 break
             case Direction.RIGHT_DOWN:
-                this.head.x++
-                this.head.y--
+                this.head().x++
+                this.head().y--
                 break
             case Direction.LEFT_UP:
-                this.head.x--
-                this.head.y++
+                this.head().x--
+                this.head().y++
                 break
             case Direction.LEFT_DOWN:
-                this.head.x--
-                this.head.y--
+                this.head().x--
+                this.head().y--
                 break
         }
 
-        this.tailMove()
+        this.moveKnotsFollowingHead()
     }
 
-    private tailMove() {
-        const areAbscissasTooFar = Math.abs(this.head.x - this.tail.x) > 1
-        const areOrdinatesTooFar = Math.abs(this.head.y - this.tail.y) > 1
-        const areHeadAndTailTouching = !areAbscissasTooFar && !areOrdinatesTooFar
+    private moveKnotsFollowingHead() {
+        const currentKnotIndex = 1 // todo: this will be a recursive index for entire knots array
+        const currentKnot = this.knots.at(currentKnotIndex)!
+        const nextKnot = this.knots.at(currentKnotIndex-1)!
 
-        if (areHeadAndTailTouching)
+        const areAbscissasTooFar = Math.abs(nextKnot.x - currentKnot.x) > 1
+        const areOrdinatesTooFar = Math.abs(nextKnot.y - currentKnot.y) > 1
+        const areKnotsTouching = !areAbscissasTooFar && !areOrdinatesTooFar
+
+        if (areKnotsTouching)
             return
 
-        if(this.head.x > this.tail.x)
-            this.tail.x++
-        if(this.head.x < this.tail.x)
-            this.tail.x--
-        if(this.head.y > this.tail.y)
-            this.tail.y++
-        if(this.head.y < this.tail.y)
-            this.tail.y--
+        if (nextKnot.x > currentKnot.x)
+            currentKnot.x++
+        if (nextKnot.x < currentKnot.x)
+            currentKnot.x--
+        if (nextKnot.y > currentKnot.y)
+            currentKnot.y++
+        if (nextKnot.y < currentKnot.y)
+            currentKnot.y--
     }
 }
