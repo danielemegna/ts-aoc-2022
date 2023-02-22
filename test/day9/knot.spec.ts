@@ -2,8 +2,24 @@
 import { expect, test } from '@jest/globals';
 import { Knot } from '../../src/day9/knot';
 import { Coordinate, Rope } from '../../src/day9/rope';
+import { Direction } from '../../src/day9/rope_bridge';
 
 describe('knot', () => {
+
+    test('move knot', () => {
+
+        assertCoordinateAfterMove(Direction.UP, { x: 0, y: 1 })
+        assertCoordinateAfterMove(Direction.LEFT, { x: -1, y: 0 })
+        assertCoordinateAfterMove(Direction.DOWN, { x: 0, y: -1 })
+        assertCoordinateAfterMove(Direction.RIGHT, { x: 1, y: 0 })
+
+        function assertCoordinateAfterMove(direction: Direction, expected: Coordinate) {
+            const knot = new Knot()
+            knot.move(direction)
+            expect(knot.getCoordinate()).toStrictEqual(expected)
+        }
+
+    })
 
     describe('follow a coordinate', () => {
 

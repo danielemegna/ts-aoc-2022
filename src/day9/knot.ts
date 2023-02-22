@@ -1,14 +1,33 @@
 import { Coordinate } from "./rope";
+import { Direction } from "./rope_bridge";
 
 export class Knot {
     private coordinate: Coordinate
 
-    constructor(initialCoordinate: Coordinate) {
+    constructor(initialCoordinate: Coordinate = { x: 0, y: 0 }) {
         this.coordinate = { ...initialCoordinate }
     }
 
     getCoordinate(): Coordinate {
         return { ...this.coordinate }
+    }
+
+    move(direction: Direction) {
+        switch (direction) {
+            case Direction.RIGHT:
+                this.coordinate.x++
+                break
+            case Direction.UP:
+                this.coordinate.y++
+                break
+            case Direction.LEFT:
+                this.coordinate.x--
+                break
+            case Direction.DOWN:
+                this.coordinate.y--
+                break
+        }
+
     }
 
     follow(coordinateToFollow: Coordinate) {
