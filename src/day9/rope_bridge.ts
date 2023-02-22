@@ -14,7 +14,7 @@ export const positionsVisitedByTail = (seriesOfMotionRaw: string, knotsNumber: n
     for (const motion of motions) {
         for (let i = 0; i < motion.steps; i++) {
             rope.headMove(motion.direction)
-            const visitedCoordinate = rope.tail()
+            const visitedCoordinate = rope.tailCoordinate()
             if (!visitedCoordinates.some((c) => c.x == visitedCoordinate.x && c.y == visitedCoordinate.y))
                 visitedCoordinates.push(visitedCoordinate)
         }

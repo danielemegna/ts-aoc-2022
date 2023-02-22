@@ -6,8 +6,8 @@ describe('rope', () => {
 
     test('new rope head and tail coordinates', () => {
         const rope = new Rope()
-        expect(rope.head()).toStrictEqual({ x: 0, y: 0 })
-        expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+        expect(rope.headCoordinate()).toStrictEqual({ x: 0, y: 0 })
+        expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
     })
 
     describe('move with head and tail overlapping only moves head', () => {
@@ -17,8 +17,8 @@ describe('rope', () => {
 
             rope.headMove(Direction.RIGHT)
 
-            expect(rope.head()).toStrictEqual({ x: 1, y: 0 })
-            expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+            expect(rope.headCoordinate()).toStrictEqual({ x: 1, y: 0 })
+            expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
         })
 
         test('up', () => {
@@ -26,8 +26,8 @@ describe('rope', () => {
 
             rope.headMove(Direction.UP)
 
-            expect(rope.head()).toStrictEqual({ x: 0, y: 1 })
-            expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+            expect(rope.headCoordinate()).toStrictEqual({ x: 0, y: 1 })
+            expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
         })
 
         test('left', () => {
@@ -35,8 +35,8 @@ describe('rope', () => {
 
             rope.headMove(Direction.LEFT)
 
-            expect(rope.head()).toStrictEqual({ x: -1, y: 0 })
-            expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+            expect(rope.headCoordinate()).toStrictEqual({ x: -1, y: 0 })
+            expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
         })
 
         test('down', () => {
@@ -44,8 +44,8 @@ describe('rope', () => {
 
             rope.headMove(Direction.DOWN)
 
-            expect(rope.head()).toStrictEqual({ x: 0, y: -1 })
-            expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+            expect(rope.headCoordinate()).toStrictEqual({ x: 0, y: -1 })
+            expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
         })
 
     })
@@ -59,8 +59,8 @@ describe('rope', () => {
 
             rope.headMove(Direction.RIGHT)
 
-            expect(rope.head()).toStrictEqual({ x: 2, y: 0 })
-            expect(rope.tail()).toStrictEqual({ x: 1, y: 0 })
+            expect(rope.headCoordinate()).toStrictEqual({ x: 2, y: 0 })
+            expect(rope.tailCoordinate()).toStrictEqual({ x: 1, y: 0 })
         })
 
         test('up move', () => {
@@ -70,8 +70,8 @@ describe('rope', () => {
 
             rope.headMove(Direction.UP)
 
-            expect(rope.head()).toStrictEqual({ x: 0, y: 2 })
-            expect(rope.tail()).toStrictEqual({ x: 0, y: 1 })
+            expect(rope.headCoordinate()).toStrictEqual({ x: 0, y: 2 })
+            expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 1 })
         })
 
         test('left move', () => {
@@ -81,8 +81,8 @@ describe('rope', () => {
 
             rope.headMove(Direction.LEFT)
 
-            expect(rope.head()).toStrictEqual({ x: -2, y: 0 })
-            expect(rope.tail()).toStrictEqual({ x: -1, y: 0 })
+            expect(rope.headCoordinate()).toStrictEqual({ x: -2, y: 0 })
+            expect(rope.tailCoordinate()).toStrictEqual({ x: -1, y: 0 })
         })
 
         test('down move', () => {
@@ -92,8 +92,8 @@ describe('rope', () => {
 
             rope.headMove(Direction.DOWN)
 
-            expect(rope.head()).toStrictEqual({ x: 0, y: -2 })
-            expect(rope.tail()).toStrictEqual({ x: 0, y: -1 })
+            expect(rope.headCoordinate()).toStrictEqual({ x: 0, y: -2 })
+            expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: -1 })
         })
 
     })
@@ -109,8 +109,8 @@ describe('rope', () => {
 
                 rope.headMove(Direction.UP)
 
-                expect(rope.head()).toStrictEqual({ x: 1, y: 1 })
-                expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: 1, y: 1 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
             })
 
             test('moving down from right', () => {
@@ -120,8 +120,8 @@ describe('rope', () => {
 
                 rope.headMove(Direction.DOWN)
 
-                expect(rope.head()).toStrictEqual({ x: 1, y: -1 })
-                expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: 1, y: -1 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
             })
         })
 
@@ -134,8 +134,8 @@ describe('rope', () => {
 
                 rope.headMove(Direction.LEFT)
 
-                expect(rope.head()).toStrictEqual({ x: 0, y: 1 })
-                expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: 0, y: 1 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
             })
 
             test('moving up from bottom-right', () => {
@@ -145,8 +145,8 @@ describe('rope', () => {
 
                 rope.headMove(Direction.UP)
 
-                expect(rope.head()).toStrictEqual({ x: 1, y: 0 })
-                expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: 1, y: 0 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
             })
         })
 
@@ -165,20 +165,20 @@ describe('rope', () => {
 
             test('moving up', () => {
                 rope.headMove(Direction.UP)
-                expect(rope.head()).toStrictEqual({ x: 1, y: 2 })
-                expect(rope.tail()).toStrictEqual({ x: 1, y: 1 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: 1, y: 2 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: 1, y: 1 })
             })
 
             test('moving right', () => {
                 rope.headMove(Direction.RIGHT)
-                expect(rope.head()).toStrictEqual({ x: 2, y: 1 })
-                expect(rope.tail()).toStrictEqual({ x: 1, y: 1 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: 2, y: 1 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: 1, y: 1 })
             })
 
             test('moving right-up', () => {
                 rope.headMove(Direction.RIGHT_UP)
-                expect(rope.head()).toStrictEqual({ x: 2, y: 2 })
-                expect(rope.tail()).toStrictEqual({ x: 1, y: 1 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: 2, y: 2 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: 1, y: 1 })
             })
         })
 
@@ -193,14 +193,14 @@ describe('rope', () => {
 
             test('moving down', () => {
                 rope.headMove(Direction.DOWN)
-                expect(rope.head()).toStrictEqual({ x: 1, y: -2 })
-                expect(rope.tail()).toStrictEqual({ x: 1, y: -1 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: 1, y: -2 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: 1, y: -1 })
             })
 
             test('moving right', () => {
                 rope.headMove(Direction.RIGHT)
-                expect(rope.head()).toStrictEqual({ x: 2, y: -1 })
-                expect(rope.tail()).toStrictEqual({ x: 1, y: -1 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: 2, y: -1 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: 1, y: -1 })
             })
         })
 
@@ -215,14 +215,14 @@ describe('rope', () => {
 
             test('moving left', () => {
                 rope.headMove(Direction.LEFT)
-                expect(rope.head()).toStrictEqual({ x: -2, y: 1 })
-                expect(rope.tail()).toStrictEqual({ x: -1, y: 1 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: -2, y: 1 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: -1, y: 1 })
             })
 
             test('moving up', () => {
                 rope.headMove(Direction.UP)
-                expect(rope.head()).toStrictEqual({ x: -1, y: 2 })
-                expect(rope.tail()).toStrictEqual({ x: -1, y: 1 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: -1, y: 2 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: -1, y: 1 })
             })
         })
 
@@ -237,14 +237,14 @@ describe('rope', () => {
 
             test('moving left', () => {
                 rope.headMove(Direction.LEFT)
-                expect(rope.head()).toStrictEqual({ x: -2, y: -1 })
-                expect(rope.tail()).toStrictEqual({ x: -1, y: -1 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: -2, y: -1 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: -1, y: -1 })
             })
 
             test('moving down', () => {
                 rope.headMove(Direction.DOWN)
-                expect(rope.head()).toStrictEqual({ x: -1, y: -2 })
-                expect(rope.tail()).toStrictEqual({ x: -1, y: -1 })
+                expect(rope.headCoordinate()).toStrictEqual({ x: -1, y: -2 })
+                expect(rope.tailCoordinate()).toStrictEqual({ x: -1, y: -1 })
             })
         })
 
@@ -261,20 +261,20 @@ describe('rope', () => {
 
                 test('moving right-up', () => {
                     rope.headMove(Direction.RIGHT_UP)
-                    expect(rope.head()).toStrictEqual({ x: 2, y: 1 })
-                    expect(rope.tail()).toStrictEqual({ x: 1, y: 1 })
+                    expect(rope.headCoordinate()).toStrictEqual({ x: 2, y: 1 })
+                    expect(rope.tailCoordinate()).toStrictEqual({ x: 1, y: 1 })
                 })
 
                 test('moving right-down', () => {
                     rope.headMove(Direction.RIGHT_DOWN)
-                    expect(rope.head()).toStrictEqual({ x: 2, y: -1 })
-                    expect(rope.tail()).toStrictEqual({ x: 1, y: -1 })
+                    expect(rope.headCoordinate()).toStrictEqual({ x: 2, y: -1 })
+                    expect(rope.tailCoordinate()).toStrictEqual({ x: 1, y: -1 })
                 })
 
                 test('moving left-up', () => {
                     rope.headMove(Direction.LEFT_UP)
-                    expect(rope.head()).toStrictEqual({ x: 0, y: 1 })
-                    expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+                    expect(rope.headCoordinate()).toStrictEqual({ x: 0, y: 1 })
+                    expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
                 })
             })
 
@@ -289,14 +289,14 @@ describe('rope', () => {
 
                 test('moving left-up', () => {
                     rope.headMove(Direction.LEFT_UP)
-                    expect(rope.head()).toStrictEqual({ x: -2, y: 1 })
-                    expect(rope.tail()).toStrictEqual({ x: -1, y: 1 })
+                    expect(rope.headCoordinate()).toStrictEqual({ x: -2, y: 1 })
+                    expect(rope.tailCoordinate()).toStrictEqual({ x: -1, y: 1 })
                 })
 
                 test('moving left-down', () => {
                     rope.headMove(Direction.LEFT_DOWN)
-                    expect(rope.head()).toStrictEqual({ x: -2, y: -1 })
-                    expect(rope.tail()).toStrictEqual({ x: -1, y: -1 })
+                    expect(rope.headCoordinate()).toStrictEqual({ x: -2, y: -1 })
+                    expect(rope.tailCoordinate()).toStrictEqual({ x: -1, y: -1 })
                 })
             })
 
@@ -311,14 +311,14 @@ describe('rope', () => {
 
                 test('moving right-up', () => {
                     rope.headMove(Direction.RIGHT_UP)
-                    expect(rope.head()).toStrictEqual({ x: 1, y: 2 })
-                    expect(rope.tail()).toStrictEqual({ x: 1, y: 1 })
+                    expect(rope.headCoordinate()).toStrictEqual({ x: 1, y: 2 })
+                    expect(rope.tailCoordinate()).toStrictEqual({ x: 1, y: 1 })
                 })
 
                 test('moving left-up', () => {
                     rope.headMove(Direction.LEFT_UP)
-                    expect(rope.head()).toStrictEqual({ x: -1, y: 2 })
-                    expect(rope.tail()).toStrictEqual({ x: -1, y: 1 })
+                    expect(rope.headCoordinate()).toStrictEqual({ x: -1, y: 2 })
+                    expect(rope.tailCoordinate()).toStrictEqual({ x: -1, y: 1 })
                 })
             })
         })
@@ -331,8 +331,8 @@ describe('rope', () => {
 
         rope.headMove(Direction.LEFT)
 
-        expect(rope.head()).toStrictEqual({ x: 0, y: 0 })
-        expect(rope.tail()).toStrictEqual({ x: 0, y: 0 })
+        expect(rope.headCoordinate()).toStrictEqual({ x: 0, y: 0 })
+        expect(rope.tailCoordinate()).toStrictEqual({ x: 0, y: 0 })
     })
 
 })
