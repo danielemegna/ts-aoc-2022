@@ -1,4 +1,5 @@
-import { Coordinate, Rope } from "./rope"
+import { Coordinate } from "./knot"
+import { Rope } from "./rope"
 
 export enum Direction {
     UP, LEFT, RIGHT, DOWN,

@@ -1,7 +1,5 @@
-
 import { expect, test } from '@jest/globals';
-import { Knot } from '../../src/day9/knot';
-import { Coordinate, Rope } from '../../src/day9/rope';
+import { Coordinate, Knot } from '../../src/day9/knot';
 import { Direction } from '../../src/day9/rope_bridge';
 
 describe('knot', () => {
