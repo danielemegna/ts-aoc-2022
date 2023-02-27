@@ -20,12 +20,12 @@ export const parseInput = (input: string): Monkey[] => {
     const parsed: Monkey[] = []
     while (rows.length > 0) {
         const monkeyRows = rows.splice(0, 7)
-        const monkey = {
+        const monkey: Monkey = {
             holdingItems: parseHoldingItems(monkeyRows[1]),
             worryLevelOperation: parseWorryLevelOperation(monkeyRows[2]),
             testDivisor: parseTestDivisor(monkeyRows[3]),
             recipientMonkeys: parseRecipientMonkeys(monkeyRows.slice(4, 6))
-        } as Monkey
+        }
         parsed.push(monkey)
     }
     return parsed

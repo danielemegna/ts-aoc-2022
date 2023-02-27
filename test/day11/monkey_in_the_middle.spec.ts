@@ -38,32 +38,32 @@ describe('first part resolution', () => {
 
         test('with provided input example', () => {
             const actual = parseInput(providedInputExample)
-            const expected = [
+            const expected: Monkey[] = [
                 {
                     holdingItems: [79, 98],
                     worryLevelOperation: [Operation.MULTIPLY, 19],
                     testDivisor: 23,
                     recipientMonkeys: [2, 3]
-                } as Monkey,
+                },
                 {
                     holdingItems: [54, 65, 75, 74],
                     worryLevelOperation: [Operation.PLUS, 6],
                     testDivisor: 19,
                     recipientMonkeys: [2, 0]
-                } as Monkey,
+                },
                 {
                     holdingItems: [79, 60, 97],
                     worryLevelOperation: [Operation.SQUARE, null],
                     testDivisor: 13,
                     recipientMonkeys: [1, 3]
-                } as Monkey,
+                },
                 {
                     holdingItems: [74],
                     worryLevelOperation: [Operation.PLUS, 3],
                     testDivisor: 17,
                     recipientMonkeys: [0, 1]
-                } as Monkey,
-            ] as Monkey[]
+                }
+            ]
             expect(actual).toStrictEqual(expected)
         })
 
