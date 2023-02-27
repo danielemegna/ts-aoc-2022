@@ -12,15 +12,19 @@ type WorryLevelOperation = [Operation, number] | [Operation.SQUARE, null]
 
 export const levelOfMonkeyBusiness = (input: string): number => {
     let monkeys = parseInput(input)
-    for (let roundNumber = 0; roundNumber < 20; roundNumber++) {
+    const inspectedItemCountsForMonkey = inspectedItemCountsForMonkeyWith(monkeys, 20)
+    const [first, second] = inspectedItemCountsForMonkey.sort((a, b) => b - a)
+    return first * second
+}
+
+export const inspectedItemCountsForMonkeyWith = (monkeys: Monkey[], numberOfRounds: number): number[] => {
+    for (let roundNumber = 0; roundNumber < numberOfRounds; roundNumber++) {
         for (let monkeyNumber = 0; monkeyNumber < monkeys.length; monkeyNumber++) {
             monkeys = processRoundOfMonkeyNumber(monkeyNumber, monkeys)
         }
     }
-    const [first, second] = monkeys
-        .map((m) => m.inpectedItemsCount)
-        .sort((a, b) => b - a)
-    return first * second
+
+    return monkeys.map((m) => m.inpectedItemsCount)
 }
 
 export const processRoundOfMonkeyNumber = (monkeyIndex: number, monkeys: Monkey[]): Monkey[] => {

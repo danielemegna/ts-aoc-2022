@@ -2,7 +2,7 @@ import { describe, expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
 import {
     Monkey, Operation,
-    levelOfMonkeyBusiness, parseInput, processRoundOfMonkeyNumber
+    levelOfMonkeyBusiness, parseInput, processRoundOfMonkeyNumber, inspectedItemCountsForMonkeyWith
 } from '../../src/day11/monkey_in_the_middle';
 
 const providedInputExample = [
@@ -110,6 +110,20 @@ describe('first part resolution', () => {
             expect(newMonkeys[2].inpectedItemsCount).toBe(3)
             expect(newMonkeys[1].holdingItems).toStrictEqual([54, 65, 75, 74, 2080])
             expect(newMonkeys[3].holdingItems).toStrictEqual([74, 1200, 3136])
+        })
+
+    })
+
+    describe('inspected item counts for monkey', () => {
+
+        test('after 1 round', () => {
+            const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 1)
+            expect(actual).toStrictEqual([2, 4, 3, 5])
+        })
+
+        test('after 20 round', () => {
+            const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 20)
+            expect(actual).toStrictEqual([101, 95, 7, 105])
         })
 
     })
