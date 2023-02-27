@@ -9,6 +9,7 @@ export type Monkey = {
 }
 
 type WorryLevelOperation = [Operation, number] | [Operation.SQUARE, null]
+const DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER = 3
 
 export const levelOfMonkeyBusiness = (input: string): number => {
     let monkeys = parseInput(input)
@@ -17,17 +18,25 @@ export const levelOfMonkeyBusiness = (input: string): number => {
     return first * second
 }
 
-export const inspectedItemCountsForMonkeyWith = (monkeys: Monkey[], numberOfRounds: number): number[] => {
+export const inspectedItemCountsForMonkeyWith = (
+    monkeys: Monkey[],
+    numberOfRounds: number,
+    worryLevelReduceDivider: number = DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER
+): number[] => {
     for (let roundNumber = 0; roundNumber < numberOfRounds; roundNumber++) {
         for (let monkeyNumber = 0; monkeyNumber < monkeys.length; monkeyNumber++) {
-            monkeys = processRoundOfMonkeyNumber(monkeyNumber, monkeys)
+            monkeys = processRoundOfMonkeyNumber(monkeyNumber, monkeys, worryLevelReduceDivider)
         }
     }
 
     return monkeys.map((m) => m.inpectedItemsCount)
 }
 
-export const processRoundOfMonkeyNumber = (monkeyIndex: number, monkeys: Monkey[]): Monkey[] => {
+export const processRoundOfMonkeyNumber = (
+    monkeyIndex: number,
+    monkeys: Monkey[],
+    worryLevelReduceDivider: number = DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER
+): Monkey[] => {
     const newMonkeys: Monkey[] = clone(monkeys)
     const currentMonkey = newMonkeys[monkeyIndex]
 
@@ -42,7 +51,7 @@ export const processRoundOfMonkeyNumber = (monkeyIndex: number, monkeys: Monkey[
                 case Operation.SQUARE: return currentItem * currentItem
             }
         })()
-        const newWorryLevel = Math.floor(increasedWorryLevel / 3)
+        const newWorryLevel = Math.floor(increasedWorryLevel / worryLevelReduceDivider)
 
         const recipientMonkey = (newWorryLevel % currentMonkey.testDivisor) == 0 ?
             currentMonkey.recipientMonkeys[0] :

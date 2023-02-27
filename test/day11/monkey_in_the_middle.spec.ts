@@ -116,14 +116,18 @@ describe('first part resolution', () => {
 
     describe('inspected item counts for monkey', () => {
 
-        test('after 1 round', () => {
-            const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 1)
-            expect(actual).toStrictEqual([2, 4, 3, 5])
-        })
+        describe('with default worry level reduction divider (3)', () => {
 
-        test('after 20 round', () => {
-            const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 20)
-            expect(actual).toStrictEqual([101, 95, 7, 105])
+            test('after 1 round', () => {
+                const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 1)
+                expect(actual).toStrictEqual([2, 4, 3, 5])
+            })
+
+            test('after 20 rounds', () => {
+                const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 20)
+                expect(actual).toStrictEqual([101, 95, 7, 105])
+            })
+
         })
 
     })
@@ -137,6 +141,28 @@ describe('first part resolution', () => {
         const input = readFileSync('./test/day11/input.txt', 'utf-8')
         const actual = levelOfMonkeyBusiness(input)
         expect(actual).toBe(50830)
+    })
+
+})
+
+describe('second part resolution', () => {
+
+    describe('inspected item counts for monkey', () => {
+
+        describe('without worry level reduction divider', () => {
+
+            test('after 1 round', () => {
+                const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 1, 1)
+                expect(actual).toStrictEqual([2, 4, 3, 6])
+            })
+
+            test.skip('after 20 rounds', () => {
+                const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 20, 1)
+                expect(actual).toStrictEqual([99, 97, 8, 103])
+            })
+
+        })
+
     })
 
 })
