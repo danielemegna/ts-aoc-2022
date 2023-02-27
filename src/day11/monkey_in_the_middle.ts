@@ -1,6 +1,4 @@
-export enum Operation {
-    MULTIPLY, PLUS, SQUARE
-}
+export enum Operation { MULTIPLY, PLUS, SQUARE }
 
 export type Monkey = {
     holdingItems: number[]
@@ -17,30 +15,23 @@ export const levelOfMonkeyBusiness = (input: string): number => {
 }
 
 export const processRoundOfMonkeyNumber = (monkeyIndex: number, monkeys: Monkey[]): Monkey[] => {
-    const newMonkeys = clone(monkeys)
+    const newMonkeys: Monkey[] = clone(monkeys)
     const currentMonkey = newMonkeys[monkeyIndex]
 
     while (currentMonkey.holdingItems.length > 0) {
         const currentItem = currentMonkey.holdingItems.shift()!
         const [operation, operationArgs] = currentMonkey.worryLevelOperation
 
-        const newWorryLevel = ((): number => {
-            switch (operation) {
-                case Operation.MULTIPLY: return currentItem * operationArgs!
-                case Operation.PLUS: return -1
-                case Operation.SQUARE: return -1
-            }
-            return -1
-        })()
+        const increasedWorryLevel = (operation == Operation.MULTIPLY) ?
+            currentItem * operationArgs! : -1
 
-        const finalWorryLevel = Math.floor(newWorryLevel / 3)
+        const newWorryLevel = Math.floor(increasedWorryLevel / 3)
 
-        const remain = finalWorryLevel % currentMonkey.testDivisor
-        const recipientMonkey = remain == 0 ?
+        const recipientMonkey = (newWorryLevel % currentMonkey.testDivisor) == 0 ?
             currentMonkey.recipientMonkeys[0] :
             currentMonkey.recipientMonkeys[1]
 
-        newMonkeys[recipientMonkey].holdingItems.push(finalWorryLevel)
+        newMonkeys[recipientMonkey].holdingItems.push(newWorryLevel)
         currentMonkey.inpectedItemsCount++
     }
 
