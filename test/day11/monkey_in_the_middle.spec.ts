@@ -1,6 +1,9 @@
 import { describe, expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { levelOfMonkeyBusiness, Monkey, Operation, parseInput } from '../../src/day11/monkey_in_the_middle';
+import {
+    Monkey, Operation,
+    levelOfMonkeyBusiness, parseInput, processRoundOfMonkeyNumber
+} from '../../src/day11/monkey_in_the_middle';
 
 const providedInputExample = [
     "Monkey 0:",
@@ -80,6 +83,49 @@ describe('first part resolution', () => {
             expect(actual[2].testDivisor).toBe(5)
             expect(actual[3].recipientMonkeys).toStrictEqual([5, 2])
         })
+
+    })
+
+    describe('monkey round should return new array of monkeys', () => {
+        const monkeys: Monkey[] = [
+            {
+                holdingItems: [79, 98],
+                worryLevelOperation: [Operation.MULTIPLY, 19],
+                testDivisor: 23,
+                recipientMonkeys: [2, 3],
+                inpectedItemsCount: 0
+            },
+            {
+                holdingItems: [54, 65, 75, 74],
+                worryLevelOperation: [Operation.PLUS, 6],
+                testDivisor: 19,
+                recipientMonkeys: [2, 0],
+                inpectedItemsCount: 0
+            },
+            {
+                holdingItems: [79, 60, 97],
+                worryLevelOperation: [Operation.SQUARE, null],
+                testDivisor: 13,
+                recipientMonkeys: [1, 3],
+                inpectedItemsCount: 0
+            },
+            {
+                holdingItems: [74],
+                worryLevelOperation: [Operation.PLUS, 3],
+                testDivisor: 17,
+                recipientMonkeys: [0, 1],
+                inpectedItemsCount: 0
+            }
+        ]
+
+        test('monkey 0 throw items 79-98 to monkey 3 as 500-620', () => {
+            const newMonkeys = processRoundOfMonkeyNumber(0, monkeys)
+            expect(newMonkeys[0].holdingItems).toHaveLength(0)
+            expect(newMonkeys[0].inpectedItemsCount).toBe(2)
+            expect(newMonkeys[3].holdingItems).toStrictEqual([74, 500, 620])
+            expect(newMonkeys[3].inpectedItemsCount).toBe(0)
+        })
+
     })
 
     test.skip('solve with provided example', () => {

@@ -16,6 +16,37 @@ export const levelOfMonkeyBusiness = (input: string): number => {
     return -1
 }
 
+export const processRoundOfMonkeyNumber = (monkeyIndex: number, monkeys: Monkey[]): Monkey[] => {
+    const newMonkeys = clone(monkeys)
+    const currentMonkey = newMonkeys[monkeyIndex]
+
+    while (currentMonkey.holdingItems.length > 0) {
+        const currentItem = currentMonkey.holdingItems.shift()!
+        const [operation, operationArgs] = currentMonkey.worryLevelOperation
+
+        const newWorryLevel = ((): number => {
+            switch (operation) {
+                case Operation.MULTIPLY: return currentItem * operationArgs!
+                case Operation.PLUS: return -1
+                case Operation.SQUARE: return -1
+            }
+            return -1
+        })()
+
+        const finalWorryLevel = Math.floor(newWorryLevel / 3)
+
+        const remain = finalWorryLevel % currentMonkey.testDivisor
+        const recipientMonkey = remain == 0 ?
+            currentMonkey.recipientMonkeys[0] :
+            currentMonkey.recipientMonkeys[1]
+
+        newMonkeys[recipientMonkey].holdingItems.push(finalWorryLevel)
+        currentMonkey.inpectedItemsCount++
+    }
+
+    return newMonkeys
+}
+
 export const parseInput = (input: string): Monkey[] => {
     const rows = input.split("\n")
     const parsed: Monkey[] = []
@@ -66,3 +97,8 @@ function parseRecipientMonkeys(rows: string[]): [number, number] {
     return parsed as [number, number]
 }
 
+function clone(objectToClone: any) {
+    const stringified = JSON.stringify(objectToClone);
+    const parsed = JSON.parse(stringified);
+    return parsed;
+}
