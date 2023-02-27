@@ -6,7 +6,8 @@ export type Monkey = {
     holdingItems: number[]
     worryLevelOperation: WorryLevelOperation,
     testDivisor: number,
-    recipientMonkeys: [number, number]
+    recipientMonkeys: [number, number],
+    inpectedItemsCount: number
 }
 
 type WorryLevelOperation = [Operation, number] | [Operation.SQUARE, null]
@@ -24,7 +25,8 @@ export const parseInput = (input: string): Monkey[] => {
             holdingItems: parseHoldingItems(monkeyRows[1]),
             worryLevelOperation: parseWorryLevelOperation(monkeyRows[2]),
             testDivisor: parseTestDivisor(monkeyRows[3]),
-            recipientMonkeys: parseRecipientMonkeys(monkeyRows.slice(4, 6))
+            recipientMonkeys: parseRecipientMonkeys(monkeyRows.slice(4, 6)),
+            inpectedItemsCount: 0
         }
         parsed.push(monkey)
     }

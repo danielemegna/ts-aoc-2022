@@ -43,25 +43,29 @@ describe('first part resolution', () => {
                     holdingItems: [79, 98],
                     worryLevelOperation: [Operation.MULTIPLY, 19],
                     testDivisor: 23,
-                    recipientMonkeys: [2, 3]
+                    recipientMonkeys: [2, 3],
+                    inpectedItemsCount: 0
                 },
                 {
                     holdingItems: [54, 65, 75, 74],
                     worryLevelOperation: [Operation.PLUS, 6],
                     testDivisor: 19,
-                    recipientMonkeys: [2, 0]
+                    recipientMonkeys: [2, 0],
+                    inpectedItemsCount: 0
                 },
                 {
                     holdingItems: [79, 60, 97],
                     worryLevelOperation: [Operation.SQUARE, null],
                     testDivisor: 13,
-                    recipientMonkeys: [1, 3]
+                    recipientMonkeys: [1, 3],
+                    inpectedItemsCount: 0
                 },
                 {
                     holdingItems: [74],
                     worryLevelOperation: [Operation.PLUS, 3],
                     testDivisor: 17,
-                    recipientMonkeys: [0, 1]
+                    recipientMonkeys: [0, 1],
+                    inpectedItemsCount: 0
                 }
             ]
             expect(actual).toStrictEqual(expected)
