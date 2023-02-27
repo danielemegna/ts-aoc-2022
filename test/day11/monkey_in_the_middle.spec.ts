@@ -143,7 +143,7 @@ describe('first part resolution', () => {
 
     })
 
-    test.skip('solve with provided example', () => {
+    test('solve with provided example', () => {
         const actual = levelOfMonkeyBusiness(providedInputExample)
         expect(actual).toBe(101 * 105)
     })
