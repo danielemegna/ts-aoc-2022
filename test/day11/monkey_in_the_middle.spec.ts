@@ -131,7 +131,14 @@ describe('first part resolution', () => {
             expect(newMonkeys[1].holdingItems).toHaveLength(0)
             expect(newMonkeys[1].inpectedItemsCount).toBe(4)
             expect(newMonkeys[0].holdingItems).toStrictEqual([79, 98, 20, 23, 27, 26])
-            expect(newMonkeys[0].inpectedItemsCount).toBe(0)
+        })
+
+        test('monkey 2 throw items to monkey 1 and 3', () => {
+            const newMonkeys = processRoundOfMonkeyNumber(2, monkeys)
+            expect(newMonkeys[2].holdingItems).toHaveLength(0)
+            expect(newMonkeys[2].inpectedItemsCount).toBe(3)
+            expect(newMonkeys[1].holdingItems).toStrictEqual([54, 65, 75, 74, 2080])
+            expect(newMonkeys[3].holdingItems).toStrictEqual([74, 1200, 3136])
         })
 
     })

@@ -20,15 +20,15 @@ export const processRoundOfMonkeyNumber = (monkeyIndex: number, monkeys: Monkey[
 
     while (currentMonkey.holdingItems.length > 0) {
         const currentItem = currentMonkey.holdingItems.shift()!
-        const [operation, operationArgs] = currentMonkey.worryLevelOperation
+        const [operation, operationArg] = currentMonkey.worryLevelOperation
 
-        const increasedWorryLevel =
-            (operation == Operation.MULTIPLY) ? currentItem * operationArgs! : (
-                (operation == Operation.PLUS) ? currentItem + operationArgs! : (
-                    -1
-                )
-            )
-
+        const increasedWorryLevel = (() => {
+            switch (operation) {
+                case Operation.MULTIPLY: return currentItem * operationArg!
+                case Operation.PLUS: return currentItem + operationArg!
+                case Operation.SQUARE: return currentItem * currentItem
+            }
+        })()
         const newWorryLevel = Math.floor(increasedWorryLevel / 3)
 
         const recipientMonkey = (newWorryLevel % currentMonkey.testDivisor) == 0 ?
