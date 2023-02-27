@@ -148,10 +148,10 @@ describe('first part resolution', () => {
         expect(actual).toBe(101 * 105)
     })
 
-    test.skip('solve with input from file', () => {
+    test('solve with input from file', () => {
         const input = readFileSync('./test/day11/input.txt', 'utf-8')
         const actual = levelOfMonkeyBusiness(input)
-        expect(actual).toBe(9999)
+        expect(actual).toBe(50830)
     })
 
 })
