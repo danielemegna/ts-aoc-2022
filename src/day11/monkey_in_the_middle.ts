@@ -22,8 +22,12 @@ export const processRoundOfMonkeyNumber = (monkeyIndex: number, monkeys: Monkey[
         const currentItem = currentMonkey.holdingItems.shift()!
         const [operation, operationArgs] = currentMonkey.worryLevelOperation
 
-        const increasedWorryLevel = (operation == Operation.MULTIPLY) ?
-            currentItem * operationArgs! : -1
+        const increasedWorryLevel =
+            (operation == Operation.MULTIPLY) ? currentItem * operationArgs! : (
+                (operation == Operation.PLUS) ? currentItem + operationArgs! : (
+                    -1
+                )
+            )
 
         const newWorryLevel = Math.floor(increasedWorryLevel / 3)
 

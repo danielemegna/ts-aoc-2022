@@ -126,6 +126,14 @@ describe('first part resolution', () => {
             expect(newMonkeys[3].inpectedItemsCount).toBe(0)
         })
 
+        test('monkey 1 throw items to monkey 0', () => {
+            const newMonkeys = processRoundOfMonkeyNumber(1, monkeys)
+            expect(newMonkeys[1].holdingItems).toHaveLength(0)
+            expect(newMonkeys[1].inpectedItemsCount).toBe(4)
+            expect(newMonkeys[0].holdingItems).toStrictEqual([79, 98, 20, 23, 27, 26])
+            expect(newMonkeys[0].inpectedItemsCount).toBe(0)
+        })
+
     })
 
     test.skip('solve with provided example', () => {
