@@ -35,43 +35,44 @@ const providedInputExample = [
     "    If false: throw to monkey 1",
 ].join("\n") + "\n"
 
+const parsedMonkeysProvidedExample: Monkey[] = [
+    {
+        holdingItems: [79, 98],
+        worryLevelOperation: [Operation.MULTIPLY, 19],
+        testDivisor: 23,
+        recipientMonkeys: [2, 3],
+        inpectedItemsCount: 0
+    },
+    {
+        holdingItems: [54, 65, 75, 74],
+        worryLevelOperation: [Operation.PLUS, 6],
+        testDivisor: 19,
+        recipientMonkeys: [2, 0],
+        inpectedItemsCount: 0
+    },
+    {
+        holdingItems: [79, 60, 97],
+        worryLevelOperation: [Operation.SQUARE, null],
+        testDivisor: 13,
+        recipientMonkeys: [1, 3],
+        inpectedItemsCount: 0
+    },
+    {
+        holdingItems: [74],
+        worryLevelOperation: [Operation.PLUS, 3],
+        testDivisor: 17,
+        recipientMonkeys: [0, 1],
+        inpectedItemsCount: 0
+    }
+]
+
 describe('first part resolution', () => {
 
     describe('input parsing', () => {
 
         test('with provided input example', () => {
             const actual = parseInput(providedInputExample)
-            const expected: Monkey[] = [
-                {
-                    holdingItems: [79, 98],
-                    worryLevelOperation: [Operation.MULTIPLY, 19],
-                    testDivisor: 23,
-                    recipientMonkeys: [2, 3],
-                    inpectedItemsCount: 0
-                },
-                {
-                    holdingItems: [54, 65, 75, 74],
-                    worryLevelOperation: [Operation.PLUS, 6],
-                    testDivisor: 19,
-                    recipientMonkeys: [2, 0],
-                    inpectedItemsCount: 0
-                },
-                {
-                    holdingItems: [79, 60, 97],
-                    worryLevelOperation: [Operation.SQUARE, null],
-                    testDivisor: 13,
-                    recipientMonkeys: [1, 3],
-                    inpectedItemsCount: 0
-                },
-                {
-                    holdingItems: [74],
-                    worryLevelOperation: [Operation.PLUS, 3],
-                    testDivisor: 17,
-                    recipientMonkeys: [0, 1],
-                    inpectedItemsCount: 0
-                }
-            ]
-            expect(actual).toStrictEqual(expected)
+            expect(actual).toStrictEqual(parsedMonkeysProvidedExample)
         })
 
         test('with puzzle input', () => {
@@ -87,39 +88,9 @@ describe('first part resolution', () => {
     })
 
     describe('monkey round should return new array of monkeys', () => {
-        const monkeys: Monkey[] = [
-            {
-                holdingItems: [79, 98],
-                worryLevelOperation: [Operation.MULTIPLY, 19],
-                testDivisor: 23,
-                recipientMonkeys: [2, 3],
-                inpectedItemsCount: 0
-            },
-            {
-                holdingItems: [54, 65, 75, 74],
-                worryLevelOperation: [Operation.PLUS, 6],
-                testDivisor: 19,
-                recipientMonkeys: [2, 0],
-                inpectedItemsCount: 0
-            },
-            {
-                holdingItems: [79, 60, 97],
-                worryLevelOperation: [Operation.SQUARE, null],
-                testDivisor: 13,
-                recipientMonkeys: [1, 3],
-                inpectedItemsCount: 0
-            },
-            {
-                holdingItems: [74],
-                worryLevelOperation: [Operation.PLUS, 3],
-                testDivisor: 17,
-                recipientMonkeys: [0, 1],
-                inpectedItemsCount: 0
-            }
-        ]
 
         test('monkey 0 throw items 79-98 to monkey 3 as 500-620', () => {
-            const newMonkeys = processRoundOfMonkeyNumber(0, monkeys)
+            const newMonkeys = processRoundOfMonkeyNumber(0, parsedMonkeysProvidedExample)
             expect(newMonkeys[0].holdingItems).toHaveLength(0)
             expect(newMonkeys[0].inpectedItemsCount).toBe(2)
             expect(newMonkeys[3].holdingItems).toStrictEqual([74, 500, 620])
@@ -127,14 +98,14 @@ describe('first part resolution', () => {
         })
 
         test('monkey 1 throw items to monkey 0', () => {
-            const newMonkeys = processRoundOfMonkeyNumber(1, monkeys)
+            const newMonkeys = processRoundOfMonkeyNumber(1, parsedMonkeysProvidedExample)
             expect(newMonkeys[1].holdingItems).toHaveLength(0)
             expect(newMonkeys[1].inpectedItemsCount).toBe(4)
             expect(newMonkeys[0].holdingItems).toStrictEqual([79, 98, 20, 23, 27, 26])
         })
 
         test('monkey 2 throw items to monkey 1 and 3', () => {
-            const newMonkeys = processRoundOfMonkeyNumber(2, monkeys)
+            const newMonkeys = processRoundOfMonkeyNumber(2, parsedMonkeysProvidedExample)
             expect(newMonkeys[2].holdingItems).toHaveLength(0)
             expect(newMonkeys[2].inpectedItemsCount).toBe(3)
             expect(newMonkeys[1].holdingItems).toStrictEqual([54, 65, 75, 74, 2080])
