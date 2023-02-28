@@ -20,6 +20,12 @@ describe('find prime factors', () => {
         expect(findPrimeFactors(2 * 5 * 11 * 23)).toStrictEqual([2, 5, 11, 23])
     })
 
+    test('some big numbers', () => {
+        expect(findPrimeFactors(1267)).toStrictEqual([7, 181])
+        expect(findPrimeFactors(1501)).toStrictEqual([19, 79])
+        expect(findPrimeFactors(1213 * 571)).toStrictEqual([571, 1213])
+    })
+
     test('with some multiple factors', () => {
         expect(findPrimeFactors(2 * 2 * 3 * 5)).toStrictEqual([2, 2, 3, 5])
         expect(findPrimeFactors(2 * 2 * 3 * 5 * 5)).toStrictEqual([2, 2, 3, 5, 5])
