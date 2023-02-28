@@ -45,22 +45,10 @@ export const processRoundOfMonkeyNumber = (
 
     while (currentMonkey.holdingItems.length > 0) {
         const currentItem = currentMonkey.holdingItems.shift()!
-        const [operation, operationArg] = currentMonkey.worryLevelOperation
+        const updatedItem = itemWithNewWorryLevel(currentItem, currentMonkey.worryLevelOperation, worryLevelReduceDivider)
+        const recipientMonkey = getRecipientMonkeyFor(updatedItem, currentMonkey)
 
-        const increasedWorryLevel = (() => {
-            switch (operation) {
-                case Operation.MULTIPLY: return currentItem * operationArg!
-                case Operation.PLUS: return currentItem + operationArg!
-                case Operation.SQUARE: return currentItem * currentItem
-            }
-        })()
-        const newWorryLevel = Math.floor(increasedWorryLevel / worryLevelReduceDivider)
-
-        const recipientMonkey = (newWorryLevel % currentMonkey.testDivisor) == 0 ?
-            currentMonkey.recipientMonkeys[0] :
-            currentMonkey.recipientMonkeys[1]
-
-        newMonkeys[recipientMonkey].holdingItems.push(newWorryLevel)
+        newMonkeys[recipientMonkey].holdingItems.push(updatedItem)
         currentMonkey.inpectedItemsCount++
     }
 
@@ -121,4 +109,27 @@ function clone(objectToClone: any) {
     const stringified = JSON.stringify(objectToClone);
     const parsed = JSON.parse(stringified);
     return parsed;
+}
+
+function itemWithNewWorryLevel(
+    item: Item,
+    worryLevelOperation: WorryLevelOperation,
+    worryLevelReduceDivider: number
+): Item {
+    const [operation, operationArg] = worryLevelOperation
+
+    const increasedWorryLevel: Item = (() => {
+        switch (operation) {
+            case Operation.MULTIPLY: return item * operationArg!
+            case Operation.PLUS: return item + operationArg!
+            case Operation.SQUARE: return item * item
+        }
+    })()
+
+    return Math.floor(increasedWorryLevel / worryLevelReduceDivider)
+}
+
+function getRecipientMonkeyFor(worryLevel: Item, monkey: Monkey): number {
+    let useFirstMonkeyAsRecipient = (worryLevel % monkey.testDivisor) == 0
+    return useFirstMonkeyAsRecipient ? monkey.recipientMonkeys[0] : monkey.recipientMonkeys[1]
 }
