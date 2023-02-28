@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { findPrimeFactors } from '../../src/day11/math';
+import { findPrimeFactors, primeFactorsRoundedDivision, primeFactorsProduct, primeFactorsSum } from '../../src/day11/math';
 
 describe('find prime factors', () => {
 
@@ -33,4 +33,39 @@ describe('find prime factors', () => {
         expect(findPrimeFactors(3 * 3 * 7)).toStrictEqual([3, 3, 7])
     })
 
+})
+
+describe('prime factors operations', () => {
+    function sort(numbers: number[]) {
+        return numbers.sort((a: number, b: number) => a - b)
+    }
+
+    test('prime factors product', () => {
+        expect(sort(primeFactorsProduct([2, 5], 7))).toStrictEqual([2, 5, 7])
+        expect(sort(primeFactorsProduct([2, 5], 8))).toStrictEqual([2, 2, 2, 2, 5])
+        expect(sort(primeFactorsProduct([2, 7], 19))).toStrictEqual([2, 7, 19])
+    })
+
+    test('prime factors sum', () => {
+        expect(sort(primeFactorsSum([2], 2))).toStrictEqual([2, 2])
+        expect(sort(primeFactorsSum([2, 3], 11))).toStrictEqual([17])
+        expect(sort(primeFactorsSum([2, 5], 11))).toStrictEqual([3, 7])
+        expect(sort(primeFactorsSum([97], 7))).toStrictEqual([2, 2, 2, 13])
+    })
+
+    test('prime factors division when prime multiple just remove the factor', () => {
+        expect(sort(primeFactorsRoundedDivision([2, 3, 7, 19], 7))).toStrictEqual([2, 3, 19])
+        expect(sort(primeFactorsRoundedDivision([2, 3, 3, 17, 29], 3))).toStrictEqual([2, 3, 17, 29])
+    })
+
+    test('prime factors division when multiple', () => {
+        expect(sort(primeFactorsRoundedDivision([2], 2))).toStrictEqual([1])
+    })
+
+    test('prime factors division when not multiple goes to floor', () => {
+        expect(sort(primeFactorsRoundedDivision([1501], 3))).toStrictEqual([2, 2, 5, 5, 5])
+        expect(sort(primeFactorsRoundedDivision([1862], 3))).toStrictEqual([2, 2, 5, 31])
+        expect(sort(primeFactorsRoundedDivision([2, 17, 29], 3))).toStrictEqual([2, 2, 2, 41])
+        expect(sort(primeFactorsRoundedDivision([2, 3, 3, 17, 29], 7))).toStrictEqual([7, 181])
+    })
 })

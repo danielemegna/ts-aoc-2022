@@ -34,3 +34,30 @@ export const findPrimeFactors = (n: number): number[] => {
 
     return result
 }
+
+export const primeFactorsProduct = (primeFactors: number[], factor: number) => {
+    return primeFactors.concat(findPrimeFactors(factor))
+}
+
+export const primeFactorsSum = (primeFactors: number[], adding: number): number[] => {
+    const product = primeFactors.reduce((x, product) => x * product)
+    const bigNumber = product + adding
+    return findPrimeFactors(bigNumber)
+}
+
+export const primeFactorsRoundedDivision = (primeFactors: number[], divisor: number): number[] => {
+    const primeFactorsClone = primeFactors.slice(0);
+    const divisorIndex = primeFactors.findIndex((f) => f === divisor)
+    if (divisorIndex >= 0) {
+        primeFactorsClone.splice(divisorIndex, 1)
+        return primeFactorsClone.length > 0 ? primeFactorsClone : [1]
+    }
+
+    const product = primeFactors.reduce((x, product) => x * product)
+    const bigNumber = Math.floor(product / divisor)
+    return findPrimeFactors(bigNumber)
+}
+
+export const primeFactorsSquare = (primeFactors: number[]): number[] => {
+    return primeFactors.concat(primeFactors)
+}
