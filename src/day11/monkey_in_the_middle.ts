@@ -1,14 +1,17 @@
 export enum Operation { MULTIPLY, PLUS, SQUARE }
 
 export type Monkey = {
-    holdingItems: number[]
+    holdingItems: Item[]
     worryLevelOperation: WorryLevelOperation,
     testDivisor: number,
     recipientMonkeys: [number, number],
     inpectedItemsCount: number
 }
 
+type Item = WorryLevel
+type WorryLevel = number
 type WorryLevelOperation = [Operation, number] | [Operation.SQUARE, null]
+
 const DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER = 3
 
 export const levelOfMonkeyBusiness = (input: string): number => {
@@ -86,7 +89,7 @@ function parseTestDivisor(row: string): number {
     return parseInt(regexMatch[1])
 }
 
-function parseHoldingItems(row: string): number[] {
+function parseHoldingItems(row: string): Item[] {
     const regexMatch = row.match("Starting items: ([\\d\\s,]+)")!
     return regexMatch[1].split(", ").map((x) => parseInt(x))
 }
