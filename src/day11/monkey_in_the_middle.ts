@@ -1,8 +1,3 @@
-import {
-    findPrimeFactors, primeFactorsProduct, primeFactorsRoundedDivision,
-    primeFactorsSquare, primeFactorsSum
-} from "./math"
-
 export enum Operation { MULTIPLY, PLUS, SQUARE }
 
 export type Monkey = {
@@ -13,14 +8,9 @@ export type Monkey = {
     inpectedItemsCount: number
 }
 
-type Item = WorryLevel | WorryLevelPrimeFactors
-type WorryLevelPrimeFactors = WorryLevel[]
+type Item = WorryLevel
 type WorryLevel = number
 type WorryLevelOperation = [Operation, number] | [Operation.SQUARE, null]
-
-const isWorryLevel = (i: Item): i is WorryLevel => typeof i === 'number'
-const isWorryLevelPrimeFactors = (i: Item): i is WorryLevelPrimeFactors =>
-    Array.isArray(i) && (i.length === 0 || isWorryLevel(i[0]))
 
 const DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER = 3
 
@@ -87,13 +77,9 @@ function parseTestDivisor(row: string): number {
     return parseInt(regexMatch[1])
 }
 
-function parseHoldingItems(row: string): WorryLevel[] {
+function parseHoldingItems(row: string): Item[] {
     const regexMatch = row.match("Starting items: ([\\d\\s,]+)")!
     return regexMatch[1].split(", ").map((x) => parseInt(x))
-}
-
-function parseHoldingItemsAsPrimeFactors(row: string): WorryLevelPrimeFactors[] {
-    return parseHoldingItems(row).map((i) => findPrimeFactors(i))
 }
 
 function parseWorryLevelOperation(row: string): WorryLevelOperation {
@@ -132,17 +118,6 @@ function itemWithNewWorryLevel(
 ): Item {
     const [operation, operationArg] = worryLevelOperation
 
-    if (isWorryLevelPrimeFactors(item)) {
-        const updatedItem: Item = (() => {
-            switch (operation) {
-                case Operation.MULTIPLY: return primeFactorsProduct(item, operationArg!)
-                case Operation.PLUS: return primeFactorsSum(item, operationArg!)
-                case Operation.SQUARE: return primeFactorsSquare(item)
-            }
-        })()
-        return primeFactorsRoundedDivision(updatedItem, worryLevelReduceDivider)
-    }
-
     const increasedWorryLevel: Item = (() => {
         switch (operation) {
             case Operation.MULTIPLY: return item * operationArg!
@@ -154,10 +129,7 @@ function itemWithNewWorryLevel(
     return Math.floor(increasedWorryLevel / worryLevelReduceDivider)
 }
 
-function getRecipientMonkeyFor(item: Item, monkey: Monkey): number {
-    let useFirstMonkeyAsRecipient = isWorryLevelPrimeFactors(item) ?
-        item.includes(monkey.testDivisor) :
-        (item % monkey.testDivisor) == 0
-
+function getRecipientMonkeyFor(worryLevel: Item, monkey: Monkey): number {
+    let useFirstMonkeyAsRecipient = (worryLevel % monkey.testDivisor) == 0
     return useFirstMonkeyAsRecipient ? monkey.recipientMonkeys[0] : monkey.recipientMonkeys[1]
 }
