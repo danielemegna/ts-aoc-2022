@@ -156,9 +156,24 @@ describe('second part resolution', () => {
                 expect(actual).toStrictEqual([2, 4, 3, 6])
             })
 
-            test.skip('after 20 rounds', () => {
+            test('after 20 rounds', () => {
                 const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 20, 1)
                 expect(actual).toStrictEqual([99, 97, 8, 103])
+            })
+
+            test('after 1000 rounds', () => {
+                const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 1000, 1)
+                expect(actual).toStrictEqual([5204, 4792, 199, 5192])
+            })
+
+            test('after 5000 rounds', () => {
+                const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 5000, 1)
+                expect(actual).toStrictEqual([26075, 23921, 974, 26000])
+            })
+
+            test('after 10000 rounds', () => {
+                const actual = inspectedItemCountsForMonkeyWith(parsedMonkeysProvidedExample, 10000, 1)
+                expect(actual).toStrictEqual([52166, 47830, 1938, 52013])
             })
 
         })

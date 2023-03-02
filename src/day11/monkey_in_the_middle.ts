@@ -26,9 +26,10 @@ export const inspectedItemCountsForMonkeyWith = (
     numberOfRounds: number,
     worryLevelReduceDivider: number = DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER
 ): number[] => {
+    const monkeysTestDivisorCommonMultiple = monkeys.map((m) => m.testDivisor).reduce((a, b) => a * b)
     for (let roundNumber = 0; roundNumber < numberOfRounds; roundNumber++) {
         for (let monkeyNumber = 0; monkeyNumber < monkeys.length; monkeyNumber++) {
-            monkeys = processRoundOfMonkeyNumber(monkeyNumber, monkeys, worryLevelReduceDivider)
+            monkeys = processRoundOfMonkeyNumber(monkeyNumber, monkeys, worryLevelReduceDivider, monkeysTestDivisorCommonMultiple)
         }
     }
 
@@ -38,14 +39,20 @@ export const inspectedItemCountsForMonkeyWith = (
 export const processRoundOfMonkeyNumber = (
     monkeyIndex: number,
     monkeys: Monkey[],
-    worryLevelReduceDivider: number = DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER
+    worryLevelReduceDivider: number = DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER,
+    monkeysTestDivisorCommonMultiple: number | undefined = undefined
 ): Monkey[] => {
     const newMonkeys: Monkey[] = clone(monkeys)
     const currentMonkey = newMonkeys[monkeyIndex]
 
     while (currentMonkey.holdingItems.length > 0) {
         const currentItem = currentMonkey.holdingItems.shift()!
-        const updatedItem = itemWithNewWorryLevel(currentItem, currentMonkey.worryLevelOperation, worryLevelReduceDivider)
+        const updatedItem = itemWithNewWorryLevel(
+            currentItem,
+            currentMonkey.worryLevelOperation,
+            worryLevelReduceDivider,
+            monkeysTestDivisorCommonMultiple
+        )
         const recipientMonkey = getRecipientMonkeyFor(updatedItem, currentMonkey)
 
         newMonkeys[recipientMonkey].holdingItems.push(updatedItem)
@@ -114,7 +121,8 @@ function clone(objectToClone: any) {
 function itemWithNewWorryLevel(
     item: Item,
     worryLevelOperation: WorryLevelOperation,
-    worryLevelReduceDivider: number
+    worryLevelReduceDivider: number,
+    monkeysTestDivisorCommonMultiple: number | undefined
 ): Item {
     const [operation, operationArg] = worryLevelOperation
 
@@ -126,7 +134,11 @@ function itemWithNewWorryLevel(
         }
     })()
 
-    return Math.floor(increasedWorryLevel / worryLevelReduceDivider)
+    const newWorryLevel = Math.floor(increasedWorryLevel / worryLevelReduceDivider)
+    if (!monkeysTestDivisorCommonMultiple)
+        return newWorryLevel
+
+    return newWorryLevel % monkeysTestDivisorCommonMultiple
 }
 
 function getRecipientMonkeyFor(worryLevel: Item, monkey: Monkey): number {
