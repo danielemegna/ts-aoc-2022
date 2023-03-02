@@ -1,17 +1,4 @@
-import { parseInput } from "./monkey_parser"
-
-export enum Operation { MULTIPLY, PLUS, SQUARE }
-
-export type Monkey = {
-    holdingItems: WorryLevel[]
-    worryLevelOperation: WorryLevelOperation,
-    testDivisor: number,
-    recipientMonkeys: [number, number],
-    inpectedItemsCount: number
-}
-
-export type WorryLevel = number
-export type WorryLevelOperation = [Operation, number] | [Operation.SQUARE, null]
+import { Monkey, Operation, parseInput, WorryLevel, WorryLevelOperation } from "./monkey_parser"
 
 const DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER = 3
 

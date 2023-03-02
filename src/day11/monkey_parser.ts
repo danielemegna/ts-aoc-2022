@@ -1,4 +1,14 @@
-import { Monkey, Operation, WorryLevel, WorryLevelOperation } from "./monkey_in_the_middle"
+export type Monkey = {
+    holdingItems: WorryLevel[]
+    worryLevelOperation: WorryLevelOperation,
+    testDivisor: number,
+    recipientMonkeys: [number, number],
+    inpectedItemsCount: number
+}
+
+export type WorryLevel = number
+export type WorryLevelOperation = [Operation, number] | [Operation.SQUARE, null]
+export enum Operation { MULTIPLY, PLUS, SQUARE }
 
 export const parseInput = (input: string): Monkey[] => {
     const rows = input.split("\n")

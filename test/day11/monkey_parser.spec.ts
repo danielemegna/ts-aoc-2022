@@ -1,8 +1,7 @@
 
 import { describe, expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
-import { Monkey, Operation } from '../../src/day11/monkey_in_the_middle';
-import { parseInput } from '../../src/day11/monkey_parser';
+import { Monkey, Operation, parseInput } from '../../src/day11/monkey_parser';
 
 export const providedInputExample = [
     "Monkey 0:",
