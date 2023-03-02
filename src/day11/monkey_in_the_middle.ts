@@ -14,9 +14,13 @@ type WorryLevelOperation = [Operation, number] | [Operation.SQUARE, null]
 
 const DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER = 3
 
-export const levelOfMonkeyBusiness = (input: string): number => {
+export const levelOfMonkeyBusiness = (
+    input: string,
+    numberOfRounds: number,
+    worryLevelReduceDivider: number = DEFAULT_WORRY_LEVEL_REDUCTION_DIVIDER
+): number => {
     let monkeys = parseInput(input)
-    const inspectedItemCountsForMonkey = inspectedItemCountsForMonkeyWith(monkeys, 20)
+    const inspectedItemCountsForMonkey = inspectedItemCountsForMonkeyWith(monkeys, numberOfRounds, worryLevelReduceDivider)
     const [first, second] = inspectedItemCountsForMonkey.sort((a, b) => b - a)
     return first * second
 }

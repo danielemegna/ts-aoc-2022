@@ -133,13 +133,13 @@ describe('first part resolution', () => {
     })
 
     test('solve with provided example', () => {
-        const actual = levelOfMonkeyBusiness(providedInputExample)
+        const actual = levelOfMonkeyBusiness(providedInputExample, 20, 3)
         expect(actual).toBe(101 * 105)
     })
 
     test('solve with input from file', () => {
         const input = readFileSync('./test/day11/input.txt', 'utf-8')
-        const actual = levelOfMonkeyBusiness(input)
+        const actual = levelOfMonkeyBusiness(input, 20, 3)
         expect(actual).toBe(50830)
     })
 
@@ -180,4 +180,14 @@ describe('second part resolution', () => {
 
     })
 
+    test('solve with provided example', () => {
+        const actual = levelOfMonkeyBusiness(providedInputExample, 10000, 1)
+        expect(actual).toBe(52166 * 52013)
+    })
+
+    test('solve with input from file', () => {
+        const input = readFileSync('./test/day11/input.txt', 'utf-8')
+        const actual = levelOfMonkeyBusiness(input, 10000, 1)
+        expect(actual).toBe(14399640002)
+    })
 })
