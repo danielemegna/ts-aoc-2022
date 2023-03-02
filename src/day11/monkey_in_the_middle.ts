@@ -3,14 +3,13 @@ import { parseInput } from "./monkey_parser"
 export enum Operation { MULTIPLY, PLUS, SQUARE }
 
 export type Monkey = {
-    holdingItems: Item[]
+    holdingItems: WorryLevel[]
     worryLevelOperation: WorryLevelOperation,
     testDivisor: number,
     recipientMonkeys: [number, number],
     inpectedItemsCount: number
 }
 
-export type Item = WorryLevel
 export type WorryLevel = number
 export type WorryLevelOperation = [Operation, number] | [Operation.SQUARE, null]
 
@@ -52,16 +51,16 @@ export const processRoundOfMonkeyNumber = (
     const currentMonkey = newMonkeys[monkeyIndex]
 
     while (currentMonkey.holdingItems.length > 0) {
-        const currentItem = currentMonkey.holdingItems.shift()!
-        const updatedItem = itemWithNewWorryLevel(
-            currentItem,
+        const currentItemWorryLevel = currentMonkey.holdingItems.shift()!
+        const updatedItemWorryLevel = newWorryLevelFor(
+            currentItemWorryLevel,
             currentMonkey.worryLevelOperation,
             worryLevelReduceDivider,
             monkeysTestDivisorCommonMultiple
         )
-        const recipientMonkey = getRecipientMonkeyFor(updatedItem, currentMonkey)
+        const recipientMonkey = getRecipientMonkeyFor(updatedItemWorryLevel, currentMonkey)
 
-        newMonkeys[recipientMonkey].holdingItems.push(updatedItem)
+        newMonkeys[recipientMonkey].holdingItems.push(updatedItemWorryLevel)
         currentMonkey.inpectedItemsCount++
     }
 
@@ -74,19 +73,19 @@ function clone(objectToClone: any) {
     return parsed;
 }
 
-function itemWithNewWorryLevel(
-    item: Item,
+function newWorryLevelFor(
+    worryLevel: WorryLevel,
     worryLevelOperation: WorryLevelOperation,
     worryLevelReduceDivider: number,
     monkeysTestDivisorCommonMultiple: number | undefined
-): Item {
+): WorryLevel {
     const [operation, operationArg] = worryLevelOperation
 
-    const increasedWorryLevel: Item = (() => {
+    const increasedWorryLevel: WorryLevel = (() => {
         switch (operation) {
-            case Operation.MULTIPLY: return item * operationArg!
-            case Operation.PLUS: return item + operationArg!
-            case Operation.SQUARE: return item * item
+            case Operation.MULTIPLY: return worryLevel * operationArg!
+            case Operation.PLUS: return worryLevel + operationArg!
+            case Operation.SQUARE: return worryLevel * worryLevel
         }
     })()
 
@@ -97,7 +96,7 @@ function itemWithNewWorryLevel(
     return newWorryLevel % monkeysTestDivisorCommonMultiple
 }
 
-function getRecipientMonkeyFor(worryLevel: Item, monkey: Monkey): number {
+function getRecipientMonkeyFor(worryLevel: WorryLevel, monkey: Monkey): number {
     let useFirstMonkeyAsRecipient = (worryLevel % monkey.testDivisor) == 0
     return useFirstMonkeyAsRecipient ? monkey.recipientMonkeys[0] : monkey.recipientMonkeys[1]
 }

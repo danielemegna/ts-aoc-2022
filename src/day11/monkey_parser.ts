@@ -1,4 +1,4 @@
-import { Item, Monkey, Operation, WorryLevelOperation } from "./monkey_in_the_middle"
+import { Monkey, Operation, WorryLevel, WorryLevelOperation } from "./monkey_in_the_middle"
 
 export const parseInput = (input: string): Monkey[] => {
     const rows = input.split("\n")
@@ -22,7 +22,7 @@ function parseTestDivisor(row: string): number {
     return parseInt(regexMatch[1])
 }
 
-function parseHoldingItems(row: string): Item[] {
+function parseHoldingItems(row: string): WorryLevel[] {
     const regexMatch = row.match("Starting items: ([\\d\\s,]+)")!
     return regexMatch[1].split(", ").map((x) => parseInt(x))
 }
