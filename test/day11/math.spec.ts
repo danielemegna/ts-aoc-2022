@@ -24,6 +24,8 @@ describe('find prime factors', () => {
         expect(findPrimeFactors(1267)).toStrictEqual([7, 181])
         expect(findPrimeFactors(1501)).toStrictEqual([19, 79])
         expect(findPrimeFactors(1213 * 571)).toStrictEqual([571, 1213])
+        expect(findPrimeFactors(1871)).toStrictEqual([1871])
+        expect(findPrimeFactors(3109)).toStrictEqual([3109])
     })
 
     test('with some multiple factors', () => {

@@ -19,8 +19,10 @@ export const findPrimeFactors = (n: number): number[] => {
     let primeNumberIndex = 0
 
     while (currentNumber > 1) {
-        if (primeNumberIndex >= SOME_PRIME_NUMBERS.length)
-            throw new Error(`We need more prime numbers for ${n} !`)
+        if (primeNumberIndex >= SOME_PRIME_NUMBERS.length) {
+            result.push(currentNumber)
+            break
+        }
 
         const primeNumber = SOME_PRIME_NUMBERS[primeNumberIndex];
         if (currentNumber % primeNumber !== 0) {
