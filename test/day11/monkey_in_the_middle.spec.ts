@@ -1,14 +1,18 @@
 import { describe, expect, test } from '@jest/globals';
 import { readFileSync } from 'fs';
 import { inspectedItemCountsForMonkeyWith, levelOfMonkeyBusiness, processRoundOfMonkeyNumber } from '../../src/day11/monkey_in_the_middle';
+import { WorryLevel } from './monkey_parser';
 import { parsedMonkeysProvidedExample, providedInputExample } from './monkey_parser.spec';
 
 describe('first part resolution', () => {
 
-    describe.skip('monkey round should return new array of monkeys', () => {
+    describe('monkey round should return new array of monkeys', () => {
+
+        const divideByThreeWorryLevelReducer = (l: WorryLevel): WorryLevel => Math.floor(l / 3)
+        const reducers = [divideByThreeWorryLevelReducer]
 
         test('monkey 0 throw items 79-98 to monkey 3 as 500-620', () => {
-            const newMonkeys = processRoundOfMonkeyNumber(0, parsedMonkeysProvidedExample, [])
+            const newMonkeys = processRoundOfMonkeyNumber(0, parsedMonkeysProvidedExample, reducers)
             expect(newMonkeys[0].holdingItems).toHaveLength(0)
             expect(newMonkeys[0].inpectedItemsCount).toBe(2)
             expect(newMonkeys[3].holdingItems).toStrictEqual([74, 500, 620])
@@ -16,14 +20,14 @@ describe('first part resolution', () => {
         })
 
         test('monkey 1 throw items to monkey 0', () => {
-            const newMonkeys = processRoundOfMonkeyNumber(1, parsedMonkeysProvidedExample, [])
+            const newMonkeys = processRoundOfMonkeyNumber(1, parsedMonkeysProvidedExample, reducers)
             expect(newMonkeys[1].holdingItems).toHaveLength(0)
             expect(newMonkeys[1].inpectedItemsCount).toBe(4)
             expect(newMonkeys[0].holdingItems).toStrictEqual([79, 98, 20, 23, 27, 26])
         })
 
         test('monkey 2 throw items to monkey 1 and 3', () => {
-            const newMonkeys = processRoundOfMonkeyNumber(2, parsedMonkeysProvidedExample, [])
+            const newMonkeys = processRoundOfMonkeyNumber(2, parsedMonkeysProvidedExample, reducers)
             expect(newMonkeys[2].holdingItems).toHaveLength(0)
             expect(newMonkeys[2].inpectedItemsCount).toBe(3)
             expect(newMonkeys[1].holdingItems).toStrictEqual([54, 65, 75, 74, 2080])
