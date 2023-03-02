@@ -49,6 +49,8 @@ export const primeFactorsSum = (primeFactors: number[], adding: number): number[
 
 export const primeFactorsRoundedDivision = (primeFactors: number[], divisor: number): number[] => {
     const primeFactorsClone = primeFactors.slice(0);
+    if(divisor === 1) return primeFactorsClone
+
     const divisorIndex = primeFactors.findIndex((f) => f === divisor)
     if (divisorIndex >= 0) {
         primeFactorsClone.splice(divisorIndex, 1)

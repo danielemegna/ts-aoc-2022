@@ -64,6 +64,12 @@ describe('prime factors operations', () => {
         expect(sort(primeFactorsRoundedDivision([2], 2))).toStrictEqual([1])
     })
 
+    test('prime factors division by 1 should not change input', () => {
+        expect(sort(primeFactorsRoundedDivision([2, 3, 7, 19], 1))).toStrictEqual([2, 3, 7, 19])
+        expect(sort(primeFactorsRoundedDivision([2, 1117], 1))).toStrictEqual([2, 1117])
+        expect(sort(primeFactorsRoundedDivision([1021], 1))).toStrictEqual([1021])
+    })
+
     test('prime factors division when not multiple goes to floor', () => {
         expect(sort(primeFactorsRoundedDivision([1501], 3))).toStrictEqual([2, 2, 5, 5, 5])
         expect(sort(primeFactorsRoundedDivision([1862], 3))).toStrictEqual([2, 2, 5, 31])
