@@ -18,11 +18,11 @@ export const inspectedItemCountsForMonkeyWith = (
     numberOfRounds: number,
     isWorryLevelReducedAfterInspection: boolean
 ): number[] => {
+
     const worryLevelReducers: WorryLevelReducer[] = []
-    worryLevelReducers.push(monkeysTestDivisorCommonMultipleReducerFor(monkeys))
-    if (isWorryLevelReducedAfterInspection) {
-        worryLevelReducers.push(reduceItemWorryByThree)
-    }
+    worryLevelReducers.push(monkeysTestDivisorCommonMultipleWorryLevelReducerFor(monkeys))
+    if (isWorryLevelReducedAfterInspection)
+        worryLevelReducers.push(divideByThreeWorryLevelReducer)
 
     for (let roundNumber = 0; roundNumber < numberOfRounds; roundNumber++) {
         for (let monkeyNumber = 0; monkeyNumber < monkeys.length; monkeyNumber++) {
@@ -80,11 +80,12 @@ function getRecipientMonkeyFor(worryLevel: WorryLevel, monkey: Monkey): number {
     let useFirstMonkeyAsRecipient = (worryLevel % monkey.testDivisor) == 0
     return useFirstMonkeyAsRecipient ? monkey.recipientMonkeys[0] : monkey.recipientMonkeys[1]
 }
-function monkeysTestDivisorCommonMultipleReducerFor(monkeys: Monkey[]): WorryLevelReducer {
+
+function monkeysTestDivisorCommonMultipleWorryLevelReducerFor(monkeys: Monkey[]): WorryLevelReducer {
     const commonMultiple = monkeys.map((m) => m.testDivisor).reduce((a, b) => a * b)
     return (l: WorryLevel) => l % commonMultiple
 }
 
-function reduceItemWorryByThree(l: WorryLevel): WorryLevel {
+function divideByThreeWorryLevelReducer(l: WorryLevel): WorryLevel {
     return Math.floor(l / 3)
 }
