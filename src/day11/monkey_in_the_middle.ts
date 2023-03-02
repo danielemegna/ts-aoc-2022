@@ -58,12 +58,6 @@ export const processRoundOfMonkeyNumber = (
     return newMonkeys
 }
 
-function clone(objectToClone: any) {
-    const stringified = JSON.stringify(objectToClone);
-    const parsed = JSON.parse(stringified);
-    return parsed;
-}
-
 function newWorryLevelFor(
     worryLevel: WorryLevel,
     worryLevelOperation: WorryLevelOperation,
@@ -88,4 +82,10 @@ function monkeysTestDivisorCommonMultipleWorryLevelReducerFor(monkeys: Monkey[])
 
 function divideByThreeWorryLevelReducer(l: WorryLevel): WorryLevel {
     return Math.floor(l / 3)
+}
+
+function clone(objectToClone: any) {
+    const stringified = JSON.stringify(objectToClone);
+    const parsed = JSON.parse(stringified);
+    return parsed;
 }
