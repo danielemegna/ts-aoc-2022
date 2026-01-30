@@ -34,7 +34,7 @@ $ yarn jest
 Use temporary node container with current directory volume:
 
 ```
-$ docker run --rm -it -v $PWD:/app -w /app node:16.18.1-slim bash
+$ docker run --rm -it -v $PWD:/app -w /app node:20.10.0-slim bash
 # yarn install
 # yarn jest
 ```
